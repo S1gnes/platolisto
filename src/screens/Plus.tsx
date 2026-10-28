@@ -66,8 +66,21 @@ export function Plus() {
             <span className={s.featureBody}>{t('plus.chefText')}</span>
           </span>
         </li>
-        <li>
-          <Link to="/bartender" className={cx(s.feature, s.featureLink)}>
+        {plus ? (
+          <li>
+            <Link to="/bartender" className={cx(s.feature, s.featureLink)}>
+              <span className={cx(s.featureIcon, s.bar)}>
+                <Icon name="glass" size={22} />
+              </span>
+              <span className={s.featureText}>
+                <span className={s.featureTitle}>{t('plus.barTitle')}</span>
+                <span className={s.featureBody}>{t('plus.barText')}</span>
+              </span>
+              <Icon name="next" size={20} className={s.featureArrow} />
+            </Link>
+          </li>
+        ) : (
+          <li className={s.feature}>
             <span className={cx(s.featureIcon, s.bar)}>
               <Icon name="glass" size={22} />
             </span>
@@ -75,8 +88,8 @@ export function Plus() {
               <span className={s.featureTitle}>{t('plus.barTitle')}</span>
               <span className={s.featureBody}>{t('plus.barText')}</span>
             </span>
-          </Link>
-        </li>
+          </li>
+        )}
         <li className={s.feature}>
           <span className={cx(s.featureIcon, s.plan)}>
             <Icon name="calendar" size={22} />

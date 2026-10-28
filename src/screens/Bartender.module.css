@@ -84,6 +84,26 @@
   font-weight: 700;
 }
 
+.scan:disabled {
+  opacity: 0.6;
+}
+
+.status {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.notice {
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -94,25 +114,48 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  padding: 0 14px;
   border-radius: var(--radius-pill);
   background: var(--surface);
+}
+
+.chipLabel {
+  padding: 0 2px 0 14px;
   font-size: 14px;
   font-weight: 500;
 }
 
-.add {
+.remove {
+  width: 40px;
+  height: 44px;
+  border: 0;
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  background: transparent;
+  color: var(--muted);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-height: 44px;
-  padding: 0 14px;
-  border-radius: var(--radius-pill);
-  border: 1px dashed var(--accent);
-  background: transparent;
+  justify-content: center;
+}
+
+.remove:hover {
   color: var(--accent);
+}
+
+.addItem {
+  display: flex;
+  max-width: 100%;
+}
+
+.empty {
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: var(--radius-card-sm);
+  border: 1px dashed var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   font-size: 14px;
-  font-weight: 700;
+  line-height: 1.45;
+  color: var(--muted);
 }
 
 .mixTitle {
@@ -122,6 +165,10 @@
   font-weight: 500;
 }
 
+.almostTitle {
+  margin: 18px 0 10px;
+}
+
 .drinks {
   display: flex;
   flex-direction: column;
@@ -129,12 +176,20 @@
 }
 
 .drink {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 12px;
+  border: 0;
   border-radius: var(--radius-card-sm);
   background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+}
+
+.drink:hover {
+  filter: brightness(1.06);
 }
 
 .almost {
@@ -142,9 +197,20 @@
   border: 1px dashed var(--line);
 }
 
+.thumb {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  object-fit: cover;
+  background: var(--tile);
+}
+
 .drinkText {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .drinkName {
@@ -155,10 +221,12 @@
 .drinkMeta {
   margin-top: 2px;
   font-size: 13px;
+  line-height: 1.35;
   color: var(--muted);
 }
 
 .coverage {
+  flex: 0 0 auto;
   font-size: 12px;
   font-weight: 700;
   color: #2a2118;
@@ -168,6 +236,7 @@
 }
 
 .coverageAlmost {
+  flex: 0 0 auto;
   font-size: 12px;
   font-weight: 700;
   border: 1px solid var(--line);
@@ -182,4 +251,110 @@
   line-height: 1.5;
   color: var(--muted);
   text-align: center;
+}
+
+.dialog {
+  background: var(--surface);
+}
+
+.dialogText {
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.dialogActions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+.ghost:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.detailTop {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.photo {
+  width: 96px;
+  height: 96px;
+  border-radius: 18px;
+  object-fit: cover;
+  background: var(--tile);
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.okDot,
+.missDot {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.okDot {
+  background: var(--ok);
+  color: #2a2118;
+}
+
+.missDot {
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+.ingredientName {
+  flex: 1;
+  min-width: 0;
+}
+
+.optional {
+  color: var(--muted);
+}
+
+.measure {
+  color: var(--muted);
+  font-size: 13px;
+  text-align: right;
+}
+
+.method {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.credit {
+  font-size: 12px;
 }

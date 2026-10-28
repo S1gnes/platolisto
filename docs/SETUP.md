@@ -93,7 +93,16 @@ Settings in `worker/wrangler.jsonc`:
 - `RATE_LIMIT_PER_MINUTE`: requests per minute per IP for the in-memory fallback.
 - Requests must come from an origin in `ALLOWED_ORIGINS`. Bodies are size-limited (photos about 1.8 MB, text about 60 KB).
 
+## Cocktail dataset
+
+Bartender mode matches drinks offline against `src/data/cocktails.json`, built from TheCocktailDB's free API (key `1`, for development and educational use). To refresh it:
+
+```powershell
+npm run build:cocktails
+```
+
+The script asks for drinks by first letter (a–z, 0–9), keeps only the fields the app uses and writes the JSON. The free API returns at most 25 drinks per letter, so the file has a few hundred drinks. The app loads it only when bartender mode opens.
+
 ## Still to come
 
-- Cocktail dataset build script: milestone 4.
 - GitHub Pages deploy and `scripts/precompute-presets`: milestone 5.

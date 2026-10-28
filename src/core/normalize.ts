@@ -1,4 +1,4 @@
-import { CATALOG } from './catalog';
+import { CATALOG, type CatalogEntry } from './catalog';
 
 // One normalizer for detections, typed input, recipe ingredients and deals,
 // so all of them meet on the same canonical key.
@@ -160,53 +160,55 @@ function singularPhrase(phrase: string): string {
   return words.join(' ');
 }
 
-const lookup = new Map<string, string>();
-for (const entry of CATALOG) {
-  for (const name of [entry.key, entry.en, entry.es, ...(entry.aliases ?? [])]) {
-    const cleaned = cleanText(name);
-    if (!lookup.has(cleaned)) lookup.set(cleaned, entry.key);
-  }
-}
-// Singular forms only where they don't shadow an exact name ("peppers" stays bell pepper, "pepper" stays the spice).
-for (const [name, key] of [...lookup]) {
-  const singular = singularPhrase(name);
-  if (!lookup.has(singular)) lookup.set(singular, key);
-}
-
-function find(phrase: string): string | undefined {
-  if (!phrase) return undefined;
-  return lookup.get(phrase) ?? lookup.get(singularPhrase(phrase));
-}
-
 /**
- * Turn any ingredient text ("Cherry tomatoes 500 g", "Huevos camperos ×12", "scallions")
- * into a canonical key ("cherry tomato", "egg", "green onion").
+ * Build a normalizer for a catalog: any text ("Cherry tomatoes 500 g", "Huevos camperos ×12", "scallions")
+ * becomes a canonical key ("cherry tomato", "egg", "green onion").
  * Unknown ingredients come back cleaned and singularized so they still match each other.
  */
-export function normalizeIngredient(raw: string): string {
-  const base = cleanText(raw);
-  if (!base) return '';
-  const exact = find(base);
-  if (exact) return exact;
-
-  const noQuantity = collapse(base.replace(MULTIPLIER, ' ').replace(QUANTITY, ' ').replace(NUMBER, ' '));
-  const noBrand = collapse(noQuantity.replace(BRAND, ' '));
-  const direct = find(noQuantity) ?? find(noBrand);
-  if (direct) return direct;
-
-  const words = noBrand.split(' ').filter((word) => word && !NOISE.has(word));
-  const core = words.join(' ');
-  const coreHit = find(core);
-  if (coreHit) return coreHit;
-
-  // English puts the head noun last ("roma tomatoes"), Spanish first ("queso de cabra").
-  for (let start = 1; start < words.length; start += 1) {
-    const hit = find(words.slice(start).join(' '));
-    if (hit) return hit;
+export function createNormalizer(catalog: Pick<CatalogEntry, 'key' | 'en' | 'es' | 'aliases'>[]): (raw: string) => string {
+  const lookup = new Map<string, string>();
+  for (const entry of catalog) {
+    for (const name of [entry.key, entry.en, entry.es, ...(entry.aliases ?? [])]) {
+      const cleaned = cleanText(name);
+      if (!lookup.has(cleaned)) lookup.set(cleaned, entry.key);
+    }
   }
-  for (let end = words.length - 1; end > 0; end -= 1) {
-    const hit = find(words.slice(0, end).join(' '));
-    if (hit) return hit;
+  // Singular forms only where they don't shadow an exact name ("peppers" stays bell pepper, "pepper" stays the spice).
+  for (const [name, key] of [...lookup]) {
+    const singular = singularPhrase(name);
+    if (!lookup.has(singular)) lookup.set(singular, key);
   }
-  return singularPhrase(core || noBrand || base);
+
+  const find = (phrase: string): string | undefined =>
+    phrase ? (lookup.get(phrase) ?? lookup.get(singularPhrase(phrase))) : undefined;
+
+  return (raw: string): string => {
+    const base = cleanText(raw);
+    if (!base) return '';
+    const exact = find(base);
+    if (exact) return exact;
+
+    const noQuantity = collapse(base.replace(MULTIPLIER, ' ').replace(QUANTITY, ' ').replace(NUMBER, ' '));
+    const noBrand = collapse(noQuantity.replace(BRAND, ' '));
+    const direct = find(noQuantity) ?? find(noBrand);
+    if (direct) return direct;
+
+    const words = noBrand.split(' ').filter((word) => word && !NOISE.has(word));
+    const core = words.join(' ');
+    const coreHit = find(core);
+    if (coreHit) return coreHit;
+
+    // English puts the head noun last ("roma tomatoes"), Spanish first ("queso de cabra").
+    for (let start = 1; start < words.length; start += 1) {
+      const hit = find(words.slice(start).join(' '));
+      if (hit) return hit;
+    }
+    for (let end = words.length - 1; end > 0; end -= 1) {
+      const hit = find(words.slice(0, end).join(' '));
+      if (hit) return hit;
+    }
+    return singularPhrase(core || noBrand || base);
+  };
 }
+
+export const normalizeIngredient = createNormalizer(CATALOG);

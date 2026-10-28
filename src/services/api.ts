@@ -1,6 +1,7 @@
 import { config } from '../config';
 import type { RawDetection } from '../core/presets';
 import type { SpoonRecipe } from '../core/spoonacular';
+import { chunkText, splitSse } from './sse';
 
 export type ApiErrorCode =
   | 'not_configured'
@@ -38,6 +39,8 @@ async function call(path: string, init: RequestInit = {}, timeoutMs = 20_000): P
   if (!liveEnabled()) throw new ApiError('not_configured');
   if (offline()) throw new ApiError('offline');
   const controller = new AbortController();
+  init.signal?.addEventListener('abort', () => controller.abort());
+  // The timeout covers the wait for the response headers; a stream can then run on.
   const timer = window.setTimeout(() => controller.abort(), timeoutMs);
   let response: Response;
   try {
@@ -87,6 +90,63 @@ export async function fetchRecipe(id: number): Promise<SpoonRecipe> {
   const data = await readJson<SpoonRecipe>(await call(`/recipes/${id}`));
   if (!data || typeof data.id !== 'number') throw new ApiError('bad_response');
   return data;
+}
+
+export interface ChatMessage {
+  role: 'user' | 'model';
+  text: string;
+}
+
+export interface ChatContext {
+  recipe: { title: string; servings: number; ingredients: string[]; steps: string[] };
+  have: string[];
+  allergies: string[];
+  diet: string;
+}
+
+/** Ask the AI chef; `onText` receives the answer as it streams in. */
+export async function streamChat(
+  messages: ChatMessage[],
+  context: ChatContext,
+  lang: 'en' | 'es',
+  onText: (text: string) => void,
+  signal?: AbortSignal,
+): Promise<void> {
+  const response = await call(
+    '/chat',
+    { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages, context, lang }), signal },
+    30_000,
+  );
+  if (!response.body) throw new ApiError('bad_response');
+  const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+  let buffer = '';
+  let received = false;
+  try {
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      const { events, rest } = splitSse(buffer + value);
+      buffer = rest;
+      for (const event of events) {
+        const text = chunkText(event);
+        if (text) {
+          received = true;
+          onText(text);
+        }
+      }
+    }
+  } catch {
+    if (signal?.aborted) return;
+    throw new ApiError('upstream');
+  }
+  for (const event of splitSse(`${buffer}\n\n`).events) {
+    const text = chunkText(event);
+    if (text) {
+      received = true;
+      onText(text);
+    }
+  }
+  if (!received && !signal?.aborted) throw new ApiError('bad_response');
 }
 
 export async function translateTexts(texts: string[]): Promise<string[]> {

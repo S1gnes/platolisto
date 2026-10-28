@@ -61,6 +61,12 @@
   border-color: var(--line-strong);
 }
 
+.featureArrow {
+  align-self: center;
+  margin-left: auto;
+  color: var(--muted);
+}
+
 .featureIcon {
   flex: 0 0 auto;
   width: 44px;

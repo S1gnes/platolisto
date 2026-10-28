@@ -21,9 +21,12 @@ interface Props {
 export function Modal({ open, onClose, title, children, variant = 'sheet', hideClose, className }: Props) {
   const t = useT();
   const ref = useRef<HTMLDialogElement>(null);
+  // Mirrors `open`, so closing the dialog from the parent doesn't count as the user dismissing it.
+  const wantedOpen = useRef(open);
   const titleId = useId();
 
   useEffect(() => {
+    wantedOpen.current = open;
     const dialog = ref.current;
     if (!dialog) return;
     if (open && !dialog.open) dialog.showModal();
@@ -35,7 +38,9 @@ export function Modal({ open, onClose, title, children, variant = 'sheet', hideC
       ref={ref}
       className={cx(s.modal, variant === 'sheet' ? s.sheet : s.dialog, className)}
       aria-labelledby={titleId}
-      onClose={onClose}
+      onClose={() => {
+        if (wantedOpen.current) onClose();
+      }}
       onClick={(event) => {
         if (event.target === ref.current && !hideClose) onClose();
       }}

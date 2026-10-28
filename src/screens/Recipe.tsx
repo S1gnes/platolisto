@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router';
+import { Link, useParams, useSearchParams } from 'react-router';
+import { ChefSheet } from '../components/ChefSheet';
 import { PlateArt } from '../art/PlateArt';
 import { ProductIcon } from '../art/ProductIcon';
 import { BackButton } from '../components/BackButton';
@@ -87,8 +88,18 @@ export function RecipeScreen() {
   const prefs = useApp((state) => state.prefs);
   const list = useApp((state) => state.list);
   const addToList = useApp((state) => state.addToList);
+  const plus = useApp((state) => state.plus);
   const [step, setStep] = useState(0);
   const [brokenImage, setBrokenImage] = useState(false);
+  const [chefOpen, setChefOpen] = useState(false);
+  const [params, setParams] = useSearchParams();
+
+  // Coming back from the paywall with ?chef=1 opens the chat straight away.
+  useEffect(() => {
+    if (params.get('chef') !== '1' || !recipe) return;
+    if (plus) setChefOpen(true);
+    setParams({}, { replace: true });
+  }, [params, plus, recipe, setParams]);
 
   const dish = useMemo(
     () => (recipe ? evaluateDish(recipe, items.map((item) => item.key), DEALS) : null),
@@ -302,13 +313,25 @@ export function RecipeScreen() {
               : t.plural('recipe.addToListNoPrice', toBuy.length)}
           </button>
         )}
-        {/* The AI chef chat itself arrives with Plus (milestone 4); until then this opens the paywall. */}
-        <Link to={`/plus?next=/recipe/${recipe.id}`} className={cx(ui.btn, ui.dark, s.chef)}>
-          <Icon name="chef" size={20} />
-          {t('recipe.aiChef')}
-          <span className={ui.plusBadge}>{t('common.plusBadge')}</span>
-        </Link>
+        {plus ? (
+          <button type="button" className={cx(ui.btn, ui.dark, s.chef)} onClick={() => setChefOpen(true)}>
+            <Icon name="chef" size={20} />
+            {t('recipe.aiChef')}
+            <span className={ui.plusBadge}>{t('common.plusBadge')}</span>
+          </button>
+        ) : (
+          <Link
+            to={`/plus?next=${encodeURIComponent(`/recipe/${recipe.id}?chef=1`)}`}
+            className={cx(ui.btn, ui.dark, s.chef)}
+          >
+            <Icon name="chef" size={20} />
+            {t('recipe.aiChef')}
+            <span className={ui.plusBadge}>{t('common.plusBadge')}</span>
+          </Link>
+        )}
       </div>
+
+      {plus && <ChefSheet open={chefOpen} onClose={() => setChefOpen(false)} recipe={recipe} have={analysis.used} />}
     </main>
   );
 }

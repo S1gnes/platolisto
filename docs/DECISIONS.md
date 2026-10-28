@@ -52,6 +52,23 @@ Approved by the owner on 2026-10-28:
 - **Fallbacks.** On quota (402), rate limits (429), offline, timeouts or zero results, the app ranks the bundled recipes and says why. Photo errors always offer "Use a preset photo".
 - **Abuse protection.** Requests from any origin outside `ALLOWED_ORIGINS` get a 403 before any upstream call. There is a per-IP limit (rate limiting binding, with an in-memory fallback) and body size limits. The Spoonacular cost flags are fixed by the Worker, not the app.
 
+## Plus (milestone 4)
+
+- **Demo unlock only.** "Unlock Plus (demo)" flips a local flag. The paywall remembers where you came from (`?next=`), so unlocking from a recipe opens the AI chef straight away.
+- **AI chef.**
+  - A bottom-sheet chat that streams the reply through `/chat`.
+  - The context is the recipe (title, servings, ingredients, steps), what you already have, your allergies and diet.
+  - The Worker's system prompt keeps it to cooking, answers in the UI language and never suggests the user's allergens.
+  - History lives only in the component and resets per recipe.
+- **Bartender mode.**
+  - Needs Plus and a one-time 18+ confirmation, which is saved. The drinks stay hidden until you confirm.
+  - Matching runs offline on the bundled TheCocktailDB data with its own small catalog of bar synonyms and Spanish names.
+  - Ice, water, garnishes and salt rims are optional. A generic bottle covers a specific one (rum → white rum), and fruit covers its juice.
+  - "Almost" drinks are one or two ingredients away.
+  - "Try a sample bar" loads the mockup's bar, so the demo works without a camera or network.
+- **Drink times** are estimated (TheCocktailDB has none): 2 minutes, plus 2 for more than three ingredients, plus 1 for muddling, 1 for shaking and 2 for blending.
+- **Dataset size.** About 300 KB of JSON in its own chunk, loaded only by bartender mode. Rejected: calling TheCocktailDB live (its multi-ingredient filter is premium-only).
+
 ## Git identity
 
 Commits use the GitHub no-reply address of the owner's account, so a personal email is not published in a public repository.
