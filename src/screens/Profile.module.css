@@ -1,0 +1,114 @@
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 16px;
+}
+
+.head {
+  padding: 20px var(--gutter) 0;
+}
+
+.group {
+  padding: 20px var(--gutter) 0;
+}
+
+.groupTitle {
+  margin-bottom: 10px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 16px;
+}
+
+.rows {
+  padding: 0;
+}
+
+.rows > li + li {
+  border-top: 1px solid var(--line-soft);
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 60px;
+  padding: 8px 16px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 15px;
+  text-align: left;
+  text-decoration: none;
+}
+
+.linkRow:hover {
+  color: var(--ink);
+  background: var(--tile);
+}
+
+.rows > li:last-child .linkRow {
+  border-radius: 0 0 var(--radius-card) var(--radius-card);
+}
+
+.rowLabel {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+}
+
+.rowValue {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.danger {
+  color: var(--primary);
+}
+
+.danger:hover {
+  color: var(--primary-hover);
+}
+
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.sources {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sources a {
+  font-weight: 600;
+}
+
+.spaced {
+  margin-top: 6px;
+}
+
+.confirmText {
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.confirmActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}

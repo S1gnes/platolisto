@@ -1,0 +1,19 @@
+/* Phone-width column; on desktops and projectors it sits centered on the cream background. */
+.shell {
+  position: relative;
+  max-width: var(--column-max);
+  min-height: 100dvh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  /* clip, not hidden: no scroll container, so sticky bars keep working */
+  overflow-x: clip;
+}
+
+@media (min-width: 540px) {
+  .shell {
+    border-inline: 1px solid var(--line);
+    box-shadow: 0 0 60px rgba(42, 33, 24, 0.06);
+  }
+}

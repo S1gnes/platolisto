@@ -1,0 +1,126 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Bartender.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 32,
+      "title": "Bartender mode (Plus)",
+      "w": 390,
+      "x": 1410,
+      "y": 1300
+    },
+    "Deals.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 32,
+      "title": "Deals of the week",
+      "w": 390,
+      "x": 0,
+      "y": 1300
+    },
+    "List.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 32,
+      "title": "Shopping list",
+      "w": 390,
+      "x": 470,
+      "y": 1300
+    },
+    "Main.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 32,
+      "title": "Home",
+      "w": 390,
+      "x": 470,
+      "y": 0
+    },
+    "Onboarding.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 32,
+      "title": "Onboarding",
+      "w": 390,
+      "x": 0,
+      "y": 0
+    },
+    "Premium.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 32,
+      "title": "Plus paywall",
+      "w": 390,
+      "x": 940,
+      "y": 1300
+    },
+    "Recipe.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 32,
+      "title": "Recipe",
+      "w": 390,
+      "x": 1880,
+      "y": 0
+    },
+    "Results.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 32,
+      "title": "Dishes",
+      "w": 390,
+      "x": 1410,
+      "y": 0
+    },
+    "Scan.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 32,
+      "title": "Scan fridge",
+      "w": 390,
+      "x": 940,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-28T02:40:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "t1": {
+      "kind": "title1",
+      "maxW": 2270,
+      "text": "Main flow: fridge photo → dish",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "t2": {
+      "kind": "title1",
+      "maxW": 1800,
+      "text": "Deals, shopping list and Plus",
+      "w": 240,
+      "x": 0,
+      "y": 1000
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Onboarding.dc.html",
+    "Scan.dc.html",
+    "Results.dc.html",
+    "Recipe.dc.html",
+    "Deals.dc.html",
+    "List.dc.html",
+    "Premium.dc.html",
+    "Bartender.dc.html"
+  ],
+  "pages": [],
+  "title": "PlatoListo Mockups"
+}

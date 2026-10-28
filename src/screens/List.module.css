@@ -1,0 +1,165 @@
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.head {
+  padding: 20px var(--gutter) 0;
+}
+
+.summary {
+  margin: 16px var(--gutter) 0;
+  padding: 16px;
+  border-radius: var(--radius-card);
+  background: var(--olive);
+  color: var(--on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.summaryLabel {
+  font-size: 13px;
+  color: var(--on-olive-soft);
+}
+
+.total {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.saveBox {
+  text-align: right;
+}
+
+.saved {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--saffron);
+}
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px var(--gutter) 0;
+}
+
+.groupHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.noMargin {
+  margin: 0;
+}
+
+.subtotal {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.card li + li {
+  border-top: 1px solid var(--line-soft);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 12px 14px;
+  cursor: pointer;
+}
+
+.check {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--olive);
+  cursor: pointer;
+}
+
+.rowText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.dish {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.prices {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.price {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.checked .name {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.checked .price {
+  color: var(--muted);
+}
+
+.clear {
+  padding: 8px var(--gutter) 0;
+}
+
+.empty {
+  margin: 24px var(--gutter);
+  padding: 24px 20px;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.emptyIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: var(--tile);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty a {
+  margin-top: 8px;
+  align-self: stretch;
+}

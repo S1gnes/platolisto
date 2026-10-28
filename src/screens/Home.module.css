@@ -1,0 +1,179 @@
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px var(--gutter) 4px;
+}
+
+.intro {
+  padding: 12px var(--gutter) 0;
+}
+
+.greeting {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.title {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 34px;
+  line-height: 1.08;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+.actions {
+  padding: 20px var(--gutter) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.scan {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 20px;
+  border-radius: var(--radius-card-lg);
+  background: var(--primary);
+  color: var(--on-primary);
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.scan:hover {
+  background: var(--primary-hover);
+  color: var(--on-primary);
+}
+
+.scanDeco {
+  position: absolute;
+  right: -36px;
+  top: -36px;
+}
+
+.scanIcon {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scanText {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.scanTitle {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.scanSub {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--on-primary-soft);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 112px;
+  padding: 16px;
+  border-radius: var(--radius-card);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.dealsTile {
+  background: var(--olive);
+  color: var(--on-primary);
+}
+
+.dealsTile:hover {
+  background: #4b562e;
+  color: var(--on-primary);
+}
+
+.typeTile {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.typeTile:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.hot {
+  padding: 20px 0 16px;
+}
+
+.hotHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--gutter);
+}
+
+.hotTitle {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.seeAll {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.strip {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px var(--gutter) 8px;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+
+.strip::-webkit-scrollbar {
+  display: none;
+}
+
+.strip > li {
+  flex: 0 0 148px;
+  scroll-snap-align: start;
+}

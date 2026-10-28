@@ -1,0 +1,56 @@
+.tile {
+  /* Keeps visually hidden text inside the tile, so it can't widen the page from inside a scroller. */
+  position: relative;
+  height: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card-sm);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-tile);
+  background: var(--tile);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chain {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.prices {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.price {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--primary);
+}

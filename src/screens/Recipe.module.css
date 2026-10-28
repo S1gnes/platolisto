@@ -1,0 +1,232 @@
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  position: relative;
+  height: 236px;
+  background: var(--hero);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.heroDeco {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.plate {
+  position: relative;
+  margin-bottom: -18px;
+}
+
+.photo {
+  display: block;
+  width: 214px;
+  height: 214px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 6px solid var(--surface);
+}
+
+.back {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+}
+
+.head {
+  padding: 26px var(--gutter) 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.section {
+  padding: 18px var(--gutter) 0;
+}
+
+.have {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.haveChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--olive-tint);
+  color: var(--olive-ink);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pantry {
+  padding: 8px var(--gutter) 0;
+}
+
+.buyHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.noMargin {
+  margin: 0;
+}
+
+.save {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--olive);
+}
+
+.buyList {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card-sm);
+}
+
+.buyRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.buyRow + .buyRow {
+  border-top: 1px solid var(--line-soft);
+}
+
+.tile {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-tile);
+  background: var(--tile);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buyName {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.product {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.chain {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.prices {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stepHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.stepNav {
+  display: flex;
+  gap: 8px;
+}
+
+.stepNav button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.stepText {
+  min-height: 3em;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.grow {
+  flex: 1;
+  min-width: 0;
+  padding: 0 12px;
+  font-size: 15px;
+}
+
+.chef {
+  flex: 0 0 auto;
+  gap: 6px;
+  padding: 0 14px;
+  font-size: 15px;
+}
+
+@media (max-width: 374px) {
+  .grow,
+  .chef {
+    font-size: 14px;
+  }
+}
+
+.haveAll {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--btn-height);
+  border-radius: var(--radius-btn);
+  background: var(--olive-tint);
+  color: var(--olive-ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.missing {
+  padding: 16px var(--gutter);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}

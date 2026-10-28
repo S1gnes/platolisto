@@ -1,0 +1,37 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.budgetHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.budgetLabel {
+  margin: 0;
+}
+
+.budgetValue {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.range {
+  width: 100%;
+  height: 44px;
+  margin: 0;
+  accent-color: var(--primary);
+  cursor: pointer;
+}

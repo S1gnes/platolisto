@@ -1,0 +1,72 @@
+.modal {
+  padding: 0;
+  border: 0;
+  background: var(--bg);
+  color: var(--ink);
+  max-width: none;
+}
+
+.modal::backdrop {
+  background: rgba(42, 33, 24, 0.5);
+}
+
+.sheet {
+  width: min(100%, var(--column-max));
+  max-height: 88dvh;
+  margin: auto auto 0;
+  border-radius: 24px 24px 0 0;
+  box-shadow: var(--shadow-sheet);
+}
+
+.sheet[open] {
+  animation: rise 0.22s ease-out;
+}
+
+.dialog {
+  width: min(calc(100% - 32px), 400px);
+  margin: auto;
+  border-radius: var(--radius-card-lg);
+}
+
+.dialog[open] {
+  animation: fade 0.18s ease-out;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px var(--gutter) max(20px, env(safe-area-inset-bottom));
+}
+
+.dialog .inner {
+  padding: 20px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(32px);
+    opacity: 0;
+  }
+}
+
+@keyframes fade {
+  from {
+    transform: scale(0.97);
+    opacity: 0;
+  }
+}

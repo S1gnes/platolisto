@@ -1,0 +1,60 @@
+:root {
+  /* Design tokens from the brief */
+  --bg: #f6efe4;
+  --surface: #fffbf5;
+  --ink: #2a2118;
+  --muted: #6b5d4f;
+  --line: #e7daca;
+  --line-strong: #d8c9b5;
+  --chip: #eadfcf;
+  --tile: #f1e7d8;
+  --primary: #a94f2b;
+  --primary-hover: #7e3a1f;
+  --on-primary: #fffbf5;
+  --olive: #5e6b3a;
+  --olive-tint: #e5e8d5;
+  --olive-ink: #3e4723;
+  --saffron: #f2c14e;
+
+  /* Supporting tones used by the mockups */
+  --line-soft: #efe4d5;
+  --on-primary-soft: #fbede4;
+  --on-olive-soft: #e9eddc;
+  --primary-deco: #c06a43;
+  --primary-deco-fill: #b65c35;
+  --hero: #e8d9c3;
+  --hero-deco: #e2d0b6;
+  --accent: var(--primary);
+  --ok: var(--olive);
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-ui: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --radius-card-lg: 24px;
+  --radius-card: 20px;
+  --radius-card-sm: 18px;
+  --radius-btn: 16px;
+  --radius-tile: 12px;
+  --radius-pill: 999px;
+
+  --btn-height: 56px;
+  --gutter: 20px;
+  --column-max: 480px;
+  --focus: var(--ink);
+  --shadow-sheet: 0 -12px 40px rgba(42, 33, 24, 0.18);
+}
+
+/* Bartender mode */
+:root[data-theme='bar'] {
+  --bg: #2a2118;
+  --surface: #3b3024;
+  --ink: #f6efe4;
+  --muted: #b9ac9b;
+  --line: #6b5d4f;
+  --line-strong: #6b5d4f;
+  --chip: #3b3024;
+  --tile: #4a3d2f;
+  --accent: #f2c14e;
+  --ok: #bfd69b;
+  --focus: #f2c14e;
+}

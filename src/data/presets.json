@@ -1,0 +1,48 @@
+{
+  "_note": "Hand-written detections for the illustrated presets. scripts/precompute-presets overwrites them from the real photos.",
+  "presets": [
+    {
+      "id": "student",
+      "photo": null,
+      "width": 350,
+      "height": 270,
+      "detections": [
+        { "name": "eggs", "label_en": "Eggs", "label_es": "Huevos", "quantity": "4", "confidence": 0.97, "box_2d": [178, 57, 378, 366] },
+        { "name": "cherry tomatoes", "label_en": "Tomatoes", "label_es": "Tomates", "confidence": 0.93, "box_2d": [533, 86, 719, 280] },
+        { "name": "milk", "label_en": "Milk", "label_es": "Leche", "confidence": 0.95, "box_2d": [81, 697, 378, 851] },
+        { "name": "greek yogurt", "label_en": "Yogurt", "label_es": "Yogur", "confidence": 0.86, "box_2d": [163, 377, 378, 514] },
+        { "name": "spinach", "label_en": "Spinach", "label_es": "Espinacas", "confidence": 0.9, "box_2d": [422, 320, 719, 554] },
+        { "name": "lemon", "label_en": "Lemon", "label_es": "Limón", "confidence": 0.94, "box_2d": [244, 531, 378, 669] },
+        { "name": "onion", "label_en": "Onion", "label_es": "Cebolla", "confidence": 0.88, "box_2d": [570, 834, 719, 943] },
+        { "name": "cooked rice", "label_en": "Cooked rice", "label_es": "Arroz cocido", "confidence": 0.81, "box_2d": [504, 571, 719, 829] }
+      ]
+    },
+    {
+      "id": "market",
+      "photo": null,
+      "width": 350,
+      "height": 270,
+      "detections": [
+        { "name": "chicken thighs", "label_en": "Chicken thighs", "label_es": "Contramuslos", "quantity": "3", "confidence": 0.92, "box_2d": [237, 51, 370, 360] },
+        { "name": "manchego cheese", "label_en": "Manchego", "label_es": "Manchego", "confidence": 0.87, "box_2d": [215, 383, 370, 571] },
+        { "name": "parsley", "label_en": "Parsley", "label_es": "Perejil", "confidence": 0.89, "box_2d": [104, 606, 370, 743] },
+        { "name": "garlic", "label_en": "Garlic", "label_es": "Ajos", "quantity": "2", "confidence": 0.9, "box_2d": [237, 771, 370, 937] },
+        { "name": "bell peppers", "label_en": "Peppers", "label_es": "Pimientos", "quantity": "2", "confidence": 0.95, "box_2d": [504, 63, 711, 257] },
+        { "name": "onions", "label_en": "Onions", "label_es": "Cebollas", "quantity": "2", "confidence": 0.91, "box_2d": [563, 280, 719, 457] },
+        { "name": "zucchini", "label_en": "Courgettes", "label_es": "Calabacines", "quantity": "2", "confidence": 0.84, "box_2d": [570, 491, 719, 731] },
+        { "name": "potatoes", "label_en": "Potatoes", "label_es": "Patatas", "confidence": 0.9, "box_2d": [489, 760, 719, 954] }
+      ]
+    },
+    {
+      "id": "empty",
+      "photo": null,
+      "width": 350,
+      "height": 270,
+      "detections": [
+        { "name": "lemon", "label_en": "Lemon", "label_es": "Limón", "confidence": 0.95, "box_2d": [252, 109, 370, 240] },
+        { "name": "milk", "label_en": "Milk", "label_es": "Leche", "confidence": 0.9, "box_2d": [156, 731, 370, 880] },
+        { "name": "eggs", "label_en": "Eggs", "label_es": "Huevos", "quantity": "2", "confidence": 0.96, "box_2d": [563, 383, 719, 617] }
+      ]
+    }
+  ]
+}

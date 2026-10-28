@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PlatoListo — Scan your fridge</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#A94F2B}a:hover{color:#7E3A1F}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #F6EFE4; color: #2A2118; font-family: 'DM Sans', system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+
+<header style="display: flex; align-items: center; gap: 10px; padding: 12px 20px 4px 12px">
+<a href="Main.dc.html" aria-label="Back" style="width: 44px; height: 44px; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: #2A2118; background: #EADFCF">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+</a>
+<h1 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-size: 22px; font-weight: 500">Scan your fridge</h1>
+<span style="margin-left: auto; font-size: 13px; color: #6B5D4F">Step 1 of 2</span>
+</header>
+
+<div style="position: relative; margin: 12px 20px 0; width: 350px; height: 270px">
+<svg role="img" aria-label="Photo of an open fridge" width="350" height="270" viewBox="0 0 350 270" style="display: block">
+<rect x="0" y="0" width="350" height="270" rx="22" fill="#DCE5E1"></rect>
+<rect x="10" y="10" width="330" height="250" rx="16" fill="#EEF3F1"></rect>
+<rect x="10" y="100" width="330" height="6" fill="#C6D2CD"></rect>
+<rect x="10" y="194" width="330" height="6" fill="#C6D2CD"></rect>
+<rect x="24" y="70" width="98" height="28" rx="4" fill="#D9C6A5"></rect>
+<ellipse cx="38" cy="66" rx="9" ry="11" fill="#FBF6EC" stroke="#D9C6A5" stroke-width="1.5"></ellipse>
+<ellipse cx="60" cy="66" rx="9" ry="11" fill="#FBF6EC" stroke="#D9C6A5" stroke-width="1.5"></ellipse>
+<ellipse cx="82" cy="66" rx="9" ry="11" fill="#FBF6EC" stroke="#D9C6A5" stroke-width="1.5"></ellipse>
+<ellipse cx="104" cy="66" rx="9" ry="11" fill="#FBF6EC" stroke="#D9C6A5" stroke-width="1.5"></ellipse>
+<rect x="138" y="54" width="36" height="44" rx="5" fill="#FFFFFF" stroke="#CBD5D1" stroke-width="1.5"></rect>
+<rect x="136" y="50" width="40" height="8" rx="3" fill="#5E6B3A"></rect>
+<rect x="144" y="70" width="24" height="10" rx="2" fill="#E9EFD9"></rect>
+<ellipse cx="210" cy="84" rx="20" ry="14" fill="#F2C94C"></ellipse>
+<ellipse cx="203" cy="80" rx="6" ry="3" fill="#F7DB7A"></ellipse>
+<rect x="250" y="36" width="42" height="62" rx="4" fill="#FFFFFF" stroke="#CBD5D1" stroke-width="1.5"></rect>
+<path d="M250 36l21-10 21 10z" fill="#F4F6F7" stroke="#CBD5D1" stroke-width="1.5" stroke-linejoin="round"></path>
+<rect x="251" y="58" width="40" height="14" fill="#8FB3C9"></rect>
+<circle cx="44" cy="178" r="11" fill="#D2553A"></circle>
+<circle cx="66" cy="180" r="11" fill="#C8452F"></circle>
+<circle cx="56" cy="160" r="10" fill="#DD6645"></circle>
+<circle cx="84" cy="172" r="10" fill="#D2553A"></circle>
+<path d="M56 148v4M44 165v3M84 160v3" stroke="#5E6B3A" stroke-width="2" stroke-linecap="round"></path>
+<rect x="116" y="118" width="74" height="72" rx="12" fill="#D4E3C3"></rect>
+<ellipse cx="140" cy="150" rx="13" ry="20" fill="#6E8B3D" transform="rotate(-20 140 150)"></ellipse>
+<ellipse cx="166" cy="154" rx="12" ry="19" fill="#7C9A4E" transform="rotate(18 166 154)"></ellipse>
+<ellipse cx="152" cy="172" rx="12" ry="12" fill="#5E7A35"></ellipse>
+<rect x="206" y="146" width="78" height="44" rx="8" fill="#FFFFFF" stroke="#CBD5D1" stroke-width="1.5"></rect>
+<rect x="212" y="158" width="66" height="26" rx="4" fill="#F3EEE3"></rect>
+<rect x="204" y="140" width="82" height="9" rx="3" fill="#A94F2B"></rect>
+<circle cx="310" cy="174" r="16" fill="#C98F5A"></circle>
+<path d="M310 158c-1-6 2-10 5-12" stroke="#8C6A3C" stroke-width="2" fill="none" stroke-linecap="round"></path>
+<path d="M302 170c4 6 12 6 16 0" stroke="#B07A48" stroke-width="1.5" fill="none"></path>
+<rect x="18" y="208" width="314" height="44" rx="10" fill="#DCE5E1"></rect>
+<rect x="145" y="214" width="60" height="6" rx="3" fill="#C3CFCA"></rect>
+</svg>
+
+<div style="position: absolute; left: 20px; top: 48px; width: 108px; height: 54px; box-sizing: border-box; border: 2px solid #A94F2B; border-radius: 10px"><span style="position: absolute; left: -2px; top: -21px; background: #A94F2B; color: #FFFBF5; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap">Eggs ×4</span></div>
+<div style="position: absolute; left: 132px; top: 44px; width: 48px; height: 58px; box-sizing: border-box; border: 2px solid #A94F2B; border-radius: 10px"><span style="position: absolute; left: -2px; top: -21px; background: #A94F2B; color: #FFFBF5; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap">Yogurt</span></div>
+<div style="position: absolute; left: 186px; top: 66px; width: 48px; height: 36px; box-sizing: border-box; border: 2px solid #A94F2B; border-radius: 10px"><span style="position: absolute; left: -2px; top: -21px; background: #A94F2B; color: #FFFBF5; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap">Lemon</span></div>
+<div style="position: absolute; left: 244px; top: 22px; width: 54px; height: 80px; box-sizing: border-box; border: 2px solid #A94F2B; border-radius: 10px"><span style="position: absolute; left: -2px; top: -21px; background: #A94F2B; color: #FFFBF5; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap">Milk</span></div>
+<div style="position: absolute; left: 30px; top: 144px; width: 68px; height: 50px; box-sizing: border-box; border: 2px solid #A94F2B; border-radius: 10px"><span style="position: absolute; left: -2px; top: -21px; background: #A94F2B; color: #FFFBF5; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap">Tomatoes</span></div>
+<div style="position: absolute; left: 112px; top: 114px; width: 82px; height: 80px; box-sizing: border-box; border: 2px solid #A94F2B; border-radius: 10px"><span style="position: absolute; left: -2px; top: -21px; background: #A94F2B; color: #FFFBF5; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap">Spinach</span></div>
+<div style="position: absolute; left: 200px; top: 136px; width: 90px; height: 58px; box-sizing: border-box; border: 2px solid #A94F2B; border-radius: 10px"><span style="position: absolute; left: -2px; top: -21px; background: #A94F2B; color: #FFFBF5; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap">Cooked rice</span></div>
+<div style="position: absolute; left: 292px; top: 154px; width: 38px; height: 40px; box-sizing: border-box; border: 2px solid #A94F2B; border-radius: 10px"><span style="position: absolute; right: -2px; top: -21px; background: #A94F2B; color: #FFFBF5; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap">Onion</span></div>
+</div>
+
+<div style="display: flex; gap: 10px; padding: 14px 20px 0">
+<button type="button" aria-pressed="true" style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; border: 2px solid #A94F2B; border-radius: 14px; background: #FFFBF5; color: #2A2118; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer">
+<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="8" fill="#DCE5E1"></rect><rect x="2" y="19" width="36" height="2" fill="#C6D2CD"></rect><circle cx="12" cy="13" r="4" fill="#FBF6EC"></circle><circle cx="27" cy="13" r="4" fill="#F2C94C"></circle><circle cx="13" cy="29" r="4" fill="#D2553A"></circle><rect x="22" y="25" width="12" height="9" rx="2" fill="#7C9A4E"></rect></svg>
+Student fridge
+</button>
+<button type="button" aria-pressed="false" style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; border: 1px solid #E7DACA; border-radius: 14px; background: #FFFBF5; color: #2A2118; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer">
+<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="8" fill="#DCE5E1"></rect><rect x="2" y="19" width="36" height="2" fill="#C6D2CD"></rect><circle cx="10" cy="13" r="4" fill="#C98F5A"></circle><circle cx="20" cy="13" r="4" fill="#6E8B3D"></circle><circle cx="30" cy="13" r="4" fill="#D2553A"></circle><rect x="8" y="25" width="24" height="9" rx="2" fill="#E3B873"></rect></svg>
+After the market
+</button>
+<button type="button" aria-pressed="false" style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; border: 1px solid #E7DACA; border-radius: 14px; background: #FFFBF5; color: #2A2118; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer">
+<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="8" fill="#DCE5E1"></rect><rect x="2" y="19" width="36" height="2" fill="#C6D2CD"></rect><circle cx="30" cy="13" r="4" fill="#F2C94C"></circle><rect x="8" y="27" width="8" height="7" rx="2" fill="#FFFFFF"></rect></svg>
+Almost empty
+</button>
+<button type="button" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 6px 0; border: 1px dashed #A94F2B; border-radius: 14px; background: transparent; color: #A94F2B; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"></path><circle cx="12" cy="13.5" r="3.5"></circle></svg>
+Your photo
+</button>
+</div>
+
+<section style="padding: 16px 20px 0">
+<div style="display: flex; align-items: baseline; justify-content: space-between">
+<h2 style="margin: 0; font-family: 'Fraunces', Georgia, serif; font-size: 20px; font-weight: 500">We found 8 items</h2>
+<span style="font-size: 13px; color: #5E6B3A; font-weight: 600">AI vision</span>
+</div>
+<p style="margin: 4px 0 10px; font-size: 13px; line-height: 1.4; color: #6B5D4F">Check the list: the camera can miss things in bags or at the back.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 4px 0 14px; border-radius: 999px; background: #FFFBF5; border: 1px solid #E7DACA; font-size: 14px; font-weight: 500">Eggs ×4<button type="button" aria-label="Remove eggs" style="width: 32px; height: 32px; border: 0; background: transparent; color: #6B5D4F; display: inline-flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></span>
+<span style="display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 4px 0 14px; border-radius: 999px; background: #FFFBF5; border: 1px solid #E7DACA; font-size: 14px; font-weight: 500">Cherry tomatoes<button type="button" aria-label="Remove cherry tomatoes" style="width: 32px; height: 32px; border: 0; background: transparent; color: #6B5D4F; display: inline-flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></span>
+<span style="display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 4px 0 14px; border-radius: 999px; background: #FFFBF5; border: 1px solid #E7DACA; font-size: 14px; font-weight: 500">Milk<button type="button" aria-label="Remove milk" style="width: 32px; height: 32px; border: 0; background: transparent; color: #6B5D4F; display: inline-flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></span>
+<span style="display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 4px 0 14px; border-radius: 999px; background: #FFFBF5; border: 1px solid #E7DACA; font-size: 14px; font-weight: 500">Greek yogurt<button type="button" aria-label="Remove Greek yogurt" style="width: 32px; height: 32px; border: 0; background: transparent; color: #6B5D4F; display: inline-flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></span>
+<span style="display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 4px 0 14px; border-radius: 999px; background: #FFFBF5; border: 1px solid #E7DACA; font-size: 14px; font-weight: 500">Spinach<button type="button" aria-label="Remove spinach" style="width: 32px; height: 32px; border: 0; background: transparent; color: #6B5D4F; display: inline-flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></span>
+<span style="display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 4px 0 14px; border-radius: 999px; background: #FFFBF5; border: 1px solid #E7DACA; font-size: 14px; font-weight: 500">Lemon<button type="button" aria-label="Remove lemon" style="width: 32px; height: 32px; border: 0; background: transparent; color: #6B5D4F; display: inline-flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></span>
+<span style="display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 4px 0 14px; border-radius: 999px; background: #FFFBF5; border: 1px solid #E7DACA; font-size: 14px; font-weight: 500">Onion<button type="button" aria-label="Remove onion" style="width: 32px; height: 32px; border: 0; background: transparent; color: #6B5D4F; display: inline-flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></span>
+<span style="display: inline-flex; align-items: center; gap: 2px; min-height: 40px; padding: 0 4px 0 14px; border-radius: 999px; background: #FFFBF5; border: 1px solid #E7DACA; font-size: 14px; font-weight: 500">Cooked rice<button type="button" aria-label="Remove cooked rice" style="width: 32px; height: 32px; border: 0; background: transparent; color: #6B5D4F; display: inline-flex; align-items: center; justify-content: center; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></span>
+<button type="button" style="display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border-radius: 999px; background: transparent; border: 1px dashed #A94F2B; color: #A94F2B; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add</button>
+</div>
+</section>
+
+<div style="margin-top: auto; padding: 0 20px 24px">
+<a href="Results.dc.html" style="height: 56px; border-radius: 16px; background: #A94F2B; color: #FFFBF5; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-size: 16px; font-weight: 700">Find dishes<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.wrangler/
+.dev.vars
+.env
+.env.*
+!.env.example
+*.zip
+test-results/
+playwright-report/
+*.log
+.DS_Store
+# Local tooling and the private brief
+.claude/
+PROMPT.md
