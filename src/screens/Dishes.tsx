@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { config } from '../config';
 import { BackButton } from '../components/BackButton';
@@ -19,14 +19,29 @@ function asChain(value: string | null): Chain | null {
   return CHAINS.find((chain) => chain === value) ?? null;
 }
 
+function asFilter(value: string | null): DishFilter {
+  return FILTERS.find((filter) => filter === value) ?? 'best';
+}
+
 export function Dishes() {
   const t = useT();
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
   const fromDeals = params.get('from') === 'deals';
   const chain = asChain(params.get('chain'));
   const items = useApp((state) => state.scan.items);
   const prefs = useApp((state) => state.prefs);
-  const [filter, setFilter] = useState<DishFilter>('best');
+  // The filter lives in the URL so coming back from a recipe keeps it.
+  const filter = asFilter(params.get('filter'));
+  const setFilter = (next: DishFilter) =>
+    setParams(
+      (current) => {
+        const updated = new URLSearchParams(current);
+        if (next === 'best') updated.delete('filter');
+        else updated.set('filter', next);
+        return updated;
+      },
+      { replace: true, preventScrollReset: true },
+    );
 
   const ranked = useMemo(() => {
     const dishes = rankDishes({

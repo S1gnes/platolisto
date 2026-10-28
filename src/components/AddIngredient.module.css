@@ -23,6 +23,8 @@
   gap: 6px;
   width: 300px;
   max-width: 100%;
+  /* Keep the field clear of the sticky action bar when it scrolls into view. */
+  scroll-margin-bottom: 120px;
 }
 
 .input {

@@ -204,7 +204,7 @@ export function Scan() {
                 <button
                   type="button"
                   className={s.chipLabel}
-                  aria-label={t('scan.edit', { name })}
+                  aria-label={t('scan.edit', { name: `${name}${qtySuffix(item.qty)}` })}
                   onClick={() => setEditing(item)}
                 >
                   {name}

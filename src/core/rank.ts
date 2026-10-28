@@ -41,12 +41,14 @@ function inventoryScore(dish: Omit<RankedDish, 'score'>): number {
   return dish.analysis.used.length - MISSING_WEIGHT * dish.analysis.missing.length;
 }
 
-// "Cook from deals": dishes whose shopping is covered by deals (or the fridge) come first.
+// "Cook from deals": dishes whose shopping is covered by deals (or the fridge) and stays cheap per serving come first.
 function dealsScore(dish: Omit<RankedDish, 'score'>): number {
   const { used, missing } = dish.analysis;
+  const { onSale, notOnSale, savingsCents } = dish.pricing;
   const total = Math.max(1, used.length + missing.length);
-  const covered = used.length + dish.pricing.onSale;
-  return 2 * (covered / total) + 0.25 * dish.pricing.onSale - 0.5 * dish.pricing.notOnSale + dish.pricing.savingsCents / 1000;
+  const coverage = (used.length + onSale) / total;
+  const eurosPerServing = dish.costPerServingCents / 100;
+  return 2 * coverage + 0.25 * onSale - 0.5 * notOnSale - 0.4 * eurosPerServing + savingsCents / 1000;
 }
 
 /**
