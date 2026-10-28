@@ -139,6 +139,8 @@ export function Scan() {
               <div className={s.frame}>
                 {showPhoto ? (
                   <img src={photo.url ?? undefined} alt={t('scan.yourPhotoAlt')} className={s.img} />
+                ) : preset?.photo ? (
+                  <img src={`${import.meta.env.BASE_URL}${preset.photo}`} alt={t(`preset.${preset.id}`)} className={s.img} />
                 ) : (
                   <FridgeArt preset={preset?.id ?? null} label={t(`preset.${preset?.id ?? 'empty'}.alt`)} />
                 )}

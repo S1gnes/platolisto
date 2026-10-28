@@ -69,6 +69,15 @@ Approved by the owner on 2026-10-28:
 - **Drink times** are estimated (TheCocktailDB has none): 2 minutes, plus 2 for more than three ingredients, plus 1 for muddling, 1 for shaking and 2 for blending.
 - **Dataset size.** About 300 KB of JSON in its own chunk, loaded only by bartender mode. Rejected: calling TheCocktailDB live (its multi-ingredient filter is premium-only).
 
+## Ship (milestone 5)
+
+- **Weekly plan** (Plus, stretch goal done). It takes the seven best "cook from deals" dinners, with at most two built on the same main ingredient, and builds one shopping list where each missing item is bought once. If a strict diet leaves fewer than seven dinners, the screen says so.
+- **Precompute.** `scripts/precompute-presets` runs the real `/vision` pipeline through the Worker on the preset photos and saves a 1024 px copy plus the detections. It needs the owner's photos and key, so the shipped presets stay illustrated until then.
+- **Tests.** Playwright runs on the production build with all non-local requests aborted. axe and a 44 px touch-target check cover every screen, including Plus and the dark bartender theme. The audit caught three problems, all fixed: language buttons whose name didn't contain the visible "EN/ES", 42 px chip buttons, and 18 px source links.
+- **Bundle.** Plus screens load on demand (React Router `lazy`), and so does the cocktail data. The main chunk is about 150 KB gzipped.
+- **PWA.** A manifest and icons only. Rejected: a service worker. A demo that gets fixed right before the talk shouldn't risk phones showing a cached old version.
+- **CI.** GitHub Actions type-checks, runs the unit tests, builds with the optional `WORKER_URL` variable and deploys to Pages. Playwright runs locally (`npm run test:e2e`), so a flaky browser test can't block a deploy.
+
 ## Git identity
 
 Commits use the GitHub no-reply address of the owner's account, so a personal email is not published in a public repository.

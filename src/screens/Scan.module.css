@@ -213,7 +213,8 @@
 }
 
 .chipLabel {
-  min-height: 42px;
+  min-height: 44px;
+  min-width: 44px;
   padding: 0 2px 0 14px;
   border: 0;
   border-radius: var(--radius-pill) 0 0 var(--radius-pill);
@@ -223,8 +224,8 @@
 }
 
 .remove {
-  width: 40px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border: 0;
   border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
   background: transparent;

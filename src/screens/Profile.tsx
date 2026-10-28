@@ -78,12 +78,20 @@ export function Profile() {
               )}
             </li>
             {plus && (
-              <li>
-                <Link to="/bartender" className={cx(s.row, s.linkRow)}>
-                  <span className={s.rowLabel}>{t('profile.bartender')}</span>
-                  <Icon name="next" size={20} />
-                </Link>
-              </li>
+              <>
+                <li>
+                  <Link to="/plan" className={cx(s.row, s.linkRow)}>
+                    <span className={s.rowLabel}>{t('plan.title')}</span>
+                    <Icon name="next" size={20} />
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/bartender" className={cx(s.row, s.linkRow)}>
+                    <span className={s.rowLabel}>{t('profile.bartender')}</span>
+                    <Icon name="next" size={20} />
+                  </Link>
+                </li>
+              </>
             )}
             <li>
               <button type="button" className={cx(s.row, s.linkRow, s.danger)} onClick={() => setConfirming(true)}>

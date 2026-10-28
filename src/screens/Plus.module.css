@@ -109,18 +109,6 @@
   color: var(--muted);
 }
 
-.soon {
-  display: inline-block;
-  margin-left: 6px;
-  padding: 1px 7px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--line-strong);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--muted);
-  vertical-align: 2px;
-}
-
 .compare {
   margin-top: 18px;
   width: 100%;

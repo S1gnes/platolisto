@@ -3,13 +3,11 @@ import { createHashRouter, Navigate, Outlet, ScrollRestoration, useLocation } fr
 import { RouterProvider } from 'react-router/dom';
 import { Toaster } from './components/Toast';
 import { useT } from './i18n';
-import { Bartender } from './screens/Bartender';
 import { Deals } from './screens/Deals';
 import { Dishes } from './screens/Dishes';
 import { Home } from './screens/Home';
 import { ShoppingList } from './screens/List';
 import { Onboarding } from './screens/Onboarding';
-import { Plus } from './screens/Plus';
 import { Profile } from './screens/Profile';
 import { RecipeScreen } from './screens/Recipe';
 import { Scan } from './screens/Scan';
@@ -53,8 +51,10 @@ const router = createHashRouter([
       { path: '/deals', element: <Deals /> },
       { path: '/list', element: <ShoppingList /> },
       { path: '/profile', element: <Profile /> },
-      { path: '/plus', element: <Plus /> },
-      { path: '/bartender', element: <Bartender /> },
+      // Plus screens are off the main path, so they load on demand.
+      { path: '/plus', lazy: () => import('./screens/Plus').then((m) => ({ Component: m.Plus })) },
+      { path: '/bartender', lazy: () => import('./screens/Bartender').then((m) => ({ Component: m.Bartender })) },
+      { path: '/plan', lazy: () => import('./screens/WeeklyPlan').then((m) => ({ Component: m.WeeklyPlan })) },
       { path: '*', element: <Navigate to="/" replace /> },
     ],
   },

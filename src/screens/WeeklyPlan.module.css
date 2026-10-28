@@ -1,0 +1,79 @@
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px var(--gutter) 4px 12px;
+}
+
+.intro {
+  padding: 8px var(--gutter) 0;
+}
+
+.summary {
+  margin: 16px var(--gutter) 0;
+  padding: 16px;
+  border-radius: var(--radius-card);
+  background: var(--olive);
+  color: var(--on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.summaryLabel {
+  font-size: 13px;
+  color: var(--on-olive-soft);
+}
+
+.total {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.saveBox {
+  text-align: right;
+}
+
+.saved {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--saffron);
+}
+
+.short {
+  padding: 12px var(--gutter) 0;
+}
+
+.days {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px var(--gutter) 8px;
+}
+
+.grow {
+  flex: 1;
+  font-size: 15px;
+}
+
+.haveAll {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--btn-height);
+  border-radius: var(--radius-btn);
+  background: var(--olive-tint);
+  color: var(--olive-ink);
+  font-size: 15px;
+  font-weight: 700;
+}

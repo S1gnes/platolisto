@@ -90,17 +90,30 @@ export function Plus() {
             </span>
           </li>
         )}
-        <li className={s.feature}>
-          <span className={cx(s.featureIcon, s.plan)}>
-            <Icon name="calendar" size={22} />
-          </span>
-          <span className={s.featureText}>
-            <span className={s.featureTitle}>
-              {t('plus.planTitle')} <span className={s.soon}>{t('plus.comingSoon')}</span>
+        {plus ? (
+          <li>
+            <Link to="/plan" className={cx(s.feature, s.featureLink)}>
+              <span className={cx(s.featureIcon, s.plan)}>
+                <Icon name="calendar" size={22} />
+              </span>
+              <span className={s.featureText}>
+                <span className={s.featureTitle}>{t('plus.planTitle')}</span>
+                <span className={s.featureBody}>{t('plus.planText')}</span>
+              </span>
+              <Icon name="next" size={20} className={s.featureArrow} />
+            </Link>
+          </li>
+        ) : (
+          <li className={s.feature}>
+            <span className={cx(s.featureIcon, s.plan)}>
+              <Icon name="calendar" size={22} />
             </span>
-            <span className={s.featureBody}>{t('plus.planText')}</span>
-          </span>
-        </li>
+            <span className={s.featureText}>
+              <span className={s.featureTitle}>{t('plus.planTitle')}</span>
+              <span className={s.featureBody}>{t('plus.planText')}</span>
+            </span>
+          </li>
+        )}
       </ul>
 
       <table className={s.compare}>

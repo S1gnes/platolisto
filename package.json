@@ -11,7 +11,10 @@
     "test": "vitest run",
     "worker:dev": "wrangler dev --config worker/wrangler.jsonc",
     "worker:deploy": "wrangler deploy --config worker/wrangler.jsonc",
-    "build:cocktails": "node scripts/build-cocktails.mjs"
+    "build:cocktails": "node scripts/build-cocktails.mjs",
+    "precompute": "node scripts/precompute-presets.mjs",
+    "test:e2e": "playwright test",
+    "build:icons": "node scripts/build-icons.mjs"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.3.0",
@@ -22,7 +25,9 @@
     "zustand": "^5.0.16"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@cloudflare/workers-types": "^5.20261028.1",
+    "@playwright/test": "^1.64.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
