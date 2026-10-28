@@ -1,5 +1,12 @@
 import { catalogEntry, ingredientName } from './catalog';
-import type { InventoryItem, Lang } from './types';
+import type { InventoryItem, Lang, Recipe } from './types';
+
+/** Name of a recipe ingredient: catalog name when known, otherwise the recipe's own (possibly translated) name. */
+export function recipeIngredientName(recipe: Recipe, key: string, lang: Lang): string {
+  if (catalogEntry(key)) return ingredientName(key, lang);
+  const name = recipe.ingredients.find((ingredient) => ingredient.key === key)?.name;
+  return name ? name[lang] || name.en : ingredientName(key, lang);
+}
 
 /** Name for an inventory chip: catalog name when known, otherwise the detected or typed label. */
 export function itemName(item: Pick<InventoryItem, 'key' | 'label'>, lang: Lang): string {

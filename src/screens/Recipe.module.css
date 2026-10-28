@@ -223,6 +223,37 @@
   font-weight: 700;
 }
 
+.heroLoading {
+  background: linear-gradient(90deg, var(--hero) 25%, var(--hero-deco) 50%, var(--hero) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+.loadingText {
+  padding: 20px var(--gutter);
+}
+
+.translate {
+  margin-top: 8px;
+}
+
+.credit {
+  padding: 14px var(--gutter) 0;
+}
+
+.credit a {
+  font-weight: 600;
+}
+
 .missing {
   padding: 16px var(--gutter);
   display: flex;

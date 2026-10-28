@@ -47,14 +47,16 @@ export function detectionsToItems(detections: RawDetection[]): InventoryItem[] {
   for (const d of detections) {
     const key = normalizeIngredient(d.name);
     if (!key || items.some((item) => item.key === key)) continue;
-    const labelEn = d.label_en || d.name;
+    const name = d.name.trim();
+    const labelEn = d.label_en || name.charAt(0).toUpperCase() + name.slice(1);
     items.push({
       id: itemId(),
       key,
       label: { en: labelEn, es: d.label_es || labelEn },
       qty: d.quantity ? String(d.quantity) : undefined,
       box: toBox(d.box_2d),
-      boxLabel: { en: labelEn, es: d.label_es || labelEn },
+      // Presets carry short hand-written box labels; live detections use the chip name instead.
+      boxLabel: d.label_en ? { en: d.label_en, es: d.label_es || d.label_en } : undefined,
     });
   }
   return items;

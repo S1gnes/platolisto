@@ -42,6 +42,16 @@ Approved by the owner on 2026-10-28:
 - "Under €X" uses the estimated cost to buy per serving from deal prices only. Items with no deal are shown as "not on sale" and add nothing to the estimate.
 - Ranking: `used − 0.35 × missing`, plus up to +1 for "Love to eat" tags. Ties go to the cheaper dish, then the quicker one.
 
+## Live services (milestone 3)
+
+- **Thin proxy.** The Workers free plan allows 10 ms of CPU per request (checked 2026-10-28). So the Worker checks the origin, rate limit and body size, then forwards the request. Spoonacular responses are streamed straight through, and the app maps them to its own recipe shape.
+- **Gemini via `generateContent`**, with `responseJsonSchema` and `thinkingLevel: "low"`. If the API rejects either option (HTTP 400), the Worker retries once in plain JSON mode. On 429 or 5xx it moves on to the fallback model. All model IDs are Worker settings.
+  - Rejected: the newer Interactions API. It stores interactions by default (`store=true`), which would keep users' photos on Google's side.
+- **What goes live.** Your own photo and typed lists use live search. Presets and "cook from deals" always use the bundled recipes, so they need no network and spend no quota. An edited preset stays offline too.
+- **Spoonacular content is never stored.** Search results, recipes and their Spanish translations are kept in memory for at most an hour, never in localStorage or the Worker. Each live recipe credits its original source and Spoonacular.
+- **Fallbacks.** On quota (402), rate limits (429), offline, timeouts or zero results, the app ranks the bundled recipes and says why. Photo errors always offer "Use a preset photo".
+- **Abuse protection.** Requests from any origin outside `ALLOWED_ORIGINS` get a 403 before any upstream call. There is a per-IP limit (rate limiting binding, with an in-memory fallback) and body size limits. The Spoonacular cost flags are fixed by the Worker, not the app.
+
 ## Git identity
 
 Commits use the GitHub no-reply address of the owner's account, so a personal email is not published in a public repository.

@@ -12,13 +12,23 @@ import { normalizeIngredient } from '../core/normalize';
 import { detectionsToItems, itemId, PRESET_IDS, presetById } from '../core/presets';
 import { suggestIngredients } from '../core/suggest';
 import type { InventoryItem, PresetId, ScanSource } from '../core/types';
-import { useT } from '../i18n';
+import { useT, type MessageKey } from '../i18n';
+import { detectItems, errorCode, liveEnabled, type ApiErrorCode } from '../services/api';
+import { prepareImage } from '../services/image';
 import { usePhoto } from '../state/photo';
 import { useApp } from '../state/store';
 import ui from '../styles/ui.module.css';
 import s from './Scan.module.css';
 
 const SCAN_EFFECT_MS = 1100;
+
+const PHOTO_ERRORS: Partial<Record<ApiErrorCode, MessageKey>> = {
+  not_configured: 'scan.photoUnavailable',
+  offline: 'scan.error.offline',
+  rate_limited: 'scan.error.busy',
+  quota: 'scan.error.busy',
+  blocked: 'scan.error.blocked',
+};
 
 function isPreset(source: ScanSource | null): source is PresetId {
   return source === 'student' || source === 'market' || source === 'empty';
@@ -37,13 +47,18 @@ export function Scan() {
   // A counter instead of a boolean so picking another preset mid-scan restarts the effect.
   const [scanRun, setScanRun] = useState(0);
   const [scanning, setScanning] = useState(false);
+  const [analysing, setAnalysing] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [editing, setEditing] = useState<InventoryItem | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
+  // Bumped on every new photo or preset, so a late answer for an old photo is ignored.
+  const request = useRef(0);
   const items = scan.items;
 
   const choosePreset = useCallback(
     (id: PresetId) => {
+      request.current += 1;
+      setAnalysing(false);
       usePhoto.getState().clear();
       setNotice(null);
       setScan(id, detectionsToItems(presetById(id).detections));
@@ -64,13 +79,30 @@ export function Scan() {
     if (!typeMode && !useApp.getState().scan.source) choosePreset('student');
   }, [typeMode, choosePreset]);
 
-  const onPhoto = (file: File | undefined) => {
+  const onPhoto = async (file: File | undefined) => {
     if (!file) return;
+    const current = ++request.current;
     setScanning(false);
+    setNotice(null);
     photo.set(file);
     setScan('photo', []);
-    // Live recognition goes through the Worker proxy (milestone 3).
-    setNotice(t('scan.photoUnavailable'));
+    if (!liveEnabled()) {
+      setNotice(t('scan.photoUnavailable'));
+      return;
+    }
+    setAnalysing(true);
+    try {
+      const { base64, mimeType } = await prepareImage(file);
+      const detections = await detectItems(base64, mimeType, 'fridge');
+      if (current !== request.current) return;
+      const found = detectionsToItems(detections);
+      setScan('photo', found);
+      if (found.length === 0) setNotice(t('scan.nothingFound'));
+    } catch (error) {
+      if (current === request.current) setNotice(t(PHOTO_ERRORS[errorCode(error)] ?? 'scan.error.failed'));
+    } finally {
+      if (current === request.current) setAnalysing(false);
+    }
   };
 
   const suggest = useCallback(
@@ -87,8 +119,10 @@ export function Scan() {
   const preset = isPreset(scan.source) ? presetById(scan.source) : null;
   const showPhoto = scan.source === 'photo' && photo.url !== null;
   const aspect = showPhoto ? `${photo.width} / ${photo.height}` : `${preset?.width ?? 350} / ${preset?.height ?? 270}`;
-  const boxes = scanning ? [] : items.filter((item) => item.box);
+  const busy = scanning || analysing;
+  const boxes = busy ? [] : items.filter((item) => item.box);
   const photoLost = scan.source === 'photo' && !showPhoto && !notice;
+  const detected = !typeMode && (isPreset(scan.source) || scan.source === 'photo');
 
   return (
     <main className={s.page}>
@@ -108,7 +142,7 @@ export function Scan() {
                 ) : (
                   <FridgeArt preset={preset?.id ?? null} label={t(`preset.${preset?.id ?? 'empty'}.alt`)} />
                 )}
-                {scanning && (
+                {busy && (
                   <div className={s.scanning}>
                     <span className={s.scanLine} />
                   </div>
@@ -134,8 +168,8 @@ export function Scan() {
                 );
               })}
             </div>
-            <p className="visually-hidden" aria-live="polite">
-              {scanning ? t('scan.scanning') : ''}
+            <p className={analysing ? s.status : 'visually-hidden'} aria-live="polite">
+              {analysing ? t('scan.analysing') : scanning ? t('scan.scanning') : ''}
             </p>
           </div>
 
@@ -189,11 +223,9 @@ export function Scan() {
       <section className={s.found} aria-labelledby="found-title">
         <div className={s.foundHead}>
           <h2 id="found-title" className={ui.sectionTitle}>
-            {isPreset(scan.source) && !typeMode
-              ? t.plural('scan.found', items.length)
-              : t.plural('scan.count', items.length)}
+            {detected ? t.plural('scan.found', items.length) : t.plural('scan.count', items.length)}
           </h2>
-          {!typeMode && isPreset(scan.source) && <span className={s.ai}>{t('scan.aiVision')}</span>}
+          {detected && <span className={s.ai}>{t('scan.aiVision')}</span>}
         </div>
         <p className={cx(ui.note, s.check)}>{typeMode ? t('scan.typeIntro') : t('scan.check')}</p>
         <ul className={s.chips} aria-label={t('scan.itemsLabel')}>
@@ -240,7 +272,7 @@ export function Scan() {
         <button
           type="button"
           className={cx(ui.btn, ui.primary)}
-          disabled={items.length === 0 || scanning}
+          disabled={items.length === 0 || busy}
           onClick={() => navigate('/dishes')}
         >
           {t('scan.findDishes')}

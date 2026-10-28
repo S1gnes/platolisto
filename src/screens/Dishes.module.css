@@ -32,6 +32,42 @@
   padding: 6px var(--gutter) 0;
 }
 
+.attribution {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.notice {
+  margin: 12px var(--gutter) 0;
+  padding: 12px 14px;
+  border-radius: var(--radius-card-sm);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.skeleton {
+  height: 118px;
+  border-radius: var(--radius-card);
+  background: linear-gradient(90deg, var(--surface) 25%, var(--tile) 50%, var(--surface) 75%);
+  background-size: 200% 100%;
+  border: 1px solid var(--line);
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
 .list {
   display: flex;
   flex-direction: column;

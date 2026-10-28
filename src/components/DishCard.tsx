@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { Link } from 'react-router';
 import { PlateArt } from '../art/PlateArt';
 import type { RankedDish } from '../core/rank';
@@ -9,6 +9,7 @@ import s from './DishCard.module.css';
 
 export function DishCard({ dish }: { dish: RankedDish }) {
   const t = useT();
+  const [brokenImage, setBrokenImage] = useState(false);
   const { recipe, analysis, pricing } = dish;
   const have = analysis.used.length;
   const total = have + analysis.missing.length;
@@ -28,8 +29,16 @@ export function DishCard({ dish }: { dish: RankedDish }) {
 
   return (
     <Link to={`/recipe/${recipe.id}`} className={s.card}>
-      {recipe.image ? (
-        <img className={s.photo} src={recipe.image} alt="" width={92} height={92} loading="lazy" />
+      {recipe.image && !brokenImage ? (
+        <img
+          className={s.photo}
+          src={recipe.image}
+          alt=""
+          width={92}
+          height={92}
+          loading="lazy"
+          onError={() => setBrokenImage(true)}
+        />
       ) : (
         <PlateArt recipe={recipe} size={92} />
       )}
