@@ -8,6 +8,7 @@ const ing = (...keys: string[]): RecipeIngredient[] => keys.map((key) => ({ key 
 export const RECIPES: Recipe[] = [
   {
     id: 'egg-fried-rice',
+    image: 'https://img.spoonacular.com/recipes/656777-636x393.jpg',
     title: { en: 'Egg fried rice with spinach', es: 'Arroz frito con huevo y espinacas' },
     minutes: 15,
     servings: 2,
@@ -33,6 +34,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'lemon-chicken-rice',
+    image: 'https://img.spoonacular.com/recipes/654184-636x393.jpg',
     title: { en: 'Lemon chicken rice', es: 'Arroz con pollo al limón' },
     minutes: 30,
     servings: 2,
@@ -60,6 +62,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'shakshuka-manchego',
+    image: 'https://img.spoonacular.com/recipes/656486-636x393.jpg',
     title: { en: 'Shakshuka with manchego', es: 'Shakshuka con manchego' },
     minutes: 25,
     servings: 2,
@@ -85,6 +88,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'spanish-tortilla',
+    image: 'https://img.spoonacular.com/recipes/1095794-636x393.jpg',
     title: { en: 'Spanish tortilla', es: 'Tortilla de patatas' },
     minutes: 40,
     servings: 4,
@@ -110,6 +114,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'chicken-pepper-bowl',
+    image: 'https://img.spoonacular.com/recipes/716361-636x393.jpg',
     title: { en: 'Chicken and pepper rice bowl', es: 'Bol de arroz con pollo y pimientos' },
     minutes: 25,
     servings: 2,
@@ -142,6 +147,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'spinach-cheese-omelette',
+    image: 'https://img.spoonacular.com/recipes/1697687-636x393.jpg',
     title: { en: 'Spinach and cheese omelette', es: 'Tortilla francesa de espinacas y queso' },
     minutes: 10,
     servings: 1,
@@ -171,6 +177,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'chickpeas-spinach',
+    image: 'https://img.spoonacular.com/recipes/661287-636x393.jpg',
     title: { en: 'Chickpeas with spinach', es: 'Espinacas con garbanzos' },
     minutes: 25,
     servings: 2,
@@ -201,6 +208,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'lemon-yogurt-pasta',
+    image: 'https://img.spoonacular.com/recipes/649721-636x393.jpg',
     title: { en: 'Creamy lemon yogurt pasta', es: 'Pasta cremosa con yogur y limón' },
     minutes: 20,
     servings: 2,
@@ -231,6 +239,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'veggie-fried-rice',
+    image: 'https://img.spoonacular.com/recipes/642138-636x393.jpg',
     title: { en: 'Veggie fried rice', es: 'Arroz frito con verduras' },
     minutes: 15,
     servings: 2,
@@ -262,6 +271,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'arroz-con-leche',
+    image: 'https://img.spoonacular.com/recipes/658276-636x393.jpg',
     title: { en: 'Spanish rice pudding', es: 'Arroz con leche' },
     minutes: 40,
     servings: 4,
@@ -292,6 +302,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'chickpea-tuna-salad',
+    image: 'https://img.spoonacular.com/recipes/1095768-636x393.jpg',
     title: { en: 'Chickpea and tuna salad', es: 'Ensalada de garbanzos y atún' },
     minutes: 10,
     servings: 2,
@@ -323,6 +334,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'lentil-salad',
+    image: 'https://img.spoonacular.com/recipes/643528-636x393.jpg',
     title: { en: 'Lentil salad', es: 'Ensalada de lentejas' },
     minutes: 15,
     servings: 2,
@@ -354,6 +366,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'arroz-a-la-cubana',
+    image: 'https://img.spoonacular.com/recipes/658290-636x393.jpg',
     title: { en: 'Cuban-style rice with fried egg', es: 'Arroz a la cubana' },
     minutes: 20,
     servings: 2,
@@ -384,6 +397,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'potato-spinach-curry',
+    image: 'https://img.spoonacular.com/recipes/641072-636x393.jpg',
     title: { en: 'Potato and spinach curry', es: 'Curry de patata y espinacas' },
     minutes: 35,
     servings: 3,
@@ -413,6 +427,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'chicken-chickpea-stew',
+    image: 'https://img.spoonacular.com/recipes/649560-636x393.jpg',
     title: { en: 'Chicken and chickpea stew', es: 'Guiso de pollo con garbanzos' },
     minutes: 35,
     servings: 3,
@@ -443,6 +458,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'tuna-tomato-pasta',
+    image: 'https://img.spoonacular.com/recipes/648279-636x393.jpg',
     title: { en: 'Pasta with tuna and tomato', es: 'Pasta con atún y tomate' },
     minutes: 20,
     servings: 2,
@@ -475,6 +491,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'spaghetti-bolognese',
+    image: 'https://img.spoonacular.com/recipes/660820-636x393.jpg',
     title: { en: 'Quick spaghetti bolognese', es: 'Espaguetis a la boloñesa exprés' },
     minutes: 30,
     servings: 3,
@@ -505,6 +522,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'pasta-bake',
+    image: 'https://img.spoonacular.com/recipes/1697599-636x393.jpg',
     title: { en: 'Mozzarella pasta bake', es: 'Pasta gratinada con mozzarella' },
     minutes: 35,
     servings: 3,
@@ -535,6 +553,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'lentils-chorizo',
+    image: 'https://img.spoonacular.com/recipes/649933-636x393.jpg',
     title: { en: 'Lentil stew with chorizo', es: 'Lentejas con chorizo' },
     minutes: 45,
     servings: 4,
@@ -566,6 +585,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'potatoes-chorizo-egg',
+    image: 'https://img.spoonacular.com/recipes/632353-636x393.jpg',
     title: { en: 'Potatoes with chorizo and fried egg', es: 'Patatas con chorizo y huevo' },
     minutes: 25,
     servings: 2,
@@ -597,6 +617,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'stuffed-peppers',
+    image: 'https://img.spoonacular.com/recipes/633820-636x393.jpg',
     title: { en: 'Stuffed peppers with rice and tuna', es: 'Pimientos rellenos de arroz y atún' },
     minutes: 40,
     servings: 2,
@@ -627,6 +648,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'pan-con-tomate',
+    image: 'https://img.spoonacular.com/recipes/658753-636x393.jpg',
     title: { en: 'Tomato toast with manchego', es: 'Pan con tomate y manchego' },
     minutes: 10,
     servings: 2,
@@ -657,6 +679,7 @@ export const RECIPES: Recipe[] = [
   },
   {
     id: 'gazpacho',
+    image: 'https://img.spoonacular.com/recipes/639388-636x393.jpg',
     title: { en: 'Gazpacho', es: 'Gazpacho' },
     minutes: 15,
     servings: 4,

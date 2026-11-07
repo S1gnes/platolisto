@@ -8,8 +8,10 @@ async function blockNetwork(page: Page): Promise<string[]> {
   const external: string[] = [];
   await page.route('**/*', (route) => {
     const url = route.request().url();
-    if (LOCAL_HOSTS.has(new URL(url).hostname)) return route.continue();
-    external.push(url);
+    const host = new URL(url).hostname;
+    if (LOCAL_HOSTS.has(host)) return route.continue();
+    // Dish photos are optional: offline they fail and the drawn plate shows instead.
+    if (host !== 'img.spoonacular.com') external.push(url);
     return route.abort('internetdisconnected');
   });
   return external;

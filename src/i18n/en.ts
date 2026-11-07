@@ -233,7 +233,7 @@ export const en = {
   'about.disclaimer':
     'PlatoListo is a demo for a university Business class. Deals and prices are examples, not real offers.',
   'about.sources': 'Data sources',
-  'about.recipes': 'Live recipe search: Spoonacular API',
+  'about.recipes': 'Live recipe search and dish photos: Spoonacular API',
   'about.cocktails': 'Cocktail data and imagery: TheCocktailDB',
   'about.ai': 'Photo recognition and AI chef: Google Gemini API',
   'about.deals': "Supermarket prices: snapshot of the stores' public websites (Mercadona, ALDI), plus example deals marked Demo",

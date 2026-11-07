@@ -238,7 +238,7 @@ export const es: Record<MessageKey, string> = {
   'about.disclaimer':
     'PlatoListo es una demo para una asignatura de Empresa de la universidad. Las ofertas y los precios son ejemplos, no ofertas reales.',
   'about.sources': 'Fuentes de datos',
-  'about.recipes': 'Búsqueda de recetas en vivo: API de Spoonacular',
+  'about.recipes': 'Búsqueda de recetas en directo y fotos de platos: API de Spoonacular',
   'about.cocktails': 'Datos e imágenes de cócteles: TheCocktailDB',
   'about.ai': 'Reconocimiento de fotos y chef IA: API de Google Gemini',
   'about.deals': 'Precios de supermercados: captura de las webs públicas de las tiendas (Mercadona, ALDI) y ofertas de ejemplo marcadas como Demo',
