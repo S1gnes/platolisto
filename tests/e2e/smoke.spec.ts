@@ -44,7 +44,7 @@ test('the preset flow works end to end with the network blocked', async ({ page 
   await expect(page.getByText('€4.69')).toBeVisible();
 
   await page.getByRole('link', { name: 'Deals' }).click();
-  await expect(page.getByText('Demo prices')).toBeVisible();
+  await expect(page.getByText(/^(Prices |Demo prices)/)).toBeVisible();
   await page.getByRole('link', { name: /Cook something from these deals/ }).click();
   await expect(page.getByRole('heading', { name: /dishes from this week's deals/ })).toBeVisible();
 

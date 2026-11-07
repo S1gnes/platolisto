@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { recipeById } from '../data/recipes';
-import { DEALS, toDeal } from './deals';
+import { toDeal } from './deals';
+import { DEMO_DEALS as DEALS } from './demoDeals';
 import { analyzeRecipe, bestDeal, costPerServing, isAllowed, priceMissing, related } from './match';
 import { detectionsToItems, presetById } from './presets';
 import type { DealRecord, Prefs, Recipe } from './types';

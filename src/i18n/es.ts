@@ -196,6 +196,9 @@ export const es: Record<MessageKey, string> = {
   'deals.stores': 'Filtrar por tienda',
   'deals.all': 'Todas',
   'deals.cta': 'Cocina algo con estas ofertas',
+  'deals.pricesOn': 'Precios del {date}',
+  'deals.subtitleReal': 'Precios reales de las webs de las tiendas del {date} · Demo = ejemplo',
+  'deals.demoTag': 'Demo',
 
   'list.title': 'Lista de la compra',
   'list.summary': 'Para {dishes} · {items} · {stores}',
@@ -238,7 +241,7 @@ export const es: Record<MessageKey, string> = {
   'about.recipes': 'Búsqueda de recetas en vivo: API de Spoonacular',
   'about.cocktails': 'Datos e imágenes de cócteles: TheCocktailDB',
   'about.ai': 'Reconocimiento de fotos y chef IA: API de Google Gemini',
-  'about.deals': 'Ofertas de supermercados: datos de demo',
+  'about.deals': 'Precios de supermercados: captura de las webs públicas de las tiendas (Mercadona, ALDI) y ofertas de ejemplo marcadas como Demo',
   'about.own': 'Fotos de ejemplo, ilustraciones y recetas de ejemplo: PlatoListo',
   'about.privacy': 'Privacidad',
   'about.privacyPhotos': 'Las fotos se envían a un servicio de IA para reconocerlas. No subas fotos personales.',

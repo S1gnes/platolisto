@@ -16,7 +16,12 @@ export function DealTile({ deal }: { deal: Deal }) {
         <span className={ui.discount}>{t('common.discount', { pct: deal.discountPct })}</span>
       </div>
       <div className={s.chain}>{deal.chain}</div>
-      {deal.sponsored && <span className={ui.sponsored}>{t('common.sponsored')}</span>}
+      {(deal.sponsored || deal.demo) && (
+        <span className={s.tags}>
+          {deal.sponsored && <span className={ui.sponsored}>{t('common.sponsored')}</span>}
+          {deal.demo && <span className={ui.sponsored}>{t('deals.demoTag')}</span>}
+        </span>
+      )}
       <h3 className={s.name}>{dealName(deal, t.lang)}</h3>
       <p className={s.prices}>
         <span className={s.price}>{t.price(deal.priceCents)}</span>

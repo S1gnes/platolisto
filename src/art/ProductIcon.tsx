@@ -251,6 +251,8 @@ const KEY_TO_ART: Record<string, string> = {
   lemon: 'lemon',
   lime: 'lemon',
   spinach: 'leaves',
+  broccoli: 'leaves',
+  mayonnaise: 'yogurt',
   lettuce: 'leaves',
 };
 

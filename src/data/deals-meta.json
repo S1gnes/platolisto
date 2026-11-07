@@ -1,0 +1,48 @@
+{
+  "kind": "snapshot",
+  "fetchedAt": "2026-11-07",
+  "sources": [
+    {
+      "chain": "Mercadona",
+      "status": "ok",
+      "found": 156,
+      "kept": 4
+    },
+    {
+      "chain": "ALDI",
+      "status": "ok",
+      "found": 112,
+      "kept": 12
+    },
+    {
+      "chain": "Carrefour",
+      "status": "failed",
+      "reason": "bot challenge (HTTP 403)"
+    },
+    {
+      "chain": "Lidl",
+      "status": "skipped",
+      "reason": "food offers are published only as leaflets"
+    },
+    {
+      "chain": "Dia",
+      "status": "skipped",
+      "reason": "bot challenge"
+    },
+    {
+      "chain": "Eroski",
+      "status": "skipped",
+      "reason": "offers page is a leaflet without prices"
+    },
+    {
+      "chain": "Alcampo",
+      "status": "skipped",
+      "reason": "offers page not reachable"
+    },
+    {
+      "chain": "Consum",
+      "status": "skipped",
+      "reason": "offers page not reachable"
+    }
+  ]
+}

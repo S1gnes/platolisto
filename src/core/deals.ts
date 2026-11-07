@@ -1,6 +1,7 @@
 import raw from '../data/deals.json';
+import meta from '../data/deals-meta.json';
 import { normalizeIngredient } from './normalize';
-import type { Deal, DealRecord, Lang } from './types';
+import type { Chain, Deal, DealRecord, Lang } from './types';
 
 export function toCents(euros: number): number {
   return Math.round(euros * 100);
@@ -20,10 +21,17 @@ export function toDeal(record: DealRecord): Deal {
     discountPct: oldPriceCents > 0 ? Math.round(((oldPriceCents - priceCents) / oldPriceCents) * 100) : 0,
     sponsored: record.sponsored,
     validUntil: record.validUntil,
+    demo: Boolean(record.demo),
   };
 }
 
 export const DEALS: Deal[] = (raw as DealRecord[]).map(toDeal);
+
+/** Stores in the order they first appear in the data. */
+export const CHAINS: Chain[] = [...new Set(DEALS.map((deal) => deal.chain))];
+
+/** When the real prices were read from the stores' sites (scripts/fetch-deals), if ever. */
+export const DEALS_DATE: string | null = DEALS.some((deal) => !deal.demo) ? meta.fetchedAt : null;
 
 const byId = new Map(DEALS.map((deal) => [deal.id, deal]));
 

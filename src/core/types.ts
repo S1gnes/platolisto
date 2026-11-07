@@ -14,8 +14,8 @@ export type Diet = (typeof DIETS)[number];
 export const LOVES = ['pasta', 'chicken', 'spicy', 'spanish', 'asian'] as const;
 export type Love = (typeof LOVES)[number];
 
-export const CHAINS = ['Mercadona', 'Lidl', 'Carrefour'] as const;
-export type Chain = (typeof CHAINS)[number];
+/** Store name as shown on the site (Mercadona, ALDI, Lidl, …). The list of chains comes from the deals data. */
+export type Chain = string;
 
 export interface Prefs {
   allergies: Allergy[];
@@ -37,6 +37,8 @@ export interface DealRecord {
   oldPrice: number;
   sponsored: boolean;
   validUntil: string;
+  /** Example price, not taken from the store's site (see scripts/fetch-deals). */
+  demo?: boolean;
 }
 
 /** A deal ready for matching: normalized key and prices in cents. */
@@ -51,6 +53,7 @@ export interface Deal {
   discountPct: number;
   sponsored: boolean;
   validUntil: string;
+  demo: boolean;
 }
 
 export interface RecipeIngredient {

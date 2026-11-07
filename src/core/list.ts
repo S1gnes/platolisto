@@ -1,5 +1,5 @@
 import { dealById } from './deals';
-import { CHAINS, type Chain, type Deal, type ListItem } from './types';
+import type { Chain, Deal, ListItem } from './types';
 
 export interface ListRow {
   item: ListItem;
@@ -25,7 +25,9 @@ export interface ListSummary {
 /** Shopping list grouped by store, with totals from deal prices. Items are counted once even if several dishes need them. */
 export function summarizeList(list: ListItem[], findDeal: (id: string | null) => Deal | undefined = dealById): ListSummary {
   const rows = list.map((item) => ({ item, deal: findDeal(item.dealId) }));
-  const groups: ListGroup[] = CHAINS.map((chain) => {
+  // Stores in the order you added their items.
+  const chains: Chain[] = [...new Set(rows.map((row) => row.deal?.chain).filter((chain): chain is Chain => Boolean(chain)))];
+  const groups: ListGroup[] = chains.map((chain) => {
     const chainRows = rows.filter((row) => row.deal?.chain === chain);
     return {
       chain,

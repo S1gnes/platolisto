@@ -85,6 +85,30 @@ With real keys, `gemini-3.8-flash` was overloaded: a 503 on stream, and a photo 
 - Every model call now has a 20-second timeout. A hung model counts as a 504, and the next model is tried.
 - Default models: `gemini-3.5-flash-lite` for vision, chat and translation; `gemini-3.1-flash-lite` as the fallback.
 
+## Real supermarket prices (2026-11-07)
+
+The owner asked for real prices from Spain's main chains, pointing at api-anything. That tool learns a site's internal requests by loading the page in a headless browser. Its catalog has no Spanish supermarkets. I used it in local-only mode, in a scratch folder (nothing shared, no agent configs touched), to find each chain's data source. Then `scripts/fetch-deals.mjs` reads those sources with plain headless Chromium.
+
+| Chain | Result |
+|---|---|
+| Mercadona | Public JSON API of the online shop. It has no promotions ("always low prices"), so a deal is a product whose price just went down: 156 products, 4 matching recipe ingredients. |
+| ALDI | The weekly offers page: about 110–130 discounted products with price and discount, 12 matching. |
+| Carrefour | Product grid behind a Cloudflare bot challenge (HTTP 403). Skipped. |
+| Dia | Bot challenge. Skipped. |
+| Lidl | Food offers are published only as leaflets. Skipped. |
+| Eroski | Offers page is a leaflet without prices. Skipped. |
+| Alcampo, Consum | No offers page reachable without a session. Skipped. |
+
+Rules the script follows:
+
+- **No workarounds.** A bot challenge means the chain is skipped. Mercadona's category pages are read with a 150 ms pause between requests. The script runs by hand before a demo, not on a schedule.
+- **Strict matching.** Product names lead with the ingredient in Spanish, so only the first one to four words may exactly equal a catalog name or alias. Ready-made products ("patatas fritas sabor…", "bebida sabor limón", "crema de cacao") are filtered out. An earlier fuzzy version turned "Rocas de cacahuete y chocolate con leche" into milk.
+- **Snapshot plus demo.** Real deals come first. For ingredients no store had on offer, the brief's example deals stay in, marked `demo` and tagged "Demo" in the app, so the recipes still have something to buy. The Deals screen shows the snapshot date.
+- **Sponsorship stays a demo.** No real chain pays PlatoListo, so only demo deals can be sponsored.
+- **Tests don't depend on this week's prices.** Unit tests use `src/data/deals-demo.json` (the brief's fixed set). The app uses `src/data/deals.json`, with `src/data/deals-meta.json` recording what each chain returned.
+
+The stores' terms generally forbid automated collection. This is a one-off, low-volume snapshot for a university demo, and the owner accepted that trade-off. Don't run it as a service.
+
 ## Git identity
 
 Commits use the GitHub no-reply address of the owner's account, so a personal email is not published in a public repository.

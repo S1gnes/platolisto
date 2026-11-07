@@ -106,6 +106,17 @@ The presets ship with illustrated fridges and hand-written detections, so they w
 
 Recipes are not precomputed: presets rank PlatoListo's own recipes offline, and Spoonacular content may not be stored (see `docs/DECISIONS.md`).
 
+## Supermarket prices
+
+`src/data/deals.json` is a snapshot of real prices plus example deals marked Demo. To refresh it before a demo:
+
+```powershell
+npx playwright install chromium
+npm run fetch:deals
+```
+
+The script reads Mercadona's price drops and ALDI's weekly offers in headless Chromium. It skips chains that answer with a bot challenge (Carrefour, Dia) or have no online offers (Lidl, Eroski, Alcampo, Consum). It keeps only food that matches the recipe catalog and fills the rest from `src/data/deals-demo.json`. If fewer than 15 real deals match, it keeps the old file (`-- --force` writes anyway). Check the Deals screen, then commit `deals.json` and `deals-meta.json`. Run it rarely and by hand: the stores' terms don't allow automated collection.
+
 ## Cocktail dataset
 
 Bartender mode matches drinks offline against `src/data/cocktails.json`, built from TheCocktailDB's free API (key `1`, for development and educational use). To refresh it:

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { RECIPES } from '../data/recipes';
-import { DEALS } from './deals';
+import { DEMO_DEALS as DEALS } from './demoDeals';
 import { buildWeeklyPlan } from './plan';
 import type { Prefs } from './types';
 

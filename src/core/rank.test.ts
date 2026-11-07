@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { RECIPES } from '../data/recipes';
-import { DEALS } from './deals';
+import { DEMO_DEALS as DEALS } from './demoDeals';
 import { summarizeList } from './list';
+const findDemo = (id: string | null) => DEALS.find((d) => d.id === id);
 import { detectionsToItems, presetById } from './presets';
 import { applyFilter, rankDishes } from './rank';
 import type { Prefs } from './types';
@@ -89,7 +90,7 @@ describe('summarizeList', () => {
       { id: 'a', key: 'chicken thigh', dealId: 'mer-chicken-thighs', recipes: [{ id: 'lemon-chicken-rice', title: { en: '', es: '' } }], checked: false },
       { id: 'b', key: 'parsley', dealId: 'lid-parsley', recipes: [{ id: 'lemon-chicken-rice', title: { en: '', es: '' } }], checked: true },
       { id: 'c', key: 'potato', dealId: 'car-potatoes', recipes: [{ id: 'spanish-tortilla', title: { en: '', es: '' } }], checked: false },
-    ]);
+    ], findDemo);
     expect(summary.totalCents).toBe(629);
     expect(summary.savingsCents).toBe(200);
     expect(summary.dishCount).toBe(2);
@@ -105,7 +106,7 @@ describe('summarizeList', () => {
   it('groups items without a deal under "not on sale"', () => {
     const summary = summarizeList([
       { id: 'a', key: 'soy sauce', dealId: null, recipes: [{ id: 'veggie-fried-rice', title: { en: '', es: '' } }], checked: false },
-    ]);
+    ], findDemo);
     expect(summary.groups).toHaveLength(1);
     expect(summary.groups[0].chain).toBeNull();
     expect(summary.storeCount).toBe(0);

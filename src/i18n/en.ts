@@ -191,6 +191,9 @@ export const en = {
   'deals.stores': 'Filter by store',
   'deals.all': 'All',
   'deals.cta': 'Cook something from these deals',
+  'deals.pricesOn': 'Prices {date}',
+  'deals.subtitleReal': "Real prices from the stores' websites on {date} · Demo = example",
+  'deals.demoTag': 'Demo',
 
   'list.title': 'Shopping list',
   'list.summary': 'For {dishes} · {items} · {stores}',
@@ -233,7 +236,7 @@ export const en = {
   'about.recipes': 'Live recipe search: Spoonacular API',
   'about.cocktails': 'Cocktail data and imagery: TheCocktailDB',
   'about.ai': 'Photo recognition and AI chef: Google Gemini API',
-  'about.deals': 'Supermarket deals: demo data',
+  'about.deals': "Supermarket prices: snapshot of the stores' public websites (Mercadona, ALDI), plus example deals marked Demo",
   'about.own': 'Preset photos, illustrations and preset recipes: PlatoListo',
   'about.privacy': 'Privacy',
   'about.privacyPhotos': "Photos are sent to an AI service for recognition. Don't upload personal photos.",

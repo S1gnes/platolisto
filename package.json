@@ -14,7 +14,8 @@
     "build:cocktails": "node scripts/build-cocktails.mjs",
     "precompute": "node scripts/precompute-presets.mjs",
     "test:e2e": "playwright test",
-    "build:icons": "node scripts/build-icons.mjs"
+    "build:icons": "node scripts/build-icons.mjs",
+    "fetch:deals": "node scripts/fetch-deals.mjs"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.3.0",
