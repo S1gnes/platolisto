@@ -78,6 +78,13 @@ Approved by the owner on 2026-10-28:
 - **PWA.** A manifest and icons only. Rejected: a service worker. A demo that gets fixed right before the talk shouldn't risk phones showing a cached old version.
 - **CI.** GitHub Actions type-checks, runs the unit tests, builds with the optional `WORKER_URL` variable and deploys to Pages. Playwright runs locally (`npm run test:e2e`), so a flaky browser test can't block a deploy.
 
+## Models after live testing (2026-11-07)
+
+With real keys, `gemini-3.8-flash` was overloaded: a 503 on stream, and a photo request hanging for 171 s. `gemini-3.5-flash-lite` detected the same 8 items with matching boxes in about 3 s. Changes:
+
+- Every model call now has a 20-second timeout. A hung model counts as a 504, and the next model is tried.
+- Default models: `gemini-3.5-flash-lite` for vision, chat and translation; `gemini-3.1-flash-lite` as the fallback.
+
 ## Git identity
 
 Commits use the GitHub no-reply address of the owner's account, so a personal email is not published in a public repository.

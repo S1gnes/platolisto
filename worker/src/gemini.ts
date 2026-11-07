@@ -41,13 +41,29 @@ export function simplifyConfig(config: Record<string, unknown> | undefined): Rec
   return rest;
 }
 
-export function callModel(env: Env, model: string, body: GeminiRequest, stream = false): Promise<Response> {
+/** Free-tier models can hang for minutes under load; give up and try the next one instead. */
+export const MODEL_TIMEOUT_MS = 20_000;
+
+export async function callModel(env: Env, model: string, body: GeminiRequest, stream = false): Promise<Response> {
   const method = stream ? 'streamGenerateContent?alt=sse' : 'generateContent';
-  return fetch(`${API}/${encodeURIComponent(model)}:${method}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY ?? '' },
-    body: JSON.stringify(body),
-  });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), MODEL_TIMEOUT_MS);
+  try {
+    const response = await fetch(`${API}/${encodeURIComponent(model)}:${method}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY ?? '' },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+    // A stream only has to start in time; once it does, let it run.
+    if (stream) clearTimeout(timer);
+    else await response.clone().arrayBuffer();
+    return response;
+  } catch {
+    return new Response(null, { status: 504 });
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 /**
