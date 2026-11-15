@@ -171,6 +171,26 @@ Three colours, each with one job. Everything else is white, grey lines and the f
 
 Playwright now walks three flows with the network blocked (example fridge, a deal to its dishes, a typed list) and audits every screen. axe's own 24 px target rule is off, because it misfires on a control that sits half under the sticky tab bar; the 44 px check is stricter.
 
+### Live check after publishing (2026-11-15)
+
+With the owner's go-ahead, the live services were tried once each on the published site, with drawn test images and no real photos.
+
+| Check | Result |
+|---|---|
+| Fridge photo | 8 items with boxes in the right places. It took 15 to 30 seconds. |
+| Online recipes | 11 Spoonacular dishes in about 2 seconds; the recipe page shows deals, totals and both credits. |
+| AI chef | Answer in about 6 seconds, using the recipe and what is missing. |
+| Spanish | Titles translated in one request. The full recipe failed once, then worked when opened again. |
+| Bottle photo | 4 labelled bottles found, 2 drinks offered. It took 10 to 20 seconds. |
+
+What changed because of it:
+
+- **Translation is retried once** after a failure that usually passes (a busy model, an answer in the wrong shape). Before, one failed request left the recipe in English until it was opened again. Timeouts, quota and offline errors are not retried.
+- **The waiting text says how long it can take** ("This can take up to half a minute."). Recognition is slow when the first model times out after 20 seconds and the fallback answers.
+- **A count of one is not shown.** The model returns "1" for single items, which gave "Cheese ×1" on every chip and box.
+
+Rejected: retrying photo recognition automatically. A second try would double a wait that is already long, and taking another photo is one tap.
+
 ## Git identity
 
 Commits use the GitHub no-reply address of the owner's account, so a personal email is not published in a public repository.

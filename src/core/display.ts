@@ -20,9 +20,9 @@ export function typedLabel(text: string): { en: string; es: string } {
   return { en: name, es: name };
 }
 
-/** " ×4" for counts, ", 500 g" for anything else. */
+/** " ×4" for counts, ", 500 g" for anything else. A single item needs no count. */
 export function qtySuffix(qty: string | undefined): string {
   const value = qty?.trim();
-  if (!value) return '';
+  if (!value || value === '1') return '';
   return /^\d+$/.test(value) ? ` ×${value}` : `, ${value}`;
 }

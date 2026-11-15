@@ -149,8 +149,28 @@ export async function streamChat(
   if (!received && !signal?.aborted) throw new ApiError('bad_response');
 }
 
-export async function translateTexts(texts: string[]): Promise<string[]> {
-  const data = await readJson<{ translations?: string[] }>(await post('/translate', { texts }, 30_000));
-  if (!Array.isArray(data.translations) || data.translations.length !== texts.length) throw new ApiError('bad_response');
-  return data.translations;
+/** Failures that usually pass on a second try: a busy model, or an answer in the wrong shape. */
+const WORTH_RETRYING: ApiErrorCode[] = ['upstream', 'bad_response', 'rate_limited'];
+
+/** Run once more after a short pause when the first try fails for a passing reason. */
+export async function withRetry<T>(run: () => Promise<T>, pauseMs = 1200): Promise<T> {
+  try {
+    return await run();
+  } catch (error) {
+    if (!WORTH_RETRYING.includes(errorCode(error))) throw error;
+    await new Promise((resolve) => setTimeout(resolve, pauseMs));
+    return run();
+  }
+}
+
+/**
+ * English to Spanish. Retried once: on the free tier a translation fails now and then, and without
+ * the retry the recipe would stay in English until it is opened again.
+ */
+export function translateTexts(texts: string[]): Promise<string[]> {
+  return withRetry(async () => {
+    const data = await readJson<{ translations?: string[] }>(await post('/translate', { texts }, 30_000));
+    if (!Array.isArray(data.translations) || data.translations.length !== texts.length) throw new ApiError('bad_response');
+    return data.translations;
+  });
 }
