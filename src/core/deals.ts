@@ -39,8 +39,14 @@ export function dealById(id: string | null | undefined): Deal | undefined {
   return id ? byId.get(id) : undefined;
 }
 
+/** Sizes are stored the way Spanish stores print them: "0,33 l", "400 g peso esc.". */
+export function sizeText(size: string, lang: Lang): string {
+  if (lang === 'es') return size;
+  return size.replace(/(\d),(\d)/g, '$1.$2').replace(/\s*peso esc\.?/i, ' drained');
+}
+
 /** "Chicken thighs 1 kg", "Fresh parsley". */
 export function dealName(deal: Deal, lang: Lang): string {
   const name = deal.name[lang] || deal.name.en;
-  return deal.size ? `${name} ${deal.size}` : name;
+  return deal.size ? `${name} ${sizeText(deal.size, lang)}` : name;
 }

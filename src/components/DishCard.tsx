@@ -1,68 +1,80 @@
-import { useState, type CSSProperties } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router';
 import { PlateArt } from '../art/PlateArt';
 import type { RankedDish } from '../core/rank';
 import { useT } from '../i18n';
 import ui from '../styles/ui.module.css';
-import { cx } from './cx';
+import { Icon } from './Icon';
 import s from './DishCard.module.css';
 
-export function DishCard({ dish }: { dish: RankedDish }) {
+interface Props {
+  dish: RankedDish;
+  /** Deal the list was opened from; the recipe keeps using it. */
+  dealId?: string;
+}
+
+export function DishCard({ dish, dealId }: Props) {
   const t = useT();
   const [brokenImage, setBrokenImage] = useState(false);
   const { recipe, analysis, pricing } = dish;
   const have = analysis.used.length;
-  const total = have + analysis.missing.length;
-  const title = t.pick(recipe.title);
+  const missing = analysis.missing.length;
+  const total = have + missing;
 
-  let priceTag: string | null = null;
-  const single = pricing.onSale === 1 && pricing.notOnSale === 0 ? pricing.items.find((item) => item.deal)?.deal : null;
-  if (single) {
-    priceTag = t('dishes.oneDeal', {
-      price: t.price(single.priceCents),
-      chain: single.chain,
-      discount: t('common.discount', { pct: single.discountPct }),
-    });
-  } else if (pricing.onSale > 0) {
-    priceTag = t.plural('dishes.onSale', pricing.onSale, { price: t.price(pricing.totalCents) });
-  }
+  const buyText =
+    pricing.onSale === 0
+      ? t('dishes.toBuyNone', { n: missing })
+      : pricing.notOnSale > 0
+        ? t('dishes.toBuyMixed', { n: missing, sale: pricing.onSale })
+        : t('dishes.toBuy', { n: missing });
 
   return (
-    <Link to={`/recipe/${recipe.id}`} className={s.card}>
+    <Link to={`/recipe/${recipe.id}${dealId ? `?deal=${encodeURIComponent(dealId)}` : ''}`} className={s.card}>
       {recipe.image && !brokenImage ? (
         <img
           className={s.photo}
           src={recipe.image}
           alt=""
-          width={92}
-          height={92}
+          width={88}
+          height={88}
           loading="lazy"
           onError={() => setBrokenImage(true)}
         />
       ) : (
-        <PlateArt recipe={recipe} size={92} />
+        <span className={s.plate}>
+          <PlateArt recipe={recipe} size={80} />
+        </span>
       )}
       <span className={s.body}>
-        <span className={s.title}>{title}</span>
-        <span className={s.meta}>
-          {t('common.minutes', { n: recipe.minutes })} · {t.plural('common.servings', recipe.servings)}
-        </span>
-        <span className={s.have} aria-label={t('dishes.haveLabel', { have, total })} role="img">
-          <span className={s.bar} style={{ '--have': `${total ? (have / total) * 100 : 0}%` } as CSSProperties} />
+        <span className={s.title}>{t.pick(recipe.title)}</span>
+        <span className={s.meta}>{t.plural('dish.meta', recipe.servings, { min: recipe.minutes })}</span>
+        <span className={s.have} role="img" aria-label={t('dishes.haveLabel', { have, total })}>
+          {/* One segment per ingredient. */}
+          <span className={s.segments} aria-hidden="true">
+            {Array.from({ length: total }, (_, index) => (
+              <span key={index} className={index < have ? s.on : s.off} />
+            ))}
+          </span>
           <span aria-hidden="true">{t('dishes.have', { have, total })}</span>
         </span>
-        {analysis.missing.length === 0 ? (
-          <span className={s.nothing}>{t('dishes.nothingToBuy')}</span>
+        {missing === 0 ? (
+          <span className={s.nothing}>
+            <Icon name="check" size={16} strokeWidth={2.6} />
+            {t('dishes.nothingToBuy')}
+          </span>
         ) : (
-          <span className={s.tags}>
-            {priceTag && <span className={s.priceTag}>{priceTag}</span>}
-            {pricing.notOnSale > 0 && <span className={s.muted}>{t.plural('dishes.notOnSale', pricing.notOnSale)}</span>}
-            {pricing.sponsoredChains.length > 0 && (
-              <span className={cx(ui.sponsored, s.sponsored)}>
-                {t('common.sponsoredBy', { chain: pricing.sponsoredChains.join(', ') })}
+          <span className={s.buy}>
+            <span>{buyText}</span>
+            {pricing.onSale > 0 && (
+              <span className={ui.priceTag}>
+                <span className="visually-hidden">{t('dishes.costLabel')} </span>
+                {t.price(pricing.totalCents)}
               </span>
             )}
           </span>
+        )}
+        {pricing.sponsoredChains.length > 0 && (
+          <span className={s.sponsored}>{t('common.sponsoredBy', { chain: pricing.sponsoredChains.join(', ') })}</span>
         )}
       </span>
     </Link>

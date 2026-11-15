@@ -1,4 +1,6 @@
 import { useId, useMemo, useRef, useState } from 'react';
+import ui from '../styles/ui.module.css';
+import { cx } from './cx';
 import { Icon } from './Icon';
 import s from './AddIngredient.module.css';
 
@@ -14,13 +16,12 @@ interface Props {
   label: string;
   placeholder: string;
   suggestionsLabel: string;
-  /** Open the text field straight away (type-what-you-have mode). */
-  startOpen?: boolean;
+  /** Focus the field on arrival (the "type what you have" entry). */
+  autoFocus?: boolean;
 }
 
-/** "+ Add" chip that turns into a text field with catalog suggestions. */
-export function AddIngredient({ onAdd, suggest, addText, label, placeholder, suggestionsLabel, startOpen }: Props) {
-  const [open, setOpen] = useState(Boolean(startOpen));
+/** A labelled text field with an Add button; matching catalog names appear below as one-tap chips. */
+export function AddIngredient({ onAdd, suggest, addText, label, placeholder, suggestionsLabel, autoFocus }: Props) {
   const [value, setValue] = useState('');
   const input = useRef<HTMLInputElement>(null);
   const inputId = useId();
@@ -33,15 +34,6 @@ export function AddIngredient({ onAdd, suggest, addText, label, placeholder, sug
     input.current?.focus();
   };
 
-  if (!open) {
-    return (
-      <button type="button" className={s.addBtn} onClick={() => setOpen(true)}>
-        <Icon name="plus" size={14} strokeWidth={2.4} />
-        {addText}
-      </button>
-    );
-  }
-
   return (
     <form
       className={s.form}
@@ -50,33 +42,32 @@ export function AddIngredient({ onAdd, suggest, addText, label, placeholder, sug
         add(value);
       }}
     >
-      <label htmlFor={inputId} className="visually-hidden">
+      <label htmlFor={inputId} className={ui.label}>
         {label}
       </label>
-      <input
-        id={inputId}
-        ref={input}
-        className={s.input}
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
-        placeholder={placeholder}
-        autoComplete="off"
-        autoCapitalize="none"
-        enterKeyHint="done"
-        // The user just asked for the field, so focusing it is expected.
-        autoFocus
-        onKeyDown={(event) => {
-          if (event.key === 'Escape' && !value) setOpen(false);
-        }}
-      />
-      <button type="submit" className={s.submit} aria-label={addText} disabled={!value.trim()}>
-        <Icon name="plus" size={18} strokeWidth={2.4} />
-      </button>
+      <div className={s.field}>
+        <input
+          id={inputId}
+          ref={input}
+          className={s.input}
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+          placeholder={placeholder}
+          autoComplete="off"
+          autoCapitalize="none"
+          enterKeyHint="done"
+          autoFocus={autoFocus}
+        />
+        <button type="submit" className={cx(ui.btn, ui.secondary, s.submit)} disabled={!value.trim()}>
+          {addText}
+        </button>
+      </div>
       {suggestions.length > 0 && (
         <ul className={s.suggestions} aria-label={suggestionsLabel}>
           {suggestions.map((suggestion) => (
             <li key={suggestion.key}>
-              <button type="button" className={s.suggestion} onClick={() => add(suggestion.name)}>
+              <button type="button" className={ui.chip} onClick={() => add(suggestion.name)}>
+                <Icon name="plus" size={16} strokeWidth={2.2} />
                 {suggestion.name}
               </button>
             </li>

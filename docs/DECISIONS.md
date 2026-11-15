@@ -31,7 +31,7 @@ Approved by the owner on 2026-10-28:
 - **State:** Zustand with the `persist` middleware. Storage goes through a wrapper that catches every localStorage error and falls back to memory, so private windows work. Photos are never persisted.
 - **i18n:** a small typed dictionary instead of i18next. `es.ts` is typed against `en.ts`, so a missing Spanish string fails the type check. Plurals use `Intl.PluralRules`, prices use `Intl.NumberFormat` (`en-IE`, `es-ES`).
 - **Styling:** CSS Modules and CSS variables for the design tokens. Tailwind was not needed.
-- **Fonts:** self-hosted with @fontsource (latin subsets of Fraunces 500/600 and DM Sans 400–700).
+- **Fonts:** self-hosted with @fontsource. One variable family, Archivo, with its weight and width axes (see "Redesign" below).
 
 ## Matching rules
 
@@ -66,7 +66,7 @@ Approved by the owner on 2026-10-28:
   - Matching runs offline on the bundled TheCocktailDB data with its own small catalog of bar synonyms and Spanish names.
   - Ice, water, garnishes and salt rims are optional. A generic bottle covers a specific one (rum → white rum), and fruit covers its juice.
   - "Almost" drinks are one or two ingredients away.
-  - "Try a sample bar" loads the mockup's bar, so the demo works without a camera or network.
+  - "Use an example bar" loads the mockup's bar, so the demo works without a camera or network.
 - **Drink times** are estimated (TheCocktailDB has none): 2 minutes, plus 2 for more than three ingredients, plus 1 for muddling, 1 for shaking and 2 for blending.
 - **Dataset size.** About 300 KB of JSON in its own chunk, loaded only by bartender mode. Rejected: calling TheCocktailDB live (its multi-ingredient filter is premium-only).
 
@@ -104,11 +104,72 @@ Rules the script follows:
 
 - **No workarounds.** A bot challenge means the chain is skipped. Mercadona's category pages are read with a 150 ms pause between requests. The script runs by hand before a demo, not on a schedule.
 - **Strict matching.** Product names lead with the ingredient in Spanish, so only the first one to four words may exactly equal a catalog name or alias. Ready-made products ("patatas fritas sabor…", "bebida sabor limón", "crema de cacao") are filtered out. An earlier fuzzy version turned "Rocas de cacahuete y chocolate con leche" into milk.
-- **Snapshot plus demo.** Real deals come first. For ingredients no store had on offer, the brief's example deals stay in, marked `demo` and tagged "Demo" in the app, so the recipes still have something to buy. The Deals screen shows the snapshot date.
+- **Snapshot plus demo.** Real deals come first. For ingredients no store had on offer, the brief's example deals stay in, marked `demo` and tagged "Example price" in the app, so the recipes still have something to buy. The Deals screen shows the snapshot date.
 - **Sponsorship stays a demo.** No real chain pays PlatoListo, so only demo deals can be sponsored.
 - **Tests don't depend on this week's prices.** Unit tests use `src/data/deals-demo.json` (the brief's fixed set). The app uses `src/data/deals.json`, with `src/data/deals-meta.json` recording what each chain returned.
 
 The stores' terms generally forbid automated collection. This is a one-off, low-volume snapshot for a university demo, and the owner accepted that trade-off. Don't run it as a service.
+
+## Redesign (2026-11-15)
+
+The owner asked for a more serious and simpler design that does not look like a generated template, and for the app to be easier to use. This replaces the visual part of the brief (the cream and terracotta tokens, Fraunces and DM Sans, the mockups' layout) and all the interface copy. The features and the business model are unchanged.
+
+### Look
+
+Three colours, each with one job. Everything else is white, grey lines and the food photos.
+
+| Token | Value | Job |
+|---|---|---|
+| `--ink` | `#17191A` | Acts: text, buttons, the selected state |
+| `--tag` | `#FFD60A` | Money: the price label of anything with a deal, the Plus tag, the count of things left to buy |
+| `--ok` | `#0B6B45` | What you already have, and what you save |
+| `--bg` / `--fill` | `#FFFFFF` / `#F2F4F2` | Page, and quiet fills for icons and messages |
+| `--muted` | `#5A6360` | Secondary text |
+| `--line` / `--line-strong` | `#E1E4E1` / `#8A938E` | Hairlines between rows; borders of controls |
+
+- **One typeface:** Archivo (variable, self-hosted). Its narrow, heavy cut is used only for prices on a yellow label, like a shelf label in a shop. That label is the one loud element.
+- **Lists, not cards.** Rows divided by hairlines. A box is used only for a separate object: the photo, the saved ingredients, an input, a dialog.
+- **Plain chrome.** Sentence case everywhere, no capital-letter labels, no decorative shapes, no dots between facts. Text is at least 13 px (12 px only on the photo's box labels and the tab badge).
+- **Bartender mode** keeps the dark theme the brief asks for: the same tokens, inverted.
+- **Logo:** a plate with a tick ("plato listo") on the label yellow, used for the favicon and the home-screen icons too.
+
+### Copy
+
+- Plain words, and a button says what it does ("Add 2 to list", "See dishes").
+- One word per thing: "deal" everywhere (not "offer", "on sale" and "discount" mixed).
+- Errors say what happened and what to do next. They don't apologise.
+- The "Demo" tag on sample deals became "Example price", which says what is not real.
+- Kept exactly as the brief has them: "Sponsored", "Unlock Plus (demo)", the "AI chef" name, the camera note on the ingredients screen and the 18+ line.
+- The Plus price is still not invented. The paywall says "The monthly price is not decided yet." until `plusPriceEur` is set.
+
+### Use
+
+- **Home:** one question and three ways in. With ingredients saved, they sit on top with a "See dishes" button. Below are the three biggest discounts you can cook with.
+- **Ingredients:** the add field is always visible. When typing, ten common ingredients are one-tap toggles (they don't move as you pick them). "Take a photo" is a full-width button, and the three presets are labelled as example fridges.
+- **Dishes:** one segment per ingredient shows how much you have. The cost is "N to buy" plus the price label.
+- **Recipe:** every step is in one numbered list (it was one step at a time). The total and the saving are under the list of things to buy.
+- **Deals:** a list instead of a grid. A deal opens the dishes that use the product, and the recipe then keeps that deal for its ingredient even when another store is cheaper (`pinDeal`), so what you tapped is what you see.
+- **Messages** appear at the top, clear of the action bars at the bottom.
+- English sizes use a decimal point ("0.33 l"); Spanish keeps the stores' own wording.
+
+### Changed against the brief
+
+- Design tokens and fonts (above).
+- Home: no greeting; "Hot deals near you" strip became three rows titled "This week's deals" (still no city name).
+- Deals: list instead of a 2-column grid.
+- Recipe: full step list instead of a pager.
+- The "Step 1 of 2" counters and the preset thumbnails are gone.
+
+### Rejected
+
+- **Tuning the cream and terracotta look.** It is the look the owner asked to remove.
+- **A green main colour.** It reads as one of the chains (Mercadona), and the app compares chains. Green would also mean both "press this" and "you have this".
+- **System fonts.** The app would look different on every phone in the room.
+- **An offline banner.** Phones on weak Wi-Fi flip between online and offline; the messages already say so at the moment something needs the network.
+
+### Tests
+
+Playwright now walks three flows with the network blocked (example fridge, a deal to its dishes, a typed list) and audits every screen. axe's own 24 px target rule is off, because it misfires on a control that sits half under the sticky tab bar; the 44 px check is stricter.
 
 ## Git identity
 

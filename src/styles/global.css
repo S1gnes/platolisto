@@ -14,11 +14,19 @@ body {
   min-height: 100dvh;
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-ui);
+  font-family: var(--font);
   font-size: 16px;
-  line-height: 1.4;
+  line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Wider than a phone: the app is a white column on a grey ground. */
+@media (min-width: 540px) {
+  html,
+  body {
+    background: var(--backdrop);
+  }
 }
 
 h1,
@@ -49,15 +57,8 @@ button {
 }
 
 a {
-  color: var(--accent);
-}
-
-a:hover {
-  color: var(--primary-hover);
-}
-
-:root[data-theme='bar'] a:hover {
-  color: #f7d57f;
+  color: var(--ink);
+  text-underline-offset: 3px;
 }
 
 svg {
@@ -65,7 +66,7 @@ svg {
 }
 
 :focus-visible {
-  outline: 3px solid var(--focus);
+  outline: 3px solid var(--ink);
   outline-offset: 2px;
 }
 

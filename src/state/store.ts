@@ -24,7 +24,10 @@ export const defaultPrefs: Prefs = {
 export interface ListEntry {
   key: string;
   dealId: string | null;
-  recipe: { id: string; title: Localized };
+  /** The dish the item is for. Left out when you add an item to the list yourself. */
+  recipe?: { id: string; title: Localized };
+  /** Name as typed, for items that are not in the catalog. */
+  label?: Localized;
 }
 
 interface ScanState {
@@ -56,7 +59,7 @@ export interface AppState extends PersistedState {
   addInventoryItem: (item: InventoryItem) => void;
   removeInventoryItem: (id: string) => void;
   updateInventoryItem: (id: string, patch: Partial<InventoryItem>) => void;
-  /** Adds missing ingredients to the shopping list. Returns how many new rows were created. */
+  /** Adds items to the shopping list, one row per ingredient. Returns how many new rows were created. */
   addToList: (entries: ListEntry[]) => number;
   toggleListItem: (id: string) => void;
   removeCheckedItems: () => void;
@@ -121,14 +124,16 @@ export const useApp = create<AppState>()(
         for (const entry of entries) {
           const existing = list.find((item) => item.key === entry.key);
           if (existing) {
-            if (!existing.recipes.some((r) => r.id === entry.recipe.id)) existing.recipes.push(entry.recipe);
+            const recipe = entry.recipe;
+            if (recipe && !existing.recipes.some((r) => r.id === recipe.id)) existing.recipes.push(recipe);
             continue;
           }
           list.push({
             id: `${entry.key}:${entry.dealId ?? 'none'}`,
             key: entry.key,
             dealId: entry.dealId,
-            recipes: [entry.recipe],
+            recipes: entry.recipe ? [entry.recipe] : [],
+            label: entry.label,
             checked: false,
           });
           added += 1;

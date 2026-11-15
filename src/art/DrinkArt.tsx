@@ -43,10 +43,10 @@ const DRINKS: Record<string, ReactNode> = {
 
 export type DrinkStyle = keyof typeof DRINKS;
 
-export function DrinkArt({ style, muted }: { style: DrinkStyle; muted?: boolean }) {
+export function DrinkArt({ style }: { style: DrinkStyle }) {
   return (
-    <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true">
-      <rect width="52" height="52" rx="14" fill={muted ? '#3B3024' : '#4A3D2F'} />
+    <svg width="56" height="56" viewBox="0 0 52 52" aria-hidden="true">
+      <rect width="52" height="52" rx="7.5" fill="#34393B" />
       {DRINKS[style]}
     </svg>
   );

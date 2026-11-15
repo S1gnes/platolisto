@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { recipeById } from '../data/recipes';
-import { toDeal } from './deals';
+import { sizeText, toDeal } from './deals';
 import { DEMO_DEALS as DEALS } from './demoDeals';
-import { analyzeRecipe, bestDeal, costPerServing, isAllowed, priceMissing, related } from './match';
+import { analyzeRecipe, bestDeal, costPerServing, isAllowed, pinDeal, priceMissing, related } from './match';
 import { detectionsToItems, presetById } from './presets';
 import type { DealRecord, Prefs, Recipe } from './types';
 
@@ -137,5 +137,44 @@ describe('isAllowed', () => {
   it('treats halal as no pork and no alcohol', () => {
     expect(isAllowed(recipe('lentils-chorizo'), { ...NO_PREFS, diet: 'halal' })).toBe(false);
     expect(isAllowed(recipe('lemon-chicken-rice'), { ...NO_PREFS, diet: 'halal' })).toBe(true);
+  });
+});
+
+describe('pinDeal', () => {
+  const cheap = deal({ id: 'cheap', price: 1, oldPrice: 2 });
+  const pinned = deal({ id: 'pinned', price: 1.5, oldPrice: 2 });
+  const garlic = deal({ id: 'garlic', ingredientKey: 'garlic', price: 1, oldPrice: 2 });
+
+  it('makes the pinned deal the one used, even when another is cheaper', () => {
+    const deals = pinDeal([cheap, pinned, garlic], pinned);
+    expect(bestDeal('onion', deals)?.id).toBe('pinned');
+  });
+
+  it('leaves the deals for other ingredients alone', () => {
+    const deals = pinDeal([cheap, pinned, garlic], pinned);
+    expect(bestDeal('garlic', deals)?.id).toBe('garlic');
+  });
+
+  it('also replaces deals for variants of the same ingredient', () => {
+    const cheese = deal({ id: 'cheese', ingredientKey: 'cheese', price: 3, oldPrice: 4 });
+    const manchego = deal({ id: 'manchego', ingredientKey: 'manchego', price: 2, oldPrice: 4 });
+    expect(bestDeal('manchego', pinDeal([cheese, manchego], cheese))?.id).toBe('cheese');
+  });
+
+  it('changes nothing without a pinned deal', () => {
+    expect(pinDeal(DEALS, null)).toBe(DEALS);
+  });
+});
+
+describe('sizeText', () => {
+  it('keeps the size as the Spanish store printed it', () => {
+    expect(sizeText('0,33 l', 'es')).toBe('0,33 l');
+    expect(sizeText('400 g peso esc.', 'es')).toBe('400 g peso esc.');
+  });
+
+  it('uses a decimal point and plain words in English', () => {
+    expect(sizeText('1,5 kg', 'en')).toBe('1.5 kg');
+    expect(sizeText('400 g peso esc.', 'en')).toBe('400 g drained');
+    expect(sizeText('×12', 'en')).toBe('×12');
   });
 });

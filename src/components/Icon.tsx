@@ -32,7 +32,6 @@ const PATHS = {
   close: <path d="M6 6l12 12M18 6L6 18" />,
   plus: <path d="M12 5v14M5 12h14" />,
   minus: <path d="M5 12h14" />,
-  arrowRight: <path d="M5 12h14M13 6l6 6-6 6" />,
   share: <path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5" />,
   chef: (
     <>
@@ -57,12 +56,6 @@ const PATHS = {
     <>
       <path d="M20 11a8 8 0 1 0-2.3 5.7" />
       <path d="M20 4v7h-7" />
-    </>
-  ),
-  info: (
-    <>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 11v5M12 8h.01" />
     </>
   ),
   send: <path d="M4 12l16-8-6 16-2.5-6.5z" />,

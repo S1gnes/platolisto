@@ -193,7 +193,7 @@ export function PlateArt({ recipe, size, label }: Props) {
       aria-label={label}
       aria-hidden={label ? undefined : true}
     >
-      <circle cx="50" cy="50" r="48" fill="#FFFFFF" stroke="#E2D3BF" strokeWidth="2" />
+      <circle cx="50" cy="50" r="48" fill="#FFFFFF" stroke="#D5D9D6" strokeWidth="2" />
       {content}
     </svg>
   );

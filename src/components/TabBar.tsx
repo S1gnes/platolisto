@@ -20,19 +20,23 @@ export function TabBar({ action }: { action?: ReactNode }) {
     <div className={s.dock}>
       {action && <div className={s.action}>{action}</div>}
       <nav aria-label={t('tabs.label')} className={s.bar}>
-        {TABS.map((tab) => (
-          <NavLink key={tab.to} to={tab.to} end={tab.to === '/'} className={s.tab}>
-            <span className={s.iconWrap}>
-              <Icon name={tab.icon} />
-              {tab.to === '/list' && open > 0 && (
-                <span className={s.badge} aria-hidden="true">
-                  {open}
-                </span>
-              )}
-            </span>
-            <span>{t(tab.label)}</span>
-          </NavLink>
-        ))}
+        {TABS.map((tab) => {
+          const count = tab.to === '/list' ? open : 0;
+          return (
+            <NavLink key={tab.to} to={tab.to} end={tab.to === '/'} className={s.tab}>
+              <span className={s.iconWrap}>
+                <Icon name={tab.icon} />
+                {count > 0 && (
+                  <span className={s.badge} aria-hidden="true">
+                    {count}
+                  </span>
+                )}
+              </span>
+              <span>{t(tab.label)}</span>
+              {count > 0 && <span className="visually-hidden">, {t.plural('tabs.listCount', count)}</span>}
+            </NavLink>
+          );
+        })}
       </nav>
     </div>
   );

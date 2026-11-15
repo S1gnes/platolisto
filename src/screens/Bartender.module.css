@@ -9,118 +9,42 @@
 .header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px var(--gutter) 4px 12px;
-}
-
-.plus {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: #2a2118;
-  background: var(--accent);
-  padding: 4px 8px;
-  border-radius: 8px;
+  gap: 8px;
+  padding: 8px var(--gutter) 0 6px;
 }
 
 .age {
   margin-left: auto;
-  font-size: 12px;
+  color: var(--ink);
   font-weight: 700;
-  border: 1px solid var(--line);
-  padding: 4px 8px;
-  border-radius: 8px;
 }
 
 .intro {
-  padding: 12px var(--gutter) 0;
-}
-
-.title {
-  font-family: var(--font-display);
-  font-size: 32px;
-  line-height: 1.1;
-  font-weight: 500;
-  letter-spacing: -0.015em;
-}
-
-.subtitle {
-  margin-top: 6px;
-  font-size: 14px;
-  color: var(--muted);
+  padding: 8px var(--gutter) 0;
 }
 
 .section {
-  padding: 18px var(--gutter) 0;
-}
-
-.barHead {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-.eyebrow {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.scan {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 44px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: var(--radius-pill);
-  background: var(--accent);
-  color: #2a2118;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.scan:disabled {
-  opacity: 0.6;
-}
-
-.status {
-  margin-bottom: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--accent);
-}
-
-.notice {
-  margin-bottom: 10px;
-  padding: 10px 12px;
-  border-radius: 14px;
-  background: var(--surface);
-  font-size: 14px;
-  line-height: 1.4;
+  padding: 28px var(--gutter) 0;
 }
 
 .chips {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 12px;
 }
 
 .chip {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  border-radius: var(--radius-pill);
-  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--line-strong);
 }
 
 .chipLabel {
-  padding: 0 2px 0 14px;
-  font-size: 14px;
+  padding: 0 4px 0 14px;
+  font-size: 15px;
   font-weight: 500;
 }
 
@@ -128,7 +52,7 @@
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
   background: transparent;
   color: var(--muted);
   display: inline-flex;
@@ -137,42 +61,51 @@
 }
 
 .remove:hover {
-  color: var(--accent);
+  background: var(--fill);
+  color: var(--ink);
 }
 
-.addItem {
-  display: flex;
-  max-width: 100%;
+.remove:focus-visible {
+  outline-offset: -3px;
 }
 
 .empty {
-  margin-top: 14px;
-  padding: 16px;
-  border-radius: var(--radius-card-sm);
-  border: 1px dashed var(--line);
+  margin-top: 8px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  font-size: 14px;
+  gap: 14px;
+  font-size: 15px;
   line-height: 1.45;
   color: var(--muted);
 }
 
-.mixTitle {
-  margin-bottom: 10px;
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 500;
+.adder {
+  margin-top: 20px;
+}
+
+.scan {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.status {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.notice {
+  margin-top: 10px;
 }
 
 .almostTitle {
-  margin: 18px 0 10px;
+  margin-top: 28px;
 }
 
 .drinks {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  margin-top: 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .drink {
@@ -180,30 +113,24 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 12px;
+  padding: 12px 0;
   border: 0;
-  border-radius: var(--radius-card-sm);
-  background: var(--surface);
+  background: transparent;
   color: var(--ink);
   text-align: left;
 }
 
 .drink:hover {
-  filter: brightness(1.06);
-}
-
-.almost {
-  background: transparent;
-  border: 1px dashed var(--line);
+  background: var(--fill);
 }
 
 .thumb {
   flex: 0 0 auto;
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
   object-fit: cover;
-  background: var(--tile);
+  background: var(--fill);
 }
 
 .drinkText {
@@ -211,54 +138,47 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .drinkName {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 600;
 }
 
 .drinkMeta {
-  margin-top: 2px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.35;
   color: var(--muted);
 }
 
-.coverage {
+.coverage,
+.coverageAlmost {
   flex: 0 0 auto;
-  font-size: 12px;
-  font-weight: 700;
-  color: #2a2118;
-  background: var(--ok);
-  padding: 4px 8px;
-  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.coverage {
+  color: var(--ok);
 }
 
 .coverageAlmost {
-  flex: 0 0 auto;
-  font-size: 12px;
-  font-weight: 700;
-  border: 1px solid var(--line);
-  padding: 3px 8px;
-  border-radius: var(--radius-pill);
+  color: var(--muted);
 }
 
 .footer {
   margin: auto var(--gutter) 0;
-  padding: 24px 0 max(24px, env(safe-area-inset-bottom));
-  font-size: 12px;
+  padding: 32px 0 max(24px, env(safe-area-inset-bottom));
+  font-size: 14px;
   line-height: 1.5;
   color: var(--muted);
   text-align: center;
 }
 
-.dialog {
-  background: var(--surface);
-}
-
 .dialogText {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.45;
   color: var(--muted);
 }
@@ -267,17 +187,6 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.ghost {
-  background: transparent;
-  color: var(--ink);
-  border: 1px solid var(--line);
-}
-
-.ghost:hover {
-  border-color: var(--ink);
-  color: var(--ink);
 }
 
 .detail {
@@ -293,12 +202,20 @@
   gap: 14px;
 }
 
+.detailFacts {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
 .photo {
   width: 96px;
   height: 96px;
-  border-radius: 18px;
+  border-radius: var(--radius);
   object-fit: cover;
-  background: var(--tile);
+  background: var(--fill);
 }
 
 .ingredients {
@@ -311,10 +228,11 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .okDot,
+.optDot,
 .missDot {
   flex: 0 0 auto;
   width: 22px;
@@ -327,12 +245,17 @@
 
 .okDot {
   background: var(--ok);
-  color: #2a2118;
+  color: var(--bg);
+}
+
+.optDot {
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
 }
 
 .missDot {
-  border: 1px solid var(--accent);
-  color: var(--accent);
+  border: 1px solid var(--ink);
+  color: var(--ink);
 }
 
 .ingredientName {
@@ -346,15 +269,21 @@
 
 .measure {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 14px;
   text-align: right;
 }
 
 .method {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
 .credit {
-  font-size: 12px;
+  font-size: 14px;
+}
+
+.credit a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }

@@ -15,9 +15,9 @@ export function Onboarding() {
   return (
     <main className={s.page}>
       <div className={s.content}>
-        <Logo size={22} />
-        <h1 className={s.title}>{t('prefs.title')}</h1>
-        <p className={s.subtitle}>{t('prefs.subtitle')}</p>
+        <Logo />
+        <h1 className={cx(ui.pageTitle, s.title)}>{t('prefs.title')}</h1>
+        <p className={ui.subtitle}>{t('prefs.subtitle')}</p>
         <div className={s.form}>
           <PrefsForm />
         </div>

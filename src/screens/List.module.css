@@ -2,94 +2,85 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  padding-bottom: 20px;
 }
 
 .head {
   padding: 20px var(--gutter) 0;
 }
 
-.summary {
-  margin: 16px var(--gutter) 0;
-  padding: 16px;
-  border-radius: var(--radius-card);
-  background: var(--olive);
-  color: var(--on-primary);
+/* The money summary reads like the foot of a receipt. */
+.totals {
+  margin: 18px var(--gutter) 0;
+  padding: 14px 0;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--line);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.summaryLabel {
-  font-size: 13px;
-  color: var(--on-olive-soft);
+.total,
+.saved {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-variant-numeric: tabular-nums;
 }
 
 .total {
-  font-family: var(--font-display);
-  font-size: 30px;
+  font-size: 17px;
   font-weight: 600;
+}
+
+.totalValue {
+  font-size: 24px;
+  font-weight: 700;
   line-height: 1.1;
 }
 
-.saveBox {
-  text-align: right;
-}
-
 .saved {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--saffron);
+  font-size: 15px;
 }
 
 .groups {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 18px var(--gutter) 0;
+  gap: 24px;
+  padding: 24px var(--gutter) 0;
 }
 
 .groupHead {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 8px;
-}
-
-.noMargin {
-  margin: 0;
+  gap: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
 }
 
 .subtotal {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
-}
-
-.card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-}
-
-.card li + li {
-  border-top: 1px solid var(--line-soft);
+  font-variant-numeric: tabular-nums;
 }
 
 .row {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 56px;
-  padding: 12px 14px;
+  min-height: 60px;
+  padding: 10px 0;
   cursor: pointer;
 }
 
 .check {
   flex: 0 0 auto;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   margin: 0;
-  accent-color: var(--olive);
+  accent-color: var(--ink);
   cursor: pointer;
 }
 
@@ -98,68 +89,56 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .name {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
+  line-height: 1.25;
 }
 
 .dish {
-  margin-top: 2px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
 }
 
 .prices {
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  gap: 4px;
 }
 
-.price {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--primary);
-}
-
+/* Bought: struck through and quiet. */
 .checked .name {
   text-decoration: line-through;
   color: var(--muted);
 }
 
 .checked .price {
+  background: var(--fill);
   color: var(--muted);
 }
 
+.adder {
+  margin: 28px var(--gutter) 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
 .clear {
-  padding: 8px var(--gutter) 0;
+  padding: 12px var(--gutter) 0;
 }
 
 .empty {
-  margin: 24px var(--gutter);
-  padding: 24px 20px;
-  border-radius: var(--radius-card);
-  background: var(--surface);
-  border: 1px solid var(--line);
+  margin: 20px var(--gutter);
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.emptyIcon {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  background: var(--tile);
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  gap: 6px;
 }
 
 .empty a {
-  margin-top: 8px;
-  align-self: stretch;
+  margin-top: 14px;
 }

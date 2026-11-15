@@ -1,29 +1,32 @@
 .region {
   position: fixed;
   left: 50%;
-  bottom: calc(96px + env(safe-area-inset-bottom));
+  /* At the top, clear of the action bars and the tab bar at the bottom of every screen. */
+  top: max(10px, env(safe-area-inset-top));
   z-index: 50;
-  width: min(calc(100% - 32px), calc(var(--column-max) - 32px));
+  width: min(calc(100% - 24px), calc(var(--column-max) - 24px));
   transform: translateX(-50%);
   pointer-events: none;
 }
 
+/* Inverted against the page in both themes, so it stands apart from the content. */
 .toast {
   pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 6px 6px 16px;
-  border-radius: var(--radius-btn);
-  background: #2a2118;
-  color: #f6efe4;
-  box-shadow: 0 10px 30px rgba(42, 33, 24, 0.25);
-  animation: pop 0.2s ease-out;
+  padding: 4px 4px 4px 16px;
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--on-ink);
+  box-shadow: var(--shadow-raised);
+  animation: pop 0.18s ease-out;
 }
 
 .message {
   flex: 1;
-  font-size: 14px;
+  padding: 8px 0;
+  font-size: 15px;
   font-weight: 500;
   line-height: 1.35;
 }
@@ -33,23 +36,29 @@
   display: inline-flex;
   align-items: center;
   padding: 0 8px;
-  color: var(--saffron);
-  font-size: 14px;
+  color: inherit;
+  font-size: 15px;
   font-weight: 700;
   white-space: nowrap;
 }
 
 .action:hover {
-  color: #f7d57f;
+  color: inherit;
+}
+
+.action:focus-visible,
+.dismiss:focus-visible {
+  outline-color: var(--on-ink);
+  outline-offset: -3px;
 }
 
 .dismiss {
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   background: transparent;
-  color: #b9ac9b;
+  color: inherit;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -57,7 +66,7 @@
 
 @keyframes pop {
   from {
-    transform: translateY(8px);
+    transform: translateY(-8px);
     opacity: 0;
   }
 }

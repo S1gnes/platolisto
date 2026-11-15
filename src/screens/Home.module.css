@@ -8,175 +8,138 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px var(--gutter) 4px;
-}
-
-.intro {
   padding: 12px var(--gutter) 0;
 }
 
-.greeting {
-  font-size: 14px;
-  color: var(--muted);
-}
-
 .title {
-  margin-top: 6px;
-  font-family: var(--font-display);
-  font-size: 34px;
-  line-height: 1.08;
-  font-weight: 500;
-  letter-spacing: -0.015em;
+  padding: 24px var(--gutter) 0;
 }
 
-.actions {
-  padding: 20px var(--gutter) 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+/* What you saved last time */
+.saved {
+  margin: 20px var(--gutter) 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
 }
 
-.scan {
-  position: relative;
-  overflow: hidden;
+.savedCount {
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.savedActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+/* The three ways in: one list, divided by hairlines */
+.starts {
+  margin: 20px var(--gutter) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.start {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 28px;
-  padding: 20px;
-  border-radius: var(--radius-card-lg);
-  background: var(--primary);
-  color: var(--on-primary);
+  align-items: center;
+  gap: 14px;
+  min-height: 76px;
+  padding: 12px 0;
+  color: var(--ink);
   text-decoration: none;
-  transition: background-color 0.15s ease;
 }
 
-.scan:hover {
-  background: var(--primary-hover);
-  color: var(--on-primary);
+.start:hover {
+  background: var(--fill);
+  color: var(--ink);
 }
 
-.scanDeco {
-  position: absolute;
-  right: -36px;
-  top: -36px;
-}
-
-.scanIcon {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: var(--surface);
-  color: var(--primary);
+.startIcon {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--fill);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.scanText {
-  position: relative;
+.startText {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
-.scanTitle {
-  font-family: var(--font-display);
-  font-size: 26px;
-  font-weight: 500;
-}
-
-.scanSub {
-  font-size: 14px;
-  line-height: 1.4;
-  color: var(--on-primary-soft);
-}
-
-.tiles {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.tile {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 14px;
-  min-height: 112px;
-  padding: 16px;
-  border-radius: var(--radius-card);
-  text-decoration: none;
-  font-size: 16px;
+.startTitle {
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.25;
 }
 
-.dealsTile {
-  background: var(--olive);
-  color: var(--on-primary);
+.startSub {
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--muted);
 }
 
-.dealsTile:hover {
-  background: #4b562e;
-  color: var(--on-primary);
+.chevron {
+  color: var(--muted);
 }
 
-.typeTile {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  color: var(--ink);
+/* Nothing saved yet: the photo is the one filled block on the screen. */
+.mainStart {
+  margin: 20px var(--gutter) 0;
 }
 
-.typeTile:hover {
-  border-color: var(--line-strong);
-  color: var(--ink);
+.mainStart + .starts {
+  margin-top: 8px;
+  border-top: 0;
 }
 
-.hot {
-  padding: 20px 0 16px;
+.startMain {
+  padding: 14px;
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--on-ink);
 }
 
-.hotHead {
+.startMain:hover {
+  background: color-mix(in srgb, var(--ink) 84%, var(--bg));
+  color: var(--on-ink);
+}
+
+.startMain .startIcon {
+  background: var(--tag);
+  color: var(--on-tag);
+}
+
+.startMain .startSub,
+.startMain .chevron {
+  color: color-mix(in srgb, var(--on-ink) 78%, var(--ink));
+}
+
+/* The top deals, as the same rows the deals screen uses */
+.deals {
+  padding: 28px 0 20px;
+}
+
+.dealsHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   padding: 0 var(--gutter);
 }
 
-.hotTitle {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.seeAll {
-  min-height: 48px;
-  min-width: 48px;
-  padding: 0 4px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-end;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.strip {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  padding: 4px var(--gutter) 8px;
-  scroll-snap-type: x proximity;
-  scroll-padding-inline: var(--gutter);
-  scrollbar-width: none;
-}
-
-.strip::-webkit-scrollbar {
-  display: none;
-}
-
-.strip > li {
-  flex: 0 0 148px;
-  scroll-snap-align: start;
+.dealList {
+  margin-top: 4px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }

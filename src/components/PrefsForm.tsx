@@ -3,7 +3,6 @@ import { ALLERGIES, DIETS, LOVES } from '../core/types';
 import { useT } from '../i18n';
 import { useApp } from '../state/store';
 import ui from '../styles/ui.module.css';
-import { cx } from './cx';
 import s from './PrefsForm.module.css';
 
 /** Food preference controls, shared by onboarding and the profile. */
@@ -19,13 +18,14 @@ export function PrefsForm() {
   return (
     <div className={s.form}>
       <fieldset className={s.group}>
-        <legend className={ui.eyebrow}>{t('prefs.allergies')}</legend>
+        <legend className={ui.label}>{t('prefs.allergies')}</legend>
+        <p className={ui.note}>{t('prefs.allergiesHint')}</p>
         <div className={ui.chips}>
           {ALLERGIES.map((allergy) => (
             <button
               key={allergy}
               type="button"
-              className={cx(ui.chip, ui.chipPrimary)}
+              className={ui.chip}
               aria-pressed={prefs.allergies.includes(allergy)}
               onClick={() => toggleAllergy(allergy)}
             >
@@ -36,13 +36,13 @@ export function PrefsForm() {
       </fieldset>
 
       <fieldset className={s.group}>
-        <legend className={ui.eyebrow}>{t('prefs.diet')}</legend>
+        <legend className={ui.label}>{t('prefs.diet')}</legend>
         <div className={ui.chips}>
           {DIETS.map((diet) => (
             <button
               key={diet}
               type="button"
-              className={cx(ui.chip, ui.chipOlive)}
+              className={ui.chip}
               aria-pressed={prefs.diet === diet}
               onClick={() => setDiet(diet)}
             >
@@ -53,13 +53,14 @@ export function PrefsForm() {
       </fieldset>
 
       <fieldset className={s.group}>
-        <legend className={ui.eyebrow}>{t('prefs.loves')}</legend>
+        <legend className={ui.label}>{t('prefs.loves')}</legend>
+        <p className={ui.note}>{t('prefs.lovesHint')}</p>
         <div className={ui.chips}>
           {LOVES.map((love) => (
             <button
               key={love}
               type="button"
-              className={cx(ui.chip, ui.chipInk)}
+              className={ui.chip}
               aria-pressed={prefs.loves.includes(love)}
               onClick={() => toggleLove(love)}
             >
@@ -71,7 +72,7 @@ export function PrefsForm() {
 
       <div className={s.group}>
         <div className={s.budgetHead}>
-          <label htmlFor="budget" className={cx(ui.eyebrow, s.budgetLabel)}>
+          <label htmlFor="budget" className={ui.label}>
             {t('prefs.budget')}
           </label>
           <span className={s.budgetValue} aria-hidden="true">
@@ -89,6 +90,7 @@ export function PrefsForm() {
           aria-valuetext={t('prefs.budgetValue', { price: budget })}
           onChange={(event) => setBudget(Number(event.target.value))}
         />
+        <p className={ui.note}>{t('prefs.budgetHint', { price: budget })}</p>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import { DEMO_DEALS as DEALS } from './demoDeals';
 import { summarizeList } from './list';
 const findDemo = (id: string | null) => DEALS.find((d) => d.id === id);
 import { detectionsToItems, presetById } from './presets';
-import { applyFilter, rankDishes } from './rank';
+import { applyFilter, countDishesUsing, rankDishes, usesIngredient } from './rank';
 import type { Prefs } from './types';
 
 const PREFS: Prefs = { allergies: [], diet: 'anything', loves: [], budget: 3 };
@@ -111,5 +111,39 @@ describe('summarizeList', () => {
     expect(summary.groups[0].chain).toBeNull();
     expect(summary.storeCount).toBe(0);
     expect(summary.totalCents).toBe(0);
+  });
+});
+
+describe('dishes opened from one deal', () => {
+  const fromPotatoes = rankDishes({ recipes: RECIPES, inventory: [], prefs: PREFS, deals: DEALS, mode: 'deals', item: 'potato' });
+
+  it('keeps only the dishes that use the product', () => {
+    expect(fromPotatoes.length).toBeGreaterThan(0);
+    expect(fromPotatoes.every((dish) => usesIngredient(dish.recipe, 'potato'))).toBe(true);
+  });
+
+  it('shows as many dishes as the deal row promises', () => {
+    expect(countDishesUsing('potato', RECIPES, PREFS)).toBe(fromPotatoes.length);
+  });
+
+  it('still lists a dish when everything for it is already at home', () => {
+    const stocked = rankDishes({
+      recipes: RECIPES,
+      inventory: ['potato', 'egg', 'onion'],
+      prefs: PREFS,
+      deals: DEALS,
+      mode: 'deals',
+      item: 'potato',
+    });
+    expect(ids(stocked)).toContain('spanish-tortilla');
+  });
+
+  it('counts a generic product for its variants', () => {
+    // A plain "cheese" deal can go into the manchego dishes.
+    expect(countDishesUsing('cheese', RECIPES, PREFS)).toBeGreaterThanOrEqual(countDishesUsing('manchego', RECIPES, PREFS));
+  });
+
+  it('counts only dishes the person can eat', () => {
+    expect(countDishesUsing('egg', RECIPES, { ...PREFS, allergies: ['eggs'] })).toBe(0);
   });
 });

@@ -1,0 +1,81 @@
+.icon {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--fill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.store {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.was {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.link {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.link:hover {
+  background: var(--fill);
+  color: var(--ink);
+}
+
+.link:focus-visible {
+  outline-offset: -3px;
+}
+
+.row {
+  /* Keeps visually hidden text inside the row, so it can't widen the page. */
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px var(--gutter);
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dishes {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prices {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}

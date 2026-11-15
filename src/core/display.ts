@@ -14,9 +14,15 @@ export function itemName(item: Pick<InventoryItem, 'key' | 'label'>, lang: Lang)
   return item.label[lang] || item.label.en;
 }
 
-/** " ×4" for counts, " · 500 g" for anything else. */
+/** A name as the user typed it, shown like the catalog names: "toilet paper" → "Toilet paper". */
+export function typedLabel(text: string): { en: string; es: string } {
+  const name = text.charAt(0).toUpperCase() + text.slice(1);
+  return { en: name, es: name };
+}
+
+/** " ×4" for counts, ", 500 g" for anything else. */
 export function qtySuffix(qty: string | undefined): string {
   const value = qty?.trim();
   if (!value) return '';
-  return /^\d+$/.test(value) ? ` ×${value}` : ` · ${value}`;
+  return /^\d+$/.test(value) ? ` ×${value}` : `, ${value}`;
 }

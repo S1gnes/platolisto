@@ -8,8 +8,9 @@
 .action {
   display: flex;
   gap: 10px;
-  padding: 14px var(--gutter) 12px;
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 0%, transparent), var(--bg) 14px);
+  padding: 12px var(--gutter);
+  background: var(--bg);
+  border-top: 1px solid var(--line);
 }
 
 .action > * {
@@ -19,22 +20,22 @@
 .bar {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  background: var(--surface);
+  background: var(--bg);
   border-top: 1px solid var(--line);
-  padding: 6px 8px max(10px, env(safe-area-inset-bottom));
+  padding: 0 8px max(6px, env(safe-area-inset-bottom));
 }
 
 .tab {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 3px;
-  min-height: 52px;
-  border-radius: 12px;
+  min-height: 58px;
   text-decoration: none;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
 }
 
@@ -43,8 +44,24 @@
 }
 
 .tab[aria-current='page'] {
-  color: var(--primary);
+  color: var(--ink);
   font-weight: 700;
+}
+
+/* The current tab is marked by more than colour. */
+.tab[aria-current='page']::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 22%;
+  right: 22%;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--ink);
+}
+
+.tab:focus-visible {
+  outline-offset: -3px;
 }
 
 .iconWrap {
@@ -54,16 +71,16 @@
 
 .badge {
   position: absolute;
-  top: -4px;
-  right: -10px;
-  min-width: 18px;
-  height: 18px;
+  top: -5px;
+  right: -12px;
+  min-width: 19px;
+  height: 19px;
   padding: 0 5px;
-  border-radius: var(--radius-pill);
-  background: var(--primary);
-  color: var(--on-primary);
-  font-size: 11px;
+  border-radius: 10px;
+  background: var(--tag);
+  color: var(--on-tag);
+  font-size: 12px;
   font-weight: 700;
-  line-height: 18px;
+  line-height: 19px;
   text-align: center;
 }

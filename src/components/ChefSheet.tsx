@@ -157,11 +157,16 @@ export function ChefSheet({ open, onClose, recipe, have }: Props) {
           autoComplete="off"
           enterKeyHint="send"
         />
-        <button type="submit" className={s.send} aria-label={t('chef.send')} disabled={!draft.trim() || streaming}>
+        <button
+          type="submit"
+          className={cx(ui.btn, ui.primary, s.send)}
+          aria-label={t('chef.send')}
+          disabled={!draft.trim() || streaming}
+        >
           <Icon name="send" size={20} />
         </button>
       </form>
-      <p className={cx(ui.note, s.disclaimer)}>{t('chef.disclaimer')}</p>
+      <p className={ui.note}>{t('chef.disclaimer')}</p>
     </Modal>
   );
 }

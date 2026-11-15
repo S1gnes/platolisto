@@ -2,17 +2,23 @@ import { Link, useNavigate, useSearchParams } from 'react-router';
 import { config } from '../config';
 import { useBack } from '../components/BackButton';
 import { cx } from '../components/cx';
-import { Icon } from '../components/Icon';
+import { Icon, type IconName } from '../components/Icon';
 import { toast } from '../components/Toast';
-import { useT } from '../i18n';
+import { useT, type MessageKey } from '../i18n';
 import { useApp } from '../state/store';
 import ui from '../styles/ui.module.css';
 import s from './Plus.module.css';
 
+const FEATURES: { icon: IconName; title: MessageKey; text: MessageKey; to?: string; where?: MessageKey }[] = [
+  { icon: 'chef', title: 'plus.chefTitle', text: 'plus.chefText', where: 'plus.chefWhere' },
+  { icon: 'glass', title: 'plus.barTitle', text: 'plus.barText', to: '/bartender' },
+  { icon: 'calendar', title: 'plus.planTitle', text: 'plus.planText', to: '/plan' },
+];
+
 function Check({ yes, label }: { yes: boolean; label: string }) {
   return (
     <span className={yes ? s.yes : s.no}>
-      {yes ? <Icon name="check" size={18} strokeWidth={2.6} /> : <Icon name="minus" size={18} strokeWidth={2} />}
+      {yes ? <Icon name="check" size={20} strokeWidth={2.6} /> : <Icon name="minus" size={20} strokeWidth={2} />}
       <span className="visually-hidden">{label}</span>
     </span>
   );
@@ -26,11 +32,6 @@ export function Plus() {
   const plus = useApp((state) => state.plus);
   const setPlus = useApp((state) => state.setPlus);
   const close = useBack('/');
-
-  const price =
-    config.plusPriceEur === null
-      ? t('plus.pricePlaceholder')
-      : t('plus.price', { price: t.price(Math.round(config.plusPriceEur * 100)) });
 
   const unlock = () => {
     setPlus(true);
@@ -48,72 +49,40 @@ export function Plus() {
     <main className={s.page}>
       <div className={s.top}>
         <button type="button" className={ui.iconBtn} aria-label={t('common.close')} onClick={close}>
-          <Icon name="close" size={20} strokeWidth={2.2} />
+          <Icon name="close" size={22} strokeWidth={2} />
         </button>
       </div>
 
-      <span className={s.badge}>{t('plus.badge')}</span>
-      <h1 className={s.title}>{t('plus.title')}</h1>
-      <p className={s.subtitle}>{t('plus.subtitle')}</p>
+      <h1 className={ui.pageTitle}>{t('plus.title')}</h1>
+      <p className={ui.subtitle}>{t('plus.subtitle')}</p>
 
-      <ul className={s.features}>
-        <li className={s.feature}>
-          <span className={cx(s.featureIcon, s.chef)}>
-            <Icon name="chef" size={22} />
-          </span>
-          <span className={s.featureText}>
-            <span className={s.featureTitle}>{t('plus.chefTitle')}</span>
-            <span className={s.featureBody}>{t('plus.chefText')}</span>
-          </span>
-        </li>
-        {plus ? (
-          <li>
-            <Link to="/bartender" className={cx(s.feature, s.featureLink)}>
-              <span className={cx(s.featureIcon, s.bar)}>
-                <Icon name="glass" size={22} />
+      <ul className={cx(ui.rows, s.features)}>
+        {FEATURES.map((feature) => {
+          const content = (
+            <>
+              <span className={s.featureIcon}>
+                <Icon name={feature.icon} size={22} />
               </span>
               <span className={s.featureText}>
-                <span className={s.featureTitle}>{t('plus.barTitle')}</span>
-                <span className={s.featureBody}>{t('plus.barText')}</span>
+                <span className={s.featureTitle}>{t(feature.title)}</span>
+                <span className={s.featureBody}>{t(feature.text)}</span>
+                {plus && feature.where && <span className={s.featureBody}>{t(feature.where)}</span>}
               </span>
-              <Icon name="next" size={20} className={s.featureArrow} />
-            </Link>
-          </li>
-        ) : (
-          <li className={s.feature}>
-            <span className={cx(s.featureIcon, s.bar)}>
-              <Icon name="glass" size={22} />
-            </span>
-            <span className={s.featureText}>
-              <span className={s.featureTitle}>{t('plus.barTitle')}</span>
-              <span className={s.featureBody}>{t('plus.barText')}</span>
-            </span>
-          </li>
-        )}
-        {plus ? (
-          <li>
-            <Link to="/plan" className={cx(s.feature, s.featureLink)}>
-              <span className={cx(s.featureIcon, s.plan)}>
-                <Icon name="calendar" size={22} />
-              </span>
-              <span className={s.featureText}>
-                <span className={s.featureTitle}>{t('plus.planTitle')}</span>
-                <span className={s.featureBody}>{t('plus.planText')}</span>
-              </span>
-              <Icon name="next" size={20} className={s.featureArrow} />
-            </Link>
-          </li>
-        ) : (
-          <li className={s.feature}>
-            <span className={cx(s.featureIcon, s.plan)}>
-              <Icon name="calendar" size={22} />
-            </span>
-            <span className={s.featureText}>
-              <span className={s.featureTitle}>{t('plus.planTitle')}</span>
-              <span className={s.featureBody}>{t('plus.planText')}</span>
-            </span>
-          </li>
-        )}
+              {plus && feature.to && <Icon name="next" size={20} className={s.featureArrow} />}
+            </>
+          );
+          return (
+            <li key={feature.title}>
+              {plus && feature.to ? (
+                <Link to={feature.to} className={cx(s.feature, s.featureLink)}>
+                  {content}
+                </Link>
+              ) : (
+                <div className={s.feature}>{content}</div>
+              )}
+            </li>
+          );
+        })}
       </ul>
 
       <table className={s.compare}>
@@ -123,12 +92,8 @@ export function Plus() {
             <th scope="col">
               <span className="visually-hidden">{t('plus.feature')}</span>
             </th>
-            <th scope="col" className={s.colFree}>
-              {t('plus.free')}
-            </th>
-            <th scope="col" className={s.colPlus}>
-              {t('plus.plus')}
-            </th>
+            <th scope="col">{t('plus.free')}</th>
+            <th scope="col">{t('plus.plus')}</th>
           </tr>
         </thead>
         <tbody>
@@ -167,8 +132,9 @@ export function Plus() {
           </button>
         )}
         <p className={s.price}>
-          {price}
-          {config.plusPriceEur === null && <> · {t('plus.priceTbd')}</>}
+          {config.plusPriceEur === null
+            ? t('plus.priceTbd')
+            : t('plus.price', { price: t.price(Math.round(config.plusPriceEur * 100)) })}
         </p>
         <p className={s.note}>{t('plus.demoNote')}</p>
       </div>

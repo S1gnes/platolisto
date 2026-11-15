@@ -196,6 +196,26 @@ const ART: Record<string, ReactNode> = {
       <path d="M18 18l1 16M30 19l-1 15" stroke="#5E7A35" strokeWidth="1.2" />
     </>
   ),
+  apple: (
+    <>
+      <path d="M24 16c-7-4-14 1-14 10 0 8 5 15 10 15 2 0 3-1 4-1s2 1 4 1c5 0 10-7 10-15 0-9-7-14-14-10z" fill="#D2553A" />
+      <path d="M24 16c0-4 2-7 5-8" stroke="#6B4A2B" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <ellipse cx="32" cy="11" rx="4" ry="2.2" transform="rotate(-25 32 11)" fill="#6E8B3D" />
+    </>
+  ),
+  banana: (
+    <>
+      <path d="M9 17c2 14 14 22 28 18 2-1 3-3 2-5-12 3-21-3-25-14-1-2-5-2-5 1z" fill="#F2C94C" />
+      <path d="M9 17c0-2 1-4 3-4" stroke="#8C6A3C" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+    </>
+  ),
+  bottle: (
+    <>
+      <path d="M20 7h8v8c3 2 5 5 5 9v15a3 3 0 0 1-3 3H18a3 3 0 0 1-3-3V24c0-4 2-7 5-9z" fill="#6F8F62" />
+      <rect x="15" y="26" width="18" height="9" fill="#FBF6EC" />
+      <rect x="19.5" y="5" width="9" height="4" rx="1.2" fill="#C9A36A" />
+    </>
+  ),
   bag: (
     <>
       <path d="M12 18h24l-2 22H14z" fill="#E3B873" />
@@ -254,6 +274,10 @@ const KEY_TO_ART: Record<string, string> = {
   broccoli: 'leaves',
   mayonnaise: 'yogurt',
   lettuce: 'leaves',
+  apple: 'apple',
+  banana: 'banana',
+  beer: 'bottle',
+  wine: 'bottle',
 };
 
 interface Props {

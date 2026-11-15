@@ -7,42 +7,34 @@
 .header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px var(--gutter) 4px 12px;
+  gap: 4px;
+  padding: 8px var(--gutter) 0 6px;
 }
 
 .title {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 500;
-  line-height: 1.15;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-.step {
-  margin-left: auto;
-  font-size: 13px;
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-.photoWrap {
+.photoBlock {
   padding: 12px var(--gutter) 0;
 }
 
-/* Keeps the photo's own aspect ratio so the boxes line up; tall photos are capped at 340px. */
+/* Keeps the photo's own aspect ratio so the boxes line up; tall photos are capped at 300px. */
 .photo {
   position: relative;
   aspect-ratio: var(--ar);
-  width: min(100%, calc(340px * (var(--ar))));
+  width: min(100%, calc(300px * (var(--ar))));
   margin: 0 auto;
 }
 
 .frame {
   position: absolute;
   inset: 0;
-  border-radius: 22px;
+  border-radius: var(--radius);
   overflow: hidden;
-  background: #dce5e1;
+  background: var(--photo-frame);
 }
 
 .img {
@@ -55,16 +47,17 @@
 .scanning {
   position: absolute;
   inset: 0;
-  background: rgba(169, 79, 43, 0.08);
+  background: rgba(23, 25, 26, 0.12);
 }
 
 .scanLine {
   position: absolute;
   left: 0;
   right: 0;
-  top: -30%;
-  height: 30%;
-  background: linear-gradient(to bottom, rgba(242, 193, 78, 0), rgba(242, 193, 78, 0.45) 85%, #f2c14e);
+  top: 0;
+  height: 3px;
+  background: var(--tag);
+  box-shadow: 0 0 0 1px rgba(23, 25, 26, 0.35);
   animation: sweep 1.1s ease-in-out infinite;
 }
 
@@ -76,21 +69,24 @@
 
 .box {
   position: absolute;
-  border: 2px solid var(--primary);
-  border-radius: 10px;
-  animation: pop 0.25s ease-out both;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  /* A light edge keeps the box visible on dark photos. */
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.85);
+  animation: pop 0.2s ease-out both;
 }
 
 .boxLabel {
   position: absolute;
   left: -2px;
-  top: -21px;
-  background: var(--primary);
-  color: var(--on-primary);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 6px;
+  top: -22px;
+  background: var(--ink);
+  color: var(--on-ink);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 3px 6px;
+  border-radius: 4px;
   white-space: nowrap;
 }
 
@@ -101,7 +97,6 @@
 
 @keyframes pop {
   from {
-    transform: scale(0.92);
     opacity: 0;
   }
 }
@@ -109,92 +104,49 @@
 .status {
   margin-top: 10px;
   text-align: center;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
-  color: var(--primary);
 }
 
-.presets {
-  display: flex;
-  gap: 10px;
-  padding: 14px var(--gutter) 0;
+.photoBtn {
+  width: 100%;
+  margin-top: 12px;
 }
 
-.preset {
-  flex: 1;
-  min-width: 0;
-  min-height: 72px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 2px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: var(--surface);
-  color: var(--ink);
-  font-size: 12px;
-  font-weight: 500;
+.examples {
+  margin-top: 14px;
+}
+
+/* Three equal options side by side; long names wrap inside their own cell. */
+.exampleChips {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.exampleChips > button {
+  justify-content: center;
+  padding: 6px 8px;
+  font-size: 14px;
   line-height: 1.2;
   text-align: center;
-}
-
-.preset:hover {
-  border-color: var(--line-strong);
-}
-
-.preset[aria-pressed='true'] {
-  border: 2px solid var(--primary);
-  padding: 5px 1px;
-  font-weight: 600;
-}
-
-.yourPhoto {
-  justify-content: center;
-  border: 1px dashed var(--primary);
-  background: transparent;
-  color: var(--primary);
-  font-weight: 700;
-}
-
-.yourPhoto[aria-pressed='true'] {
-  border-style: solid;
-  font-weight: 700;
+  white-space: normal;
 }
 
 .notice {
   margin: 14px var(--gutter) 0;
-  padding: 14px;
-  border-radius: var(--radius-card-sm);
-  background: var(--surface);
-  border: 1px solid var(--line);
   display: flex;
   flex-direction: column;
   gap: 10px;
-  font-size: 14px;
-  line-height: 1.4;
 }
 
 .found {
-  padding: 16px var(--gutter) 8px;
-}
-
-.foundHead {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.ai {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--olive);
-  white-space: nowrap;
+  padding: 22px var(--gutter) 20px;
 }
 
 .check {
-  margin: 4px 0 10px;
+  margin: 4px 0 14px;
 }
 
 .chips {
@@ -207,27 +159,27 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  border: 1px solid var(--line-strong);
 }
 
 .chipLabel {
   min-height: 44px;
   min-width: 44px;
-  padding: 0 2px 0 14px;
+  padding: 0 4px 0 14px;
   border: 0;
-  border-radius: var(--radius-pill) 0 0 var(--radius-pill);
+  border-radius: var(--radius) 0 0 var(--radius);
   background: transparent;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
+  text-align: left;
 }
 
 .remove {
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
   background: transparent;
   color: var(--muted);
   display: inline-flex;
@@ -235,13 +187,37 @@
   justify-content: center;
 }
 
+.chipLabel:hover,
 .remove:hover {
-  color: var(--primary);
+  background: var(--fill);
+  color: var(--ink);
 }
 
-.addItem {
-  display: flex;
-  max-width: 100%;
+.chipLabel:focus-visible,
+.remove:focus-visible {
+  outline-offset: -3px;
+}
+
+.adder {
+  margin-top: 20px;
+}
+
+.quick {
+  margin-top: 16px;
+}
+
+.quick > div {
+  margin-top: 8px;
+}
+
+.typedList {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.switchMode {
+  margin-top: 16px;
 }
 
 .bar {

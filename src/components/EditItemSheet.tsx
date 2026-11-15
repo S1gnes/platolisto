@@ -27,7 +27,7 @@ export function EditItemSheet({ item, onClose }: { item: InventoryItem | null; o
   const step = (delta: number) => setQty(String(Math.max(1, (count ?? (delta > 0 ? 0 : 2)) + delta)));
 
   return (
-    <Modal open={item !== null} onClose={onClose} title={t('scan.edit', { name })}>
+    <Modal open={item !== null} onClose={onClose} title={name}>
       <form
         className={s.form}
         onSubmit={(event) => {
@@ -36,11 +36,11 @@ export function EditItemSheet({ item, onClose }: { item: InventoryItem | null; o
           onClose();
         }}
       >
-        <label htmlFor={qtyId} className={ui.eyebrow}>
+        <label htmlFor={qtyId} className={ui.label}>
           {t('scan.qty')}
         </label>
         <div className={s.stepper}>
-          <button type="button" className={ui.iconBtn} aria-label={t('scan.less')} onClick={() => step(-1)}>
+          <button type="button" className={cx(ui.btn, ui.secondary, s.stepBtn)} aria-label={t('scan.less')} onClick={() => step(-1)}>
             <Icon name="minus" size={20} strokeWidth={2.2} />
           </button>
           <input
@@ -51,7 +51,7 @@ export function EditItemSheet({ item, onClose }: { item: InventoryItem | null; o
             aria-describedby={hintId}
             autoComplete="off"
           />
-          <button type="button" className={ui.iconBtn} aria-label={t('scan.more')} onClick={() => step(1)}>
+          <button type="button" className={cx(ui.btn, ui.secondary, s.stepBtn)} aria-label={t('scan.more')} onClick={() => step(1)}>
             <Icon name="plus" size={20} strokeWidth={2.2} />
           </button>
         </div>
@@ -61,13 +61,14 @@ export function EditItemSheet({ item, onClose }: { item: InventoryItem | null; o
         <div className={s.actions}>
           <button
             type="button"
-            className={cx(ui.btn, ui.outline)}
+            className={cx(ui.btn, ui.secondary)}
+            aria-label={t('common.remove', { name })}
             onClick={() => {
               if (item) remove(item.id);
               onClose();
             }}
           >
-            {t('common.remove', { name })}
+            {t('common.removeShort')}
           </button>
           <button type="submit" className={cx(ui.btn, ui.primary)}>
             {t('common.save')}

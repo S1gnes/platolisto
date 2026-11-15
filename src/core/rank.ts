@@ -1,5 +1,5 @@
 import { config } from '../config';
-import { analyzeRecipe, costPerServing, isAllowed, priceMissing, type DishAnalysis, type Pricing } from './match';
+import { analyzeRecipe, costPerServing, isAllowed, priceMissing, related, type DishAnalysis, type Pricing } from './match';
 import type { Deal, Prefs, Recipe } from './types';
 
 export type DishMode = 'inventory' | 'deals';
@@ -20,6 +20,8 @@ interface RankInput {
   prefs: Prefs;
   deals: Deal[];
   mode: DishMode;
+  /** Only dishes that use this ingredient (the list opened from one deal). */
+  item?: string;
 }
 
 const MISSING_WEIGHT = 0.35;
@@ -29,6 +31,15 @@ const MAX_LOVE_BOOST = 1;
 function loveBoost(recipe: Recipe, prefs: Prefs): number {
   const hits = recipe.tags.filter((tag) => prefs.loves.includes(tag)).length;
   return Math.min(MAX_LOVE_BOOST, hits * LOVE_BOOST);
+}
+
+export function usesIngredient(recipe: Recipe, key: string): boolean {
+  return recipe.ingredients.some((ingredient) => related(ingredient.key, key));
+}
+
+/** How many of the recipes this person can eat use the ingredient. */
+export function countDishesUsing(key: string, recipes: Recipe[], prefs: Prefs): number {
+  return recipes.filter((recipe) => isAllowed(recipe, prefs) && usesIngredient(recipe, key)).length;
 }
 
 export function evaluateDish(recipe: Recipe, inventory: string[], deals: Deal[]): Omit<RankedDish, 'score'> {
@@ -54,16 +65,18 @@ function dealsScore(dish: Omit<RankedDish, 'score'>): number {
 /**
  * Rank recipes for the dishes screen.
  * - Hard filters: allergies and diet.
- * - "Love to eat" is a soft boost only.
+ * - "Food you like" is a soft boost only.
  * - Ties go to the cheaper dish, then the quicker one.
  */
-export function rankDishes({ recipes, inventory, prefs, deals, mode }: RankInput): RankedDish[] {
+export function rankDishes({ recipes, inventory, prefs, deals, mode, item }: RankInput): RankedDish[] {
   const ranked: RankedDish[] = [];
   for (const recipe of recipes) {
     if (!isAllowed(recipe, prefs)) continue;
+    if (item && !usesIngredient(recipe, item)) continue;
     const dish = evaluateDish(recipe, inventory, deals);
     if (mode === 'inventory' && dish.analysis.used.length === 0) continue;
-    if (mode === 'deals' && dish.pricing.onSale === 0) continue;
+    // Opened from one deal, every dish with that product counts, even if it is already at home.
+    if (mode === 'deals' && !item && dish.pricing.onSale === 0) continue;
     const base = mode === 'inventory' ? inventoryScore(dish) : dealsScore(dish);
     ranked.push({ ...dish, score: base + loveBoost(recipe, prefs) });
   }

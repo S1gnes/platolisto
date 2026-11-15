@@ -135,38 +135,3 @@ export function FridgeArt({ preset, label }: { preset: PresetId | null; label: s
     </svg>
   );
 }
-
-const THUMBS: Record<PresetId, ReactNode> = {
-  student: (
-    <>
-      <circle cx="12" cy="13" r="4" fill="#FBF6EC" />
-      <circle cx="27" cy="13" r="4" fill="#F2C94C" />
-      <circle cx="13" cy="29" r="4" fill="#D2553A" />
-      <rect x="22" y="25" width="12" height="9" rx="2" fill="#7C9A4E" />
-    </>
-  ),
-  market: (
-    <>
-      <circle cx="10" cy="13" r="4" fill="#C98F5A" />
-      <circle cx="20" cy="13" r="4" fill="#6E8B3D" />
-      <circle cx="30" cy="13" r="4" fill="#D2553A" />
-      <rect x="8" y="25" width="24" height="9" rx="2" fill="#E3B873" />
-    </>
-  ),
-  empty: (
-    <>
-      <circle cx="30" cy="13" r="4" fill="#F2C94C" />
-      <rect x="8" y="27" width="8" height="7" rx="2" fill="#FFFFFF" />
-    </>
-  ),
-};
-
-export function PresetThumb({ preset }: { preset: PresetId }) {
-  return (
-    <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
-      <rect x="2" y="2" width="36" height="36" rx="8" fill="#DCE5E1" />
-      <rect x="2" y="19" width="36" height="2" fill="#C6D2CD" />
-      {THUMBS[preset]}
-    </svg>
-  );
-}

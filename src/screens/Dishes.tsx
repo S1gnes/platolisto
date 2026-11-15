@@ -4,7 +4,9 @@ import { config } from '../config';
 import { BackButton } from '../components/BackButton';
 import { cx } from '../components/cx';
 import { DishCard } from '../components/DishCard';
-import { CHAINS, DEALS } from '../core/deals';
+import { ingredientName } from '../core/catalog';
+import { CHAINS, dealById, dealName, DEALS } from '../core/deals';
+import { pinDeal } from '../core/match';
 import { applyFilter, rankDishes, type DishFilter } from '../core/rank';
 import { SPOONACULAR_URL } from '../core/spoonacular';
 import type { Chain, Recipe } from '../core/types';
@@ -44,6 +46,8 @@ export function Dishes() {
   const [params, setParams] = useSearchParams();
   const fromDeals = params.get('from') === 'deals';
   const chain = asChain(params.get('chain'));
+  // Opened from one deal: only dishes with that product, priced with that deal.
+  const deal = (fromDeals && dealById(params.get('deal'))) || null;
   const source = useApp((state) => state.scan.source);
   const items = useApp((state) => state.scan.items);
   const prefs = useApp((state) => state.prefs);
@@ -61,7 +65,7 @@ export function Dishes() {
     );
 
   const inventory = useMemo(() => items.map((item) => item.key), [items]);
-  // Presets always stay offline; your own photo or typed list goes to the live recipe search.
+  // Example fridges always stay offline; your own photo or typed list goes to the online recipe search.
   const wantsLive = liveEnabled() && !fromDeals && (source === 'photo' || source === 'typed') && inventory.length > 0;
   const liveKey = JSON.stringify([inventory, prefs.allergies, prefs.diet, t.lang]);
   const [live, setLive] = useState<LiveState>({ key: '', loading: false, recipes: null, error: null });
@@ -101,11 +105,12 @@ export function Dishes() {
       recipes: current?.recipes ?? RECIPES,
       inventory,
       prefs,
-      deals: DEALS,
+      deals: pinDeal(DEALS, deal),
       mode: fromDeals ? 'deals' : 'inventory',
+      item: deal?.key,
     });
     return chain ? dishes.filter((dish) => dish.pricing.items.some((item) => item.deal?.chain === chain)) : dishes;
-  }, [current?.recipes, inventory, prefs, fromDeals, chain]);
+  }, [current?.recipes, inventory, prefs, fromDeals, chain, deal]);
 
   const visible = applyFilter(ranked, filter, prefs);
   const budget = t.priceShort(Math.round(prefs.budget * 100));
@@ -120,24 +125,33 @@ export function Dishes() {
 
   const needsInventory = !fromDeals && items.length === 0;
 
+  const title = loading
+    ? t('live.loading')
+    : needsInventory
+      ? t('scan.countNone')
+      : deal
+        ? t.plural('dishes.itemTitle', visible.length, { item: ingredientName(deal.key, t.lang).toLowerCase() })
+        : fromDeals
+          ? t.plural('dishes.dealsTitle', visible.length)
+          : t.plural('dishes.title', visible.length);
+
+  const subtitle = deal
+    ? t('dishes.itemSubtitle', { chain: deal.chain, product: dealName(deal, t.lang), price: t.price(deal.priceCents) })
+    : chain
+      ? t('dishes.chainSubtitle', { chain })
+      : fromDeals
+        ? t('dishes.dealsSubtitle')
+        : t('dishes.subtitle');
+
   return (
     <main className={s.page}>
       <header className={s.header}>
-        <BackButton fallback={fromDeals ? '/' : '/scan'} />
-        {!fromDeals && <span className={s.step}>{t('common.step', { n: 2, total: 2 })}</span>}
+        <BackButton fallback={deal || chain ? '/deals' : fromDeals ? '/' : '/scan'} />
       </header>
 
       <section className={s.intro}>
-        <h1 className={s.title}>
-          {loading
-            ? t('live.loading')
-            : fromDeals
-              ? t.plural('dishes.dealsTitle', visible.length)
-              : t.plural('dishes.title', visible.length)}
-        </h1>
-        <p className={ui.subtitle}>
-          {fromDeals ? t('dishes.dealsSubtitle') : t.plural('dishes.subtitle', items.length)}
-        </p>
+        <h1 className={ui.pageTitle}>{title}</h1>
+        {!needsInventory && <p className={ui.subtitle}>{subtitle}</p>}
         {usingLive && (
           <a className={s.attribution} href={SPOONACULAR_URL} target="_blank" rel="noreferrer">
             {t('live.by')}
@@ -146,7 +160,7 @@ export function Dishes() {
       </section>
 
       {fallbackNote && (
-        <p className={s.notice} role="status">
+        <p className={cx(ui.notice, s.notice)} role="status">
           {t(fallbackNote)}
         </p>
       )}
@@ -154,13 +168,7 @@ export function Dishes() {
       {!needsInventory && !loading && ranked.length > 0 && (
         <div className={ui.chipScroller} role="group" aria-label={t('dishes.filters')}>
           {FILTERS.map((f) => (
-            <button
-              key={f}
-              type="button"
-              className={cx(ui.chip, ui.chipInk)}
-              aria-pressed={filter === f}
-              onClick={() => setFilter(f)}
-            >
+            <button key={f} type="button" className={ui.chip} aria-pressed={filter === f} onClick={() => setFilter(f)}>
               {filterLabel(f)}
             </button>
           ))}
@@ -171,7 +179,10 @@ export function Dishes() {
       {loading ? (
         <ul className={s.list} aria-busy="true" aria-label={t('live.loading')}>
           {[0, 1, 2].map((n) => (
-            <li key={n} className={s.skeleton} />
+            <li key={n} className={s.skeleton}>
+              <span className={s.skeletonPhoto} />
+              <span className={s.skeletonLines} />
+            </li>
           ))}
         </ul>
       ) : needsInventory ? (
@@ -183,23 +194,23 @@ export function Dishes() {
         </div>
       ) : ranked.length === 0 ? (
         <div className={s.empty}>
-          <p>{t('dishes.noResults')}</p>
-          <Link to="/scan" className={cx(ui.btn, ui.outline)}>
-            {t('dishes.scanCta')}
+          <p>{fromDeals ? t('dishes.noDeals') : t('dishes.noResults')}</p>
+          <Link to={fromDeals ? '/deals' : '/scan'} className={cx(ui.btn, ui.secondary)}>
+            {fromDeals ? t('dishes.dealsCta') : t('dishes.scanCta')}
           </Link>
         </div>
       ) : visible.length === 0 ? (
         <div className={s.empty}>
           <p>{t('dishes.emptyFilter')}</p>
-          <button type="button" className={cx(ui.btn, ui.outline)} onClick={() => setFilter('best')}>
+          <button type="button" className={cx(ui.btn, ui.secondary)} onClick={() => setFilter('best')}>
             {t('dishes.showAll')}
           </button>
         </div>
       ) : (
-        <ul className={s.list}>
+        <ul className={cx(ui.rows, s.list)}>
           {visible.map((dish) => (
             <li key={dish.recipe.id}>
-              <DishCard dish={dish} />
+              <DishCard dish={dish} dealId={deal?.id} />
             </li>
           ))}
         </ul>

@@ -139,6 +139,9 @@ export interface ListItem {
   id: string;
   key: string;
   dealId: string | null;
+  /** Dishes the item is for; empty when you added it to the list yourself. */
   recipes: { id: string; title: Localized }[];
+  /** Name as typed, for items that are not in the catalog. */
+  label?: Localized;
   checked: boolean;
 }

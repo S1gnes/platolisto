@@ -6,17 +6,13 @@ import { chromium } from '@playwright/test';
 
 const PUBLIC = fileURLToPath(new URL('../public/', import.meta.url));
 
-// Plate on terracotta. `inset` shrinks the plate for maskable icons, whose edges may be cropped.
+// A plate with a tick on the price-label yellow. `inset` shrinks the mark for maskable icons, whose edges may be cropped.
 const plate = (inset) => `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
-  <rect width="64" height="64" fill="#A94F2B"/>
+  <rect width="64" height="64" fill="#FFD60A"/>
   <g transform="translate(${32 - 32 * inset} ${32 - 32 * inset}) scale(${inset})">
-    <circle cx="32" cy="32" r="21" fill="#FFFBF5"/>
-    <circle cx="32" cy="32" r="14" fill="#F1E3C2"/>
-    <circle cx="27" cy="29" r="3" fill="#F2C94C"/>
-    <circle cx="37" cy="35" r="3" fill="#F2C94C"/>
-    <ellipse cx="34" cy="27" rx="4" ry="2.4" fill="#6E8B3D"/>
-    <ellipse cx="28" cy="37" rx="4" ry="2.4" fill="#7C9A4E"/>
+    <circle cx="32" cy="32" r="19" fill="none" stroke="#17191A" stroke-width="4.4"/>
+    <path d="M23 32.8l6.2 6.2 12-13.2" fill="none" stroke="#17191A" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
 </svg>`;
 

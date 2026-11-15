@@ -27,7 +27,7 @@ function RootLayout() {
     const root = document.documentElement;
     if (dark) root.dataset.theme = 'bar';
     else delete root.dataset.theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#2A2118' : '#F6EFE4');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#17191A' : '#FFFFFF');
   }, [dark]);
 
   return (

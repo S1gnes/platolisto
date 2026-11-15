@@ -45,19 +45,17 @@ export function Profile() {
         </section>
 
         <section className={s.group} aria-labelledby="food-prefs">
-          <h2 id="food-prefs" className={s.groupTitle}>
+          <h2 id="food-prefs" className={cx(ui.sectionTitle, s.groupTitle)}>
             {t('profile.food')}
           </h2>
-          <div className={s.card}>
-            <PrefsForm />
-          </div>
+          <PrefsForm />
         </section>
 
         <section className={s.group} aria-labelledby="app-settings">
-          <h2 id="app-settings" className={s.groupTitle}>
+          <h2 id="app-settings" className={cx(ui.sectionTitle, s.groupTitle)}>
             {t('profile.app')}
           </h2>
-          <ul className={cx(s.card, s.rows)}>
+          <ul className={cx(ui.rows, s.rows)}>
             <li className={s.row}>
               <span className={s.rowLabel}>{t('lang.label')}</span>
               <LangSwitch />
@@ -82,13 +80,13 @@ export function Profile() {
                 <li>
                   <Link to="/plan" className={cx(s.row, s.linkRow)}>
                     <span className={s.rowLabel}>{t('plan.title')}</span>
-                    <Icon name="next" size={20} />
+                    <Icon name="next" size={20} className={s.chevron} />
                   </Link>
                 </li>
                 <li>
                   <Link to="/bartender" className={cx(s.row, s.linkRow)}>
                     <span className={s.rowLabel}>{t('profile.bartender')}</span>
-                    <Icon name="next" size={20} />
+                    <Icon name="next" size={20} className={s.chevron} />
                   </Link>
                 </li>
               </>
@@ -103,13 +101,13 @@ export function Profile() {
         </section>
 
         <section className={s.group} aria-labelledby="about">
-          <h2 id="about" className={s.groupTitle}>
+          <h2 id="about" className={cx(ui.sectionTitle, s.groupTitle)}>
             {t('profile.about')}
           </h2>
-          <div className={cx(s.card, s.about)}>
+          <div className={s.about}>
             <p>{t('about.disclaimer')}</p>
             <div>
-              <h3 className={ui.eyebrow}>{t('about.sources')}</h3>
+              <h3 className={ui.label}>{t('about.sources')}</h3>
               <ul className={s.sources}>
                 {SOURCES.map((source) => (
                   <li key={source.key}>
@@ -125,8 +123,8 @@ export function Profile() {
               </ul>
             </div>
             <div>
-              <h3 className={ui.eyebrow}>{t('about.privacy')}</h3>
-              <p>
+              <h3 className={ui.label}>{t('about.privacy')}</h3>
+              <p className={s.spaced}>
                 {t('about.privacyPhotos')} {t('about.privacyFreeTier')}
               </p>
               <p className={s.spaced}>{t('about.privacyLocal')}</p>
@@ -139,7 +137,7 @@ export function Profile() {
       <Modal open={confirming} onClose={() => setConfirming(false)} title={t('profile.reset')} variant="dialog">
         <p className={s.confirmText}>{t('profile.resetConfirm')}</p>
         <div className={s.confirmActions}>
-          <button type="button" className={cx(ui.btn, ui.outline)} onClick={() => setConfirming(false)}>
+          <button type="button" className={cx(ui.btn, ui.secondary)} onClick={() => setConfirming(false)}>
             {t('common.cancel')}
           </button>
           <button type="button" className={cx(ui.btn, ui.primary)} onClick={reset}>

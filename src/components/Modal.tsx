@@ -51,7 +51,7 @@ export function Modal({ open, onClose, title, children, variant = 'sheet', hideC
             {title}
           </h2>
           {!hideClose && (
-            <button type="button" className={ui.iconBtn} aria-label={t('common.close')} onClick={onClose}>
+            <button type="button" className={cx(ui.iconBtn, s.close)} aria-label={t('common.close')} onClick={onClose}>
               <Icon name="close" size={20} strokeWidth={2.2} />
             </button>
           )}

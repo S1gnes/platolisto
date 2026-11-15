@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
-import { useNavigate, useSearchParams } from 'react-router';
-import { FridgeArt, PresetThumb } from '../art/FridgeArt';
+import { Link, useNavigate, useSearchParams } from 'react-router';
+import { FridgeArt } from '../art/FridgeArt';
 import { AddIngredient } from '../components/AddIngredient';
 import { BackButton } from '../components/BackButton';
 import { cx } from '../components/cx';
 import { EditItemSheet } from '../components/EditItemSheet';
 import { Icon } from '../components/Icon';
-import { catalogEntry } from '../core/catalog';
-import { itemName, qtySuffix } from '../core/display';
+import { catalogEntry, ingredientName } from '../core/catalog';
+import { itemName, qtySuffix, typedLabel } from '../core/display';
 import { normalizeIngredient } from '../core/normalize';
 import { detectionsToItems, itemId, PRESET_IDS, presetById } from '../core/presets';
 import { suggestIngredients } from '../core/suggest';
@@ -21,6 +21,9 @@ import ui from '../styles/ui.module.css';
 import s from './Scan.module.css';
 
 const SCAN_EFFECT_MS = 1100;
+
+/** One-tap additions for the typed list: what most student kitchens have. */
+const COMMON = ['egg', 'rice', 'pasta', 'onion', 'tomato', 'potato', 'chicken', 'cheese', 'garlic', 'milk'];
 
 const PHOTO_ERRORS: Partial<Record<ApiErrorCode, MessageKey>> = {
   not_configured: 'scan.photoUnavailable',
@@ -44,14 +47,14 @@ export function Scan() {
   const addItem = useApp((state) => state.addInventoryItem);
   const removeItem = useApp((state) => state.removeInventoryItem);
   const photo = usePhoto();
-  // A counter instead of a boolean so picking another preset mid-scan restarts the effect.
+  // A counter instead of a boolean so picking another example mid-scan restarts the effect.
   const [scanRun, setScanRun] = useState(0);
   const [scanning, setScanning] = useState(false);
   const [analysing, setAnalysing] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [editing, setEditing] = useState<InventoryItem | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
-  // Bumped on every new photo or preset, so a late answer for an old photo is ignored.
+  // Bumped on every new photo or example, so a late answer for an old photo is ignored.
   const request = useRef(0);
   const items = scan.items;
 
@@ -113,8 +116,9 @@ export function Scan() {
   const onAdd = (text: string) => {
     const key = normalizeIngredient(text);
     if (!key) return;
-    addItem({ id: itemId(), key, label: catalogEntry(key) ? undefined : { en: text, es: text } });
+    addItem({ id: itemId(), key, label: catalogEntry(key) ? undefined : typedLabel(text) });
   };
+
 
   const preset = isPreset(scan.source) ? presetById(scan.source) : null;
   const showPhoto = scan.source === 'photo' && photo.url !== null;
@@ -124,153 +128,201 @@ export function Scan() {
   const photoLost = scan.source === 'photo' && !showPhoto && !notice;
   const detected = !typeMode && (isPreset(scan.source) || scan.source === 'photo');
 
+  const list = (
+    <ul className={s.chips} aria-label={t('scan.itemsLabel')}>
+      {items.map((item) => {
+        const name = itemName(item, t.lang);
+        return (
+          <li key={item.id} className={s.chip}>
+            <button
+              type="button"
+              className={s.chipLabel}
+              aria-label={t('scan.edit', { name: `${name}${qtySuffix(item.qty)}` })}
+              onClick={() => setEditing(item)}
+            >
+              {name}
+              {qtySuffix(item.qty)}
+            </button>
+            <button
+              type="button"
+              className={s.remove}
+              aria-label={t('common.remove', { name })}
+              onClick={() => removeItem(item.id)}
+            >
+              <Icon name="close" size={16} strokeWidth={2.2} />
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  );
+
+  const adder = (
+    <AddIngredient
+      onAdd={onAdd}
+      suggest={suggest}
+      addText={t('scan.add')}
+      label={t('scan.addLabel')}
+      placeholder={t('scan.addPlaceholder')}
+      suggestionsLabel={t('scan.suggestions')}
+      autoFocus={typeMode}
+    />
+  );
+
   return (
     <main className={s.page}>
       <header className={s.header}>
         <BackButton fallback="/" />
-        <h1 className={s.title}>{typeMode ? t('scan.typeTitle') : t('scan.title')}</h1>
-        <span className={s.step}>{t('common.step', { n: 1, total: 2 })}</span>
+        <h1 className={s.title}>{t('scan.title')}</h1>
       </header>
 
       {!typeMode && (
-        <>
-          <div className={s.photoWrap}>
-            <div className={s.photo} style={{ '--ar': aspect } as CSSProperties}>
-              <div className={s.frame}>
-                {showPhoto ? (
-                  <img src={photo.url ?? undefined} alt={t('scan.yourPhotoAlt')} className={s.img} />
-                ) : preset?.photo ? (
-                  <img src={`${import.meta.env.BASE_URL}${preset.photo}`} alt={t(`preset.${preset.id}`)} className={s.img} />
-                ) : (
-                  <FridgeArt preset={preset?.id ?? null} label={t(`preset.${preset?.id ?? 'empty'}.alt`)} />
-                )}
-                {busy && (
-                  <div className={s.scanning}>
-                    <span className={s.scanLine} />
-                  </div>
-                )}
-              </div>
-              {boxes.map((item) => {
-                const [ymin, xmin, ymax, xmax] = item.box!;
-                const label = `${item.boxLabel ? t.pick(item.boxLabel) : itemName(item, t.lang)}${qtySuffix(item.qty)}`;
-                return (
-                  <div
-                    key={item.id}
-                    className={s.box}
-                    aria-hidden="true"
-                    style={{
-                      left: `${xmin / 10}%`,
-                      top: `${ymin / 10}%`,
-                      width: `${(xmax - xmin) / 10}%`,
-                      height: `${(ymax - ymin) / 10}%`,
-                    }}
-                  >
-                    <span className={cx(s.boxLabel, xmin > 700 && s.boxLabelEnd)}>{label}</span>
-                  </div>
-                );
-              })}
+        <section className={s.photoBlock}>
+          <div className={s.photo} style={{ '--ar': aspect } as CSSProperties}>
+            <div className={s.frame}>
+              {showPhoto ? (
+                <img src={photo.url ?? undefined} alt={t('scan.yourPhotoAlt')} className={s.img} />
+              ) : preset?.photo ? (
+                <img src={`${import.meta.env.BASE_URL}${preset.photo}`} alt={t(`preset.${preset.id}`)} className={s.img} />
+              ) : (
+                <FridgeArt preset={preset?.id ?? null} label={t(`preset.${preset?.id ?? 'empty'}.alt`)} />
+              )}
+              {busy && (
+                <div className={s.scanning}>
+                  <span className={s.scanLine} />
+                </div>
+              )}
             </div>
-            <p className={analysing ? s.status : 'visually-hidden'} aria-live="polite">
-              {analysing ? t('scan.analysing') : scanning ? t('scan.scanning') : ''}
-            </p>
+            {boxes.map((item) => {
+              const [ymin, xmin, ymax, xmax] = item.box!;
+              const label = `${item.boxLabel ? t.pick(item.boxLabel) : itemName(item, t.lang)}${qtySuffix(item.qty)}`;
+              return (
+                <div
+                  key={item.id}
+                  className={s.box}
+                  aria-hidden="true"
+                  style={{
+                    left: `${xmin / 10}%`,
+                    top: `${ymin / 10}%`,
+                    width: `${(xmax - xmin) / 10}%`,
+                    height: `${(ymax - ymin) / 10}%`,
+                  }}
+                >
+                  <span className={cx(s.boxLabel, xmin > 700 && s.boxLabelEnd)}>{label}</span>
+                </div>
+              );
+            })}
           </div>
+          <p className={analysing ? s.status : 'visually-hidden'} aria-live="polite">
+            {analysing ? t('scan.analysing') : scanning ? t('scan.scanning') : ''}
+          </p>
 
-          <div className={s.presets} role="group" aria-label={t('scan.presets')}>
-            {PRESET_IDS.map((id) => (
-              <button
-                key={id}
-                type="button"
-                className={s.preset}
-                aria-pressed={scan.source === id}
-                onClick={() => choosePreset(id)}
-              >
-                <PresetThumb preset={id} />
-                {t(`preset.${id}`)}
-              </button>
-            ))}
-            <button
-              type="button"
-              className={cx(s.preset, s.yourPhoto)}
-              aria-pressed={scan.source === 'photo'}
-              onClick={() => fileInput.current?.click()}
-            >
-              <Icon name="camera" size={26} />
-              {t('scan.yourPhoto')}
-            </button>
-            <input
-              ref={fileInput}
-              type="file"
-              accept="image/*"
-              className="visually-hidden"
-              tabIndex={-1}
-              aria-hidden="true"
-              onChange={(event) => {
-                onPhoto(event.target.files?.[0]);
-                event.target.value = '';
-              }}
-            />
+          <button
+            type="button"
+            className={cx(ui.btn, ui.secondary, s.photoBtn)}
+            onClick={() => fileInput.current?.click()}
+          >
+            <Icon name="camera" size={20} />
+            {showPhoto ? t('scan.retakePhoto') : t('scan.takePhoto')}
+          </button>
+          <input
+            ref={fileInput}
+            type="file"
+            accept="image/*"
+            className="visually-hidden"
+            tabIndex={-1}
+            aria-hidden="true"
+            onChange={(event) => {
+              onPhoto(event.target.files?.[0]);
+              event.target.value = '';
+            }}
+          />
+
+          <div className={s.examples} role="group" aria-labelledby="examples-label">
+            <p id="examples-label" className={ui.note}>
+              {t('scan.examples')}
+            </p>
+            <div className={s.exampleChips}>
+              {PRESET_IDS.map((id) => (
+                <button
+                  key={id}
+                  type="button"
+                  className={ui.chip}
+                  aria-pressed={scan.source === id}
+                  onClick={() => choosePreset(id)}
+                >
+                  {t(`preset.${id}`)}
+                </button>
+              ))}
+            </div>
           </div>
-        </>
+        </section>
       )}
 
       {(notice || photoLost) && (
-        <div className={s.notice} role="alert">
+        <div className={cx(ui.notice, s.notice)} role="alert">
           <p>{notice ?? t('scan.photoGone')}</p>
-          <button type="button" className={cx(ui.btn, ui.outline)} onClick={() => choosePreset('student')}>
-            {t('scan.usePreset')}
-          </button>
+          {!typeMode && !isPreset(scan.source) && (
+            <button type="button" className={cx(ui.btn, ui.secondary)} onClick={() => choosePreset('student')}>
+              {t('scan.usePreset')}
+            </button>
+          )}
         </div>
       )}
 
       <section className={s.found} aria-labelledby="found-title">
-        <div className={s.foundHead}>
-          <h2 id="found-title" className={ui.sectionTitle}>
-            {detected ? t.plural('scan.found', items.length) : t.plural('scan.count', items.length)}
-          </h2>
-          {detected && <span className={s.ai}>{t('scan.aiVision')}</span>}
-        </div>
-        <p className={cx(ui.note, s.check)}>{typeMode ? t('scan.typeIntro') : t('scan.check')}</p>
-        <ul className={s.chips} aria-label={t('scan.itemsLabel')}>
-          {items.map((item) => {
-            const name = itemName(item, t.lang);
-            return (
-              <li key={item.id} className={s.chip}>
-                <button
-                  type="button"
-                  className={s.chipLabel}
-                  aria-label={t('scan.edit', { name: `${name}${qtySuffix(item.qty)}` })}
-                  onClick={() => setEditing(item)}
-                >
-                  {name}
-                  {qtySuffix(item.qty)}
-                </button>
-                <button
-                  type="button"
-                  className={s.remove}
-                  aria-label={t('common.remove', { name })}
-                  onClick={() => removeItem(item.id)}
-                >
-                  <Icon name="close" size={14} strokeWidth={2.4} />
-                </button>
-              </li>
-            );
-          })}
-          <li className={s.addItem}>
-            <AddIngredient
-              onAdd={onAdd}
-              suggest={suggest}
-              addText={t('scan.add')}
-              label={t('scan.addLabel')}
-              placeholder={t('scan.addPlaceholder')}
-              suggestionsLabel={t('scan.suggestions')}
-              startOpen={typeMode}
-            />
-          </li>
-        </ul>
+        <h2 id="found-title" className={ui.sectionTitle}>
+          {items.length === 0
+            ? t('scan.countNone')
+            : detected
+              ? t.plural('scan.found', items.length)
+              : t.plural('scan.count', items.length)}
+        </h2>
+        <p className={cx(ui.note, s.check)}>{typeMode || items.length === 0 ? t('scan.typeIntro') : t('scan.check')}</p>
+
+        {/* Typing: the field leads and the list grows under it. Photo: the found list leads. */}
+        {typeMode ? (
+          <>
+            {adder}
+            {/* Toggles, so nothing moves under the finger while several are picked in a row. */}
+            <div className={s.quick} role="group" aria-labelledby="quick-label">
+              <p id="quick-label" className={ui.note}>
+                {t('scan.common')}
+              </p>
+              <div className={ui.chips}>
+                {COMMON.map((key) => {
+                  const added = items.find((item) => item.key === key);
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      className={ui.chip}
+                      aria-pressed={Boolean(added)}
+                      onClick={() => (added ? removeItem(added.id) : addItem({ id: itemId(), key }))}
+                    >
+                      <Icon name={added ? 'check' : 'plus'} size={16} strokeWidth={2.2} />
+                      {ingredientName(key, t.lang)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            {items.length > 0 && <div className={s.typedList}>{list}</div>}
+            <Link to="/scan" replace className={cx(ui.textBtn, s.switchMode)}>
+              <Icon name="camera" size={18} />
+              {t('scan.usePhoto')}
+            </Link>
+          </>
+        ) : (
+          <>
+            {list}
+            <div className={s.adder}>{adder}</div>
+          </>
+        )}
       </section>
 
       <div className={cx(ui.actionBar, s.bar)}>
-        {items.length === 0 && <p className={ui.note}>{t('scan.emptyList')}</p>}
+        {items.length === 0 && !busy && <p className={ui.note}>{t('scan.emptyList')}</p>}
         <button
           type="button"
           className={cx(ui.btn, ui.primary)}
@@ -278,7 +330,6 @@ export function Scan() {
           onClick={() => navigate('/dishes')}
         >
           {t('scan.findDishes')}
-          <Icon name="arrowRight" size={20} strokeWidth={2} />
         </button>
       </div>
 

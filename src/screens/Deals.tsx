@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { cx } from '../components/cx';
-import { DealTile } from '../components/DealTile';
-import { Icon } from '../components/Icon';
+import { DealRow } from '../components/DealRow';
 import { TabBar } from '../components/TabBar';
 import { CHAINS, DEALS, DEALS_DATE } from '../core/deals';
+import { countDishesUsing } from '../core/rank';
 import type { Chain } from '../core/types';
+import { RECIPES } from '../data/recipes';
 import { useT } from '../i18n';
+import { useApp } from '../state/store';
 import ui from '../styles/ui.module.css';
 import s from './Deals.module.css';
 
@@ -14,21 +16,25 @@ type StoreFilter = Chain | 'all';
 
 export function Deals() {
   const t = useT();
+  const prefs = useApp((state) => state.prefs);
   const [store, setStore] = useState<StoreFilter>('all');
   const deals = store === 'all' ? DEALS : DEALS.filter((deal) => deal.chain === store);
   const cta = store === 'all' ? '/dishes?from=deals' : `/dishes?from=deals&chain=${encodeURIComponent(store)}`;
   const date = DEALS_DATE
-    ? new Intl.DateTimeFormat(t.locale, { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(DEALS_DATE))
+    ? new Intl.DateTimeFormat(t.locale, { day: 'numeric', month: 'long', timeZone: 'UTC' }).format(new Date(DEALS_DATE))
     : null;
+
+  // How many dishes each product appears in, for this person's allergies and diet.
+  const dishes = useMemo(
+    () => new Map(DEALS.map((deal) => [deal.id, countDishesUsing(deal.key, RECIPES, prefs)])),
+    [prefs],
+  );
 
   return (
     <>
       <main className={s.page}>
         <section className={s.head}>
-          <div className={s.titleRow}>
-            <h1 className={ui.pageTitle}>{t('deals.title')}</h1>
-            <span className={s.demo}>{date ? t('deals.pricesOn', { date }) : t('common.demoPrices')}</span>
-          </div>
+          <h1 className={ui.pageTitle}>{t('deals.title')}</h1>
           <p className={ui.subtitle}>{date ? t('deals.subtitleReal', { date }) : t('deals.subtitle')}</p>
         </section>
 
@@ -37,7 +43,7 @@ export function Deals() {
             <button
               key={option}
               type="button"
-              className={cx(ui.chip, ui.chipInk)}
+              className={ui.chip}
               aria-pressed={store === option}
               onClick={() => setStore(option)}
             >
@@ -46,19 +52,18 @@ export function Deals() {
           ))}
         </div>
 
-        <ul className={s.grid}>
+        <ul className={cx(ui.rows, s.list)}>
           {deals.map((deal) => (
             <li key={deal.id}>
-              <DealTile deal={deal} />
+              <DealRow deal={deal} dishes={dishes.get(deal.id) ?? 0} />
             </li>
           ))}
         </ul>
       </main>
       <TabBar
         action={
-          <Link to={cta} className={cx(ui.btn, ui.olive)}>
+          <Link to={cta} className={cx(ui.btn, ui.primary)}>
             {t('deals.cta')}
-            <Icon name="arrowRight" size={20} strokeWidth={2} />
           </Link>
         }
       />

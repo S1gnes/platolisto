@@ -1,60 +1,59 @@
+/*
+ * Three colours, three jobs:
+ *   ink    acts   (text, buttons, the selected state)
+ *   yellow costs  (the price label on anything with a deal)
+ *   green  is what you already have (and what you save)
+ * Everything else is white, grey lines and the food photos.
+ */
 :root {
-  /* Design tokens from the brief */
-  --bg: #f6efe4;
-  --surface: #fffbf5;
-  --ink: #2a2118;
-  --muted: #6b5d4f;
-  --line: #e7daca;
-  --line-strong: #d8c9b5;
-  --chip: #eadfcf;
-  --tile: #f1e7d8;
-  --primary: #a94f2b;
-  --primary-hover: #7e3a1f;
-  --on-primary: #fffbf5;
-  --olive: #5e6b3a;
-  --olive-tint: #e5e8d5;
-  --olive-ink: #3e4723;
-  --saffron: #f2c14e;
+  color-scheme: light;
 
-  /* Supporting tones used by the mockups */
-  --line-soft: #efe4d5;
-  --on-primary-soft: #fbede4;
-  --on-olive-soft: #e9eddc;
-  --primary-deco: #c06a43;
-  --primary-deco-fill: #b65c35;
-  --hero: #e8d9c3;
-  --hero-deco: #e2d0b6;
-  --accent: var(--primary);
-  --ok: var(--olive);
+  --bg: #ffffff;
+  --raised: #ffffff;
+  --backdrop: #e9ecea;
+  --fill: #f2f4f2;
+  --ink: #17191a;
+  --on-ink: #ffffff;
+  --muted: #5a6360;
+  --line: #e1e4e1;
+  --line-strong: #8a938e;
+  --tag: #ffd60a;
+  --on-tag: #17191a;
+  --ok: #0b6b45;
+  --ok-tint: #e5f2ea;
+  --danger: #b42318;
+  --overlay: rgba(23, 25, 26, 0.55);
+  --photo-frame: #dce5e1;
 
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-ui: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font: 'Archivo Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
-  --radius-card-lg: 24px;
-  --radius-card: 20px;
-  --radius-card-sm: 18px;
-  --radius-btn: 16px;
-  --radius-tile: 12px;
-  --radius-pill: 999px;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-tag: 6px;
 
-  --btn-height: 56px;
-  --gutter: 20px;
+  --btn-height: 52px;
+  --gutter: 16px;
   --column-max: 480px;
-  --focus: var(--ink);
-  --shadow-sheet: 0 -12px 40px rgba(42, 33, 24, 0.18);
+  --shadow-raised: 0 8px 28px rgba(23, 25, 26, 0.16);
 }
 
-/* Bartender mode */
+/* Bartender mode: the same system on a dark ground. */
 :root[data-theme='bar'] {
-  --bg: #2a2118;
-  --surface: #3b3024;
-  --ink: #f6efe4;
-  --muted: #b9ac9b;
-  --line: #6b5d4f;
-  --line-strong: #6b5d4f;
-  --chip: #3b3024;
-  --tile: #4a3d2f;
-  --accent: #f2c14e;
-  --ok: #bfd69b;
-  --focus: #f2c14e;
+  color-scheme: dark;
+
+  --bg: #17191a;
+  --raised: #212526;
+  --backdrop: #0e0f10;
+  --fill: #25292b;
+  --ink: #f4f5f4;
+  --on-ink: #17191a;
+  --muted: #a9b1ad;
+  --line: #34393b;
+  --line-strong: #7a837f;
+  --ok: #7fd4a6;
+  --ok-tint: #1c3a2b;
+  --danger: #ff8a80;
+  --overlay: rgba(0, 0, 0, 0.6);
+  --photo-frame: #25292b;
+  --shadow-raised: 0 8px 28px rgba(0, 0, 0, 0.5);
 }

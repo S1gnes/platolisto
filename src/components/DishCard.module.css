@@ -1,96 +1,109 @@
 .card {
   display: flex;
   gap: 14px;
-  padding: 12px;
-  border-radius: var(--radius-card);
-  background: var(--surface);
-  border: 1px solid var(--line);
+  padding: 14px var(--gutter);
   color: var(--ink);
   text-decoration: none;
-  transition: border-color 0.15s ease;
 }
 
 .card:hover {
+  background: var(--fill);
   color: var(--ink);
-  border-color: var(--line-strong);
+}
+
+.card:focus-visible {
+  outline-offset: -3px;
+}
+
+.photo,
+.plate {
+  flex: 0 0 auto;
+  width: 88px;
+  height: 88px;
+  border-radius: var(--radius);
+  background: var(--fill);
 }
 
 .photo {
-  flex: 0 0 auto;
-  width: 92px;
-  height: 92px;
-  border-radius: 50%;
   object-fit: cover;
-  background: var(--tile);
+}
+
+.plate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .body {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   min-width: 0;
   flex: 1;
 }
 
 .title {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1.2;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .meta {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
 }
 
 .have {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: 10px;
+  margin-top: 2px;
+  font-size: 14px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
-.bar {
+.segments {
+  flex: 1;
+  display: flex;
+  gap: 2px;
+  min-width: 40px;
+  max-width: 140px;
+}
+
+.on,
+.off {
   flex: 1;
   height: 6px;
-  border-radius: var(--radius-pill);
-  background: linear-gradient(90deg, var(--olive) var(--have), var(--line) var(--have));
+  border-radius: 2px;
+}
+
+.on {
+  background: var(--ok);
+}
+
+.off {
+  background: var(--line);
 }
 
 .nothing {
-  align-self: flex-start;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--olive-ink);
-  background: var(--olive-tint);
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-}
-
-.priceTag {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--on-primary);
-  background: var(--primary);
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-}
-
-.muted {
-  font-size: 12px;
+  gap: 4px;
+  font-size: 14px;
   font-weight: 600;
-  color: var(--muted);
+  color: var(--ok);
+}
+
+.buy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 14px;
 }
 
 .sponsored {
-  padding: 3px 8px;
+  font-size: 13px;
+  color: var(--muted);
 }

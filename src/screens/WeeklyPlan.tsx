@@ -3,6 +3,7 @@ import { Link, Navigate } from 'react-router';
 import { BackButton } from '../components/BackButton';
 import { cx } from '../components/cx';
 import { DishCard } from '../components/DishCard';
+import { Icon } from '../components/Icon';
 import { toast } from '../components/Toast';
 import { DEALS } from '../core/deals';
 import { buildWeeklyPlan } from '../core/plan';
@@ -59,7 +60,7 @@ function PlanScreen() {
     <main className={s.page}>
       <header className={s.header}>
         <BackButton fallback="/plus" />
-        <span className={ui.plusBadge}>{t('common.plusBadge')}</span>
+        <span className={ui.plusTag}>{t('common.plus')}</span>
       </header>
 
       <section className={s.intro}>
@@ -67,16 +68,18 @@ function PlanScreen() {
         <p className={ui.subtitle}>{t('plan.subtitle')}</p>
       </section>
 
-      <div className={s.summary}>
-        <div>
-          <div className={s.summaryLabel}>{t('plan.total')}</div>
-          <div className={s.total}>{t.price(plan.shopping.totalCents)}</div>
-          <div className={s.summaryLabel}>{t('plan.perDinner', { price: t.price(plan.perDinnerCents) })}</div>
-        </div>
-        <div className={s.saveBox}>
-          <div className={s.summaryLabel}>{t('list.youSave')}</div>
-          <div className={s.saved}>{t.price(plan.shopping.savingsCents)}</div>
-        </div>
+      <div className={s.totals}>
+        <p className={s.total}>
+          <span>{t('plan.total')}</span>
+          <span className={s.totalValue}>{t.price(plan.shopping.totalCents)}</span>
+        </p>
+        {plan.shopping.savingsCents > 0 && (
+          <p className={cx(s.line, ui.save)}>
+            <span>{t('list.youSave')}</span>
+            <span>{t.price(plan.shopping.savingsCents)}</span>
+          </p>
+        )}
+        <p className={ui.note}>{t('plan.perDinner', { price: t.price(plan.perDinnerCents) })}</p>
       </div>
 
       {plan.dinners.length < 7 && <p className={cx(ui.note, s.short)}>{t.plural('plan.short', plan.dinners.length)}</p>}
@@ -84,7 +87,7 @@ function PlanScreen() {
       <ol className={s.days}>
         {plan.dinners.map((dish, index) => (
           <li key={dish.recipe.id}>
-            <h2 className={ui.eyebrow}>{weekdays[index]}</h2>
+            <h2 className={s.day}>{weekdays[index]}</h2>
             <DishCard dish={dish} />
           </li>
         ))}
@@ -92,14 +95,18 @@ function PlanScreen() {
 
       <div className={ui.actionBar}>
         {toBuy.length === 0 ? (
-          <p className={s.haveAll}>{t('plan.nothingToBuy')}</p>
+          <p className={s.haveAll}>
+            <Icon name="check" size={18} strokeWidth={2.6} />
+            {t('plan.nothingToBuy')}
+          </p>
         ) : inList ? (
-          <Link to="/list" className={cx(ui.btn, ui.outline, s.grow)}>
+          <Link to="/list" className={cx(ui.btn, ui.secondary, s.grow)}>
+            <Icon name="check" size={18} strokeWidth={2.6} />
             {t('recipe.inList')}
           </Link>
         ) : (
           <button type="button" className={cx(ui.btn, ui.primary, s.grow)} onClick={addAll}>
-            {t.plural('plan.addAll', toBuy.length, { price: t.price(plan.shopping.totalCents) })}
+            {t.plural('plan.addAll', toBuy.length)}
           </button>
         )}
       </div>

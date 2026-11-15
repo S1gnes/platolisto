@@ -44,6 +44,12 @@ export function bestDeal(key: string, deals: Deal[]): Deal | null {
   return best;
 }
 
+/** Deals with one of them pinned: other deals for the same ingredient are left out, so the pinned one is used. */
+export function pinDeal(deals: Deal[], pinned: Deal | null | undefined): Deal[] {
+  if (!pinned) return deals;
+  return deals.filter((deal) => deal.id === pinned.id || !related(deal.key, pinned.key));
+}
+
 export interface PricedItem {
   key: string;
   deal: Deal | null;

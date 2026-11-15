@@ -22,7 +22,7 @@ export function LangSwitch() {
           className={s.option}
           aria-pressed={lang === code}
           // The name starts with the visible text (WCAG 2.5.3) and adds the full language name.
-          aria-label={`${short} · ${t(code === 'en' ? 'lang.en' : 'lang.es')}`}
+          aria-label={`${short}, ${t(code === 'en' ? 'lang.en' : 'lang.es')}`}
           onClick={() => setLang(code)}
         >
           {short}
